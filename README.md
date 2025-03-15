@@ -1,8 +1,8 @@
-# 3 2-Player Minigames - By Team IA10
+# Three 2-Player Minigames - By Team IA10
 **Created & Developed By: Joseph, Artem, & Gavin**
 
 ## Project Overview
-The application is a collection of 3 2-Player minigames. The players can choose from a selection of games: Connect 4, Checkers, Tic-Tac-Toe. The primary goal of this project is to provide an engaging and interactive experience for players to compete against each other in classic strategy based games. This project will be developed using Visual Studio as well as Rider on Windows & MacOS platforms. For this project we will use C# as well as XAML to implement the features and UI. 
+The application is a collection of three 2-Player minigames. The players can choose from a selection of games: Connect 4, Checkers, Tic-Tac-Toe. The primary goal of this project is to provide an engaging and interactive experience for players to compete against each other in classic turn-based strategy games. This project will be developed using Visual Studio as well as Rider on Windows & MacOS platforms. For this project we will use the MAUI framework using C# and XAML to implement the business-logic features and UI presentation. 
 
 ## User Interface Wireframes
 
