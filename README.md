@@ -24,7 +24,7 @@ Checkers:
   - Amount of disks left for each player.
     
 + Tic-Tac-Toe:
-  -
+  - Something here
   
 + Player Win/Loss Save Data
 
