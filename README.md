@@ -14,6 +14,20 @@ Checkers:
 
 ## Project Design Diagrams
 
+## Data Design
++ Checkers:
+  - Save piece location.
+  - Save whether the piece is a king.
+    
++ Connect 4:
+  - Save disk location.
+  - Amount of disks left for each player.
+    
++ Tic-Tac-Toe:
+  -
+  
++ Player Win/Loss Save Data
+
 ## Work Assignments
 
 
