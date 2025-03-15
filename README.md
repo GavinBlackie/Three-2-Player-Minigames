@@ -13,6 +13,7 @@ Checkers:
 ![checkersWireframe](https://github.com/user-attachments/assets/0dc0e434-2d4b-49ed-b030-fb90533a4738)
 
 ## Project Design Diagrams
+![Screenshot 2025-03-15 190909](https://github.com/user-attachments/assets/b9cdc1ee-e8f6-4468-83db-8b268042f8d3)
 
 ## Data Design
 + Checkers:
