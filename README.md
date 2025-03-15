@@ -7,7 +7,7 @@ The application is a collection of three 2-Player minigames. The players can cho
 ## User Interface Wireframes
 Connect 4:
 
-<img width="844" alt="Screenshot 2025-03-15 at 4 57 10 PM" src="https://github.com/user-attachments/assets/0d4d808d-fc31-42ba-9b56-aa11262b0a78" />
+<img width="762" alt="Screenshot 2025-03-15 at 4 59 15 PM" src="https://github.com/user-attachments/assets/7be6800a-2b33-4de6-873a-03de7ebbb427" />
 
 Checkers:
 ![checkersWireframe](https://github.com/user-attachments/assets/0dc0e434-2d4b-49ed-b030-fb90533a4738)
