@@ -24,8 +24,8 @@ Checkers:
   - Save disk location.
   - Amount of disks left for each player.
     
-+ Tic-Tac-Toe:
-  - Something here
++ Dots & Boxes:
+  - Something here (TODO: Joseph)
   
 + Player Win/Loss Save Data
 
