@@ -30,6 +30,13 @@ Checkers:
 + Player Win/Loss Save Data
 
 ## Work Assignments
+| Contribution       | Artem Kotliar                                  | Gavin Blackie                               | Joseph Thomas                            |
+|--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
+| **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
+| **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | ``, ``, `` |
+| **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots & Boxes GameState` storage     |
+| **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
+
 
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/10HqGkJE)
