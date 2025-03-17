@@ -16,7 +16,12 @@ Dots & Boxes:
 ![Dots&BoxesWireframe](https://github.com/user-attachments/assets/86846502-afed-4b00-8eed-f9400bcf3ca1)
 
 ## Project Design Diagrams
+
+![Screenshot 2025-03-16 225304](https://github.com/user-attachments/assets/95480028-83d7-4ee7-810a-4a3c2aff6f88)
+
+<!---
 ![Screenshot 2025-03-15 190909](https://github.com/user-attachments/assets/b9cdc1ee-e8f6-4468-83db-8b268042f8d3)
+--->
 
 ## Data Design
 + Checkers:
