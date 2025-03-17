@@ -2,7 +2,7 @@
 **Created & Developed By: Joseph, Artem, & Gavin**
 
 ## Project Overview
-The application is a collection of three 2-Player minigames. The players can choose from a selection of games: Connect 4, Checkers, Tic-Tac-Toe. The primary goal of this project is to provide an engaging and interactive experience for players to compete against each other in classic turn-based strategy games. This project will be developed using Visual Studio as well as Rider on Windows & MacOS platforms. For this project we will use the MAUI framework using C# and XAML to implement the business-logic features and UI presentation. 
+The application is a collection of three 2-player minigames. The players can choose from a selection of games: Connect 4, Checkers, Tic-Tac-Toe. The primary goal of this project is to provide an engaging and interactive experience for players to compete against each other in classic turn-based strategy games. This project will be developed using Visual Studio as well as Rider on Windows & MacOS platforms. For this project we will use the MAUI framework using C# and XAML to implement the business-logic features and UI presentation. 
 
 ## User Interface Wireframes
 Connect 4:
@@ -11,6 +11,8 @@ Connect 4:
 
 Checkers:
 ![checkersWireframe](https://github.com/user-attachments/assets/0dc0e434-2d4b-49ed-b030-fb90533a4738)
+
+Dots & Boxes:
 
 ## Project Design Diagrams
 ![Screenshot 2025-03-15 190909](https://github.com/user-attachments/assets/b9cdc1ee-e8f6-4468-83db-8b268042f8d3)
@@ -25,7 +27,8 @@ Checkers:
   - Amount of disks left for each player.
     
 + Dots & Boxes:
-  - Something here (TODO: Joseph)
+  - Save line location.
+  - Boxes that have been captured.
   
 + Player Win/Loss Save Data
 
@@ -33,8 +36,8 @@ Checkers:
 | Contribution       | Artem Kotliar                                  | Gavin Blackie                               | Joseph Thomas                            |
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
-| **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `_`, `_`, `_`, `_` |
-| **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots & Boxes GameState` storage     |
+| **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box` |
+| **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
 
