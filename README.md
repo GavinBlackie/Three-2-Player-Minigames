@@ -2,7 +2,7 @@
 **Created & Developed By: Joseph, Artem, & Gavin**
 
 ## Project Overview
-The application is a collection of three 2-player minigames. The players can choose from a selection of games: Connect 4, Checkers, Tic-Tac-Toe. The primary goal of this project is to provide an engaging and interactive experience for players to compete against each other in classic turn-based strategy games. This project will be developed using Visual Studio as well as Rider on Windows & MacOS platforms. For this project we will use the MAUI framework using C# and XAML to implement the business-logic features and UI presentation. 
+The application is a collection of three 2-player minigames. The players can choose from a selection of games: Connect 4, Checkers, or Dots & Boxes. The primary goal of this project is to provide an engaging and interactive experience for players to compete against each other in classic turn-based strategy games. This project will be developed using Visual Studio as well as Rider on Windows & MacOS platforms. For this project we will use the MAUI framework using C# and XAML to implement the business-logic features and UI presentation. 
 
 ## User Interface Wireframes
 Connect 4:
