@@ -33,7 +33,7 @@ Checkers:
 | Contribution       | Artem Kotliar                                  | Gavin Blackie                               | Joseph Thomas                            |
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
-| **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | ``, ``, `` |
+| **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `_`, `_`, `_`, `_` |
 | **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots & Boxes GameState` storage     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
