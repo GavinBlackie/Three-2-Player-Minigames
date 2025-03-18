@@ -65,13 +65,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="CheckersPage.xaml">
+	  <MauiXaml Update="Checkers\CheckersPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ConnectFourPage.xaml">
+	  <MauiXaml Update="ConnectFour\ConnectFourPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="DotsBoxesPage.xaml">
+	  <MauiXaml Update="DotsBoxes\DotsBoxesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
