@@ -29,6 +29,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
             _teamNames = ("Blue", "Red");
             _gameState = CheckersGameState.BlueTurn;
 
+            // Generate all of the pieces in their default positions for both teams (account for some board shifting for the second team with integer literals)
             CreateTeamDefaultPieces(_teamNames.team1);
             CreateTeamDefaultPieces(_teamNames.team2, 5, 1);
         }
@@ -63,6 +64,14 @@ namespace CheckConnectDot_MAUI_App.Checkers
 
         #region Methods
 
+        /// <summary>
+        /// Creates 12 default Pieces with a given team string name. Additionally has optional parameters for offsetting the initial y
+        /// position of the generated pieces, and another that will "mirror" the way the checker pattern is generated depending on if it
+        /// is equal to 0 or 1 (defaulted to 1).
+        /// </summary>
+        /// <param name="team">A string parameter for the team each piece is on</param>
+        /// <param name="yOffset">The initial y offset position</param>
+        /// <param name="rowShiftConditional">Special integer parameter that is either 0 or 1. Will change the row offset to "mirror" the initial piece x positions</param>
         private void CreateTeamDefaultPieces(string team, int yOffset=0, int rowShiftConditional=0)
         {
             // Iterate three times, one for each row of pieces (each y/Row position)
