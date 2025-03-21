@@ -7,9 +7,24 @@
     Shell.FlyoutBehavior="Flyout"
     Title="CheckConnectDot_MAUI_App">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <!--
+        Create a tab bar of the three game pages: 
+        (Credit to Perplexity AI for showing an example!)
+        https://www.perplexity.ai/search/in-maui-how-do-i-make-a-tab-ba-NIH1F89wTFuCTO6lpFKPBw
+        -->
+        <ShellContent Title="Checkers"
+            ContentTemplate="{DataTemplate local:CheckersPage}"
+            Route="RentalPage"
+        />
+        <ShellContent Title="Dots and Boxes"
+            ContentTemplate="{DataTemplate local:DotsBoxesPage}"
+            Route="RentalPage"
+        />
+        <ShellContent Title="Connect 4"
+            ContentTemplate="{DataTemplate local:ConnectFourPage}"
+            Route="RentalPage"
+        />
+    </TabBar>
 
 </Shell>
