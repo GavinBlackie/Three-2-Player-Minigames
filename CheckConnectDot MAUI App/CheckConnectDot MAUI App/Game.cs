@@ -30,5 +30,20 @@ namespace CheckConnectDot_MAUI_App
         {
             _playerTuple = playerTuple;
         }
+
+        /// <summary>
+        /// Read-write Property for the PlayerTuple attribute.
+        /// </summary>
+        public (Player, Player) PlayerTuple
+        {
+            get
+            {
+                return _playerTuple;
+            }
+            set
+            {
+                _playerTuple = value;
+            }
+        }
     }
 }

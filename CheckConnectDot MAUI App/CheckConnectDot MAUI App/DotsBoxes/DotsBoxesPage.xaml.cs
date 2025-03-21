@@ -9,7 +9,7 @@ public partial class DotsBoxesPage : ContentPage
 	public DotsBoxesPage(DotsBoxesGame dotsBoxesGame)
 	{
 		_dotsBoxesGame = dotsBoxesGame; // Contain the given singleton of a dotsBoxesGame 
-
+        
         InitializeComponent();
 	}
 }
