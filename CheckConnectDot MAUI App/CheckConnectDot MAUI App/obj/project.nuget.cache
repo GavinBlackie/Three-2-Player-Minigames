@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/eG7PVgeEXM=",
+  "dgSpecHash": "vShS9tD/JGE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gavin\\Source\\Repos\\term-project-ia10\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App.csproj",
+  "projectFilePath": "C:\\Users\\gavin\\source\\repos\\term-project-ia10\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gavin\\.nuget\\packages\\googlegson\\2.11.0.3\\googlegson.2.11.0.3.nupkg.sha512",
     "C:\\Users\\gavin\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.0\\microsoft.extensions.configuration.9.0.0.nupkg.sha512",

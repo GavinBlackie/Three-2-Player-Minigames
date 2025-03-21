@@ -9,6 +9,10 @@ namespace CheckConnectDot_MAUI_App.Checkers
     public class CheckersGame : Game
     {
         #region Fields
+
+        /// <summary>
+        /// List of pieces currently in this CheckersGame
+        /// </summary>
         private List<Piece> _pieceList;
 
         /// <summary>
@@ -16,9 +20,16 @@ namespace CheckConnectDot_MAUI_App.Checkers
         /// </summary>
         private Tile[] _tilesArr;
 
+        /// <summary>
+        /// Tuple of strings representing the team names
+        /// </summary>
         private (string team1, string team2) _teamNames;
 
+        /// <summary>
+        /// CheckersGameState value that determines what phase of the game it is currently in
+        /// </summary>
         private CheckersGameState _gameState;
+
         #endregion
 
         #region Constructors
