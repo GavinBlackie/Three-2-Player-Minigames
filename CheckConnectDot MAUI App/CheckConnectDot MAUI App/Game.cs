@@ -15,8 +15,17 @@ namespace CheckConnectDot_MAUI_App
     /// </summary>
     public abstract class Game
     {
+        /// <summary>
+        /// A tuple collection of the players that exist in this game.
+        /// </summary>
         protected ValueTuple<Player> _playerTuple;
 
+        /// <summary>
+        /// Constructor for a Game object. Visibility is set to protected only
+        /// since abstract classes cannot be instantiated on their own .
+        /// (meant to only to be used for base class constructor calls)
+        /// </summary>
+        /// <param name="playerTuple">A tuple of players for this game</param>
         protected Game(ValueTuple<Player> playerTuple)
         {
             _playerTuple = playerTuple;
