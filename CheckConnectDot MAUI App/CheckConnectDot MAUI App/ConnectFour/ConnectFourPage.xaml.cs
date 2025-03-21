@@ -1,9 +1,15 @@
+using CheckConnectDot_MAUI_App.ConnectFour;
+
 namespace CheckConnectDot_MAUI_App;
 
 public partial class ConnectFourPage : ContentPage
 {
-	public ConnectFourPage()
+	private ConnectFourGame _connectFourGame;
+
+	public ConnectFourPage(ConnectFourGame connectFourGame)
 	{
-		InitializeComponent();
+		_connectFourGame = connectFourGame; // Contain the given singleton of a connectFourGame
+
+        InitializeComponent();
 	}
 }

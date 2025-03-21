@@ -1,9 +1,15 @@
+using CheckConnectDot_MAUI_App.DotsBoxes;
+
 namespace CheckConnectDot_MAUI_App;
 
 public partial class DotsBoxesPage : ContentPage
 {
-	public DotsBoxesPage()
+	private DotsBoxesGame _dotsBoxesGame;
+
+	public DotsBoxesPage(DotsBoxesGame dotsBoxesGame)
 	{
-		InitializeComponent();
+		_dotsBoxesGame = dotsBoxesGame; // Contain the given singleton of a dotsBoxesGame 
+
+        InitializeComponent();
 	}
 }

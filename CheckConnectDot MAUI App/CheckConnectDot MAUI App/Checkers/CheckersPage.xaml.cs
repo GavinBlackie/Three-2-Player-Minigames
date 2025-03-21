@@ -1,9 +1,15 @@
+using CheckConnectDot_MAUI_App.Checkers;
+
 namespace CheckConnectDot_MAUI_App;
 
 public partial class CheckersPage : ContentPage
 {
-	public CheckersPage()
+	private CheckersGame _checkersGame;
+
+	public CheckersPage(CheckersGame checkersGame)
 	{
-		InitializeComponent();
+		_checkersGame = checkersGame; // Contain the given singleton of a Checkers Game
+
+        InitializeComponent();
 	}
 }
