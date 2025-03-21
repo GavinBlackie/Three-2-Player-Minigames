@@ -71,6 +71,19 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        internal (string team1, string team2) TeamNames
+        {
+            get
+            {
+                return _teamNames;
+            }
+            set
+            {
+                _teamNames = value;
+            }
+        }
+
+
         #endregion
 
         #region Methods

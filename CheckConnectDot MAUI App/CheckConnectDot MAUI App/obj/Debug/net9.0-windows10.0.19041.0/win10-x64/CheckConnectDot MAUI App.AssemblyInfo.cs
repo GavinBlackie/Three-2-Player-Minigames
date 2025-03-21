@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CheckConnectDot MAUI App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+828d2eb9b461e4325ebbfb167ad72213bc688ae8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+f5bdc7e7a585d73664993023f7d3fbea6d8a6204")]
 [assembly: System.Reflection.AssemblyProductAttribute("CheckConnectDot MAUI App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CheckConnectDot MAUI App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
