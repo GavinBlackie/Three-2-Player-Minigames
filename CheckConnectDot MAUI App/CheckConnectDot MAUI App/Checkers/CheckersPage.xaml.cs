@@ -9,7 +9,7 @@ public partial class CheckersPage : ContentPage
 	public CheckersPage(CheckersGame checkersGame)
 	{
 		_checkersGame = checkersGame; // Contain the given singleton of a Checkers Game
-        
+
         InitializeComponent();
 	}
 }

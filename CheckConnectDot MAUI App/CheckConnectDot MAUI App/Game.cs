@@ -22,7 +22,7 @@ namespace CheckConnectDot_MAUI_App
 
         /// <summary>
         /// Constructor for a Game object. Visibility is set to protected only
-        /// since abstract classes cannot be instantiated on their own .
+        /// since abstract classes cannot be instantiated on their own.
         /// (meant to only to be used for base class constructor calls)
         /// </summary>
         /// <param name="playerTuple">A reference to the tuple of players for this game</param>
