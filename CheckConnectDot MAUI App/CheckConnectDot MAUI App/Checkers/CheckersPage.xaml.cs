@@ -24,7 +24,7 @@ public partial class CheckersPage : ContentPage
         InitializeComponent();
 
         AddTiles(); // Add the tiles to the game
-        AddPieces(); // Add the pieces to the game
+        AddPieces(); // Add the pieces ontop of the tiles in the game
     }
 
 	private void AddTiles()
@@ -43,6 +43,7 @@ public partial class CheckersPage : ContentPage
                 tileImageBtn = new ImageButton(); // Create a new ImageButton instance
                 tileImageBtn.WidthRequest = 60.0;
                 tileImageBtn.HeightRequest = 60.0;
+                tileImageBtn.Padding = 10;
 
                 // Color each tile in this row accordingly to the colShift integer (makes a checker pattern)
                 if ((iTileCol + colShift) % 2 == 0)
@@ -91,6 +92,22 @@ public partial class CheckersPage : ContentPage
 
                 }
             }
+        }
+    }
+
+    //private void OnPiece(object sender, EventArgs e)
+    //{
+    //    if (sender is ImageButton imageButton)
+    //    {
+
+    //    }
+    //}
+
+    private void OnTile(object sender, EventArgs e)
+    {
+        if (sender is ImageButton tileImageButton)
+        {
+            
         }
     }
 }

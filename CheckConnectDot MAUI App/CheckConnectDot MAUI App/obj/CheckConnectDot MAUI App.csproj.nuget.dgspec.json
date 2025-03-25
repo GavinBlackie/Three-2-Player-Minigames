@@ -11,7 +11,7 @@
         "projectName": "CheckConnectDot MAUI App",
         "projectPath": "C:\\Users\\gavin\\source\\repos\\term-project-ia10\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App.csproj",
         "packagesPath": "C:\\Users\\gavin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gavin\\Source\\Repos\\term-project-ia10\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App\\obj\\",
+        "outputPath": "C:\\Users\\gavin\\source\\repos\\term-project-ia10\\CheckConnectDot MAUI App\\CheckConnectDot MAUI App\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [

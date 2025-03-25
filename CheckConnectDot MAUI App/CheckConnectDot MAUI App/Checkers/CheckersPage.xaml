@@ -8,7 +8,7 @@
             Text="Welcome to Checkers!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-
+        
         <Grid x:Name="_gridBoard" ColumnDefinitions="*, *, *, *, *, *, *, *, *" RowDefinitions="*, *, *, *, *, *, *, *"
               
               ColumnSpacing="0"
