@@ -30,6 +30,12 @@ namespace CheckConnectDot_MAUI_App.Checkers
         /// </summary>
         private CheckersGameState _gameState;
 
+        /// <summary>
+        /// Dictionary collection representing the mapped link between a MAUI ImageButton (visible tile), and its
+        /// business logic counterpart - a Tile instance
+        /// </summary>
+        private Dictionary<ImageButton, Tile> _btnToTile;
+
         #endregion
 
         #region Constructors
@@ -39,6 +45,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
             _tilesArr = new Tile[64];
             _teamNames = ("Blue", "Red");
             _gameState = CheckersGameState.BlueTurn;
+            _btnToTile = new Dictionary<ImageButton, Tile>();
 
             // Generate all of the pieces in their default positions for both teams (account for some board shifting for the second team with integer literals)
             CreateTeamDefaultPieces(_teamNames.team1);
@@ -83,6 +90,17 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        internal Dictionary<ImageButton, Tile> BtnToTile
+        {
+            get
+            {
+                return _btnToTile;
+            }
+            set
+            {
+                _btnToTile = value;
+            }
+        }
 
         #endregion
 

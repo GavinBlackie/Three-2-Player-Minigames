@@ -10,7 +10,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
     {
         #region Fields
 
-        private (byte, byte) _pos;
+        private (int xPos, int yPos) _pos;
 
         private string _team;
 
@@ -20,7 +20,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
 
         #region Constructors
         
-        internal Piece((byte, byte) pos, string team)
+        internal Piece((int, int) pos, string team)
         {
             _pos = pos;
             _team = team;
@@ -31,7 +31,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
 
         #region Properties
 
-        internal (byte, byte) Position
+        internal (int xPos, int yPos) Position
         {
             get
             {

@@ -39,17 +39,15 @@ public partial class CheckersPage : ContentPage
 		// Iterate 8 times for the y (the row)
 		for (int iTileRow = 0; iTileRow < 8; iTileRow++)
 		{
-            // integer representing the shift of the column
-			int colShift = iTileRow % 2 == 0 ? 1 : 0;
+			int colShift = iTileRow % 2 == 0 ? 1 : 0; // integer representing the shift of the column
 
-			// Iterate 8 times for the x (the columns)
-			for (int iTileCol = 0; iTileCol < 8; iTileCol++)
+            // Iterate 8 times for the x (the columns)
+            for (int iTileCol = 0; iTileCol < 8; iTileCol++)
 			{
                 imgBtn = new ImageButton(); // Create a new ImageButton instance
                 imgBtn.WidthRequest = 60.0;
                 imgBtn.HeightRequest = 60.0;
                 imgBtn.Padding = 10;
-
                 imgBtn.Clicked += OnTile; // Add the OnTile clicked event handler
 
                 // Color each tile in this row accordingly to the colShift integer (makes a checker pattern)
@@ -61,12 +59,20 @@ public partial class CheckersPage : ContentPage
                 {
                     imgBtn.BackgroundColor = Colors.LightGrey;
                 }
+
+                // Add the new presentation-layer tile to the grid (display it!)
                 _gridBoard.Children.Add(imgBtn);
 
                 // Credit to Perplexity AI for introducing and giving examples of the SetColumn and SetRow methods
                 // https://www.perplexity.ai/search/0749de26-d9c7-4d68-8614-3e80f49c58fa
                 Grid.SetColumn(imgBtn, iTileCol);
                 Grid.SetRow(imgBtn, iTileRow);
+
+                // Create the new logical Tile instance
+                Tile tile = new Tile((iTileCol, iTileRow));
+
+                // Pair the two objects in the CheckersGame dictionary
+                _checkersGame.BtnToTile.Add(imgBtn, tile);
             }
 		}
 	}
@@ -84,7 +90,7 @@ public partial class CheckersPage : ContentPage
                 Piece piece = checkerPieces[iPiece];
 
                 // If this piece's position equals the tile's row/col position, add it
-                if (piece.Position.Item1 == Grid.GetColumn(imageButton) && piece.Position.Item2 == Grid.GetRow(imageButton))
+                if (piece.Position.xPos == Grid.GetColumn(imageButton) && piece.Position.yPos == Grid.GetRow(imageButton))
                 {
 
                     // Should the piece name be the first one, then make the piece blue, else it will be red
@@ -104,10 +110,9 @@ public partial class CheckersPage : ContentPage
 
     private void OnTile(object sender, EventArgs e)
     {
+        // If the object being clicked is an ImageButton tile, then try to 
         if (sender is ImageButton tile)
         {
-            //_txtGameInfo.Text = "Tile Clicked!";
-
             // Should the tile have an image inside of it (eg. it has a piece), then try to select it
             if (tile.Source is not null && _isPieceSelected == false)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.Layouts;
 
 namespace CheckConnectDot_MAUI_App.Checkers
 {
@@ -10,17 +11,17 @@ namespace CheckConnectDot_MAUI_App.Checkers
     {
         #region Fields
 
-        private Piece? _piece;
+        private (int xPos, int yPos) _pos;
 
-        private ImageButton _imgBtnTile;
+        private Piece? _piece;
 
         #endregion
 
         #region Constructors
         
-        internal Tile(ImageButton imgBtnTile)
+        internal Tile((int, int) pos)
         {
-            _imgBtnTile = imgBtnTile;
+            _pos = pos;
             _piece = null; // Initially a tile does not have a piece on it
         }
 
@@ -29,7 +30,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
 
         #region Properties
 
-        internal Piece Piece
+        internal Piece? Piece
         {
             get
             {
@@ -38,18 +39,6 @@ namespace CheckConnectDot_MAUI_App.Checkers
             set
             {
                 _piece = value;
-            }
-        }
-
-        internal ImageButton ImgButton
-        {
-            get
-            {
-                return _imgBtnTile;
-            }
-            set
-            {
-                _imgBtnTile = value;
             }
         }
 
