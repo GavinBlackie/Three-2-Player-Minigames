@@ -16,7 +16,8 @@
               HorizontalOptions="Center"
               
               ></Grid>
-        
+
+        <Label x:Name="_txtGameInfo" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center"></Label>
         
     </VerticalStackLayout>
 </ContentPage>

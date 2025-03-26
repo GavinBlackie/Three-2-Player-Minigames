@@ -9,17 +9,22 @@ public partial class CheckersPage : ContentPage
 
     private CheckersGame _checkersGame;
 
+    private bool _isPieceSelected;
+
+    private ImageButton _lastPieceSelected;
+
 	private const string BLUE_PIECE_DIR = "blue_piece.png";
 
 	private const string RED_PIECE_DIR = "red_piece.png";
 
-	private const string SELECTED_PIECE_DIR = "selectedPiece.png";
+	private const string SELECTED_PIECE_DIR = "selected_piece.png";
 
     #endregion
 
     public CheckersPage(CheckersGame checkersGame)
 	{
 		_checkersGame = checkersGame; // Contain the given singleton of a Checkers Game
+        _isPieceSelected = false;
 
         InitializeComponent();
 
@@ -29,7 +34,7 @@ public partial class CheckersPage : ContentPage
 
 	private void AddTiles()
 	{
-		ImageButton tileImageBtn; // Declare the ImageButton variable that will be used
+		ImageButton imgBtn; // Declare the ImageButton variable that will be used
 
 		// Iterate 8 times for the y (the row)
 		for (int iTileRow = 0; iTileRow < 8; iTileRow++)
@@ -40,26 +45,28 @@ public partial class CheckersPage : ContentPage
 			// Iterate 8 times for the x (the columns)
 			for (int iTileCol = 0; iTileCol < 8; iTileCol++)
 			{
-                tileImageBtn = new ImageButton(); // Create a new ImageButton instance
-                tileImageBtn.WidthRequest = 60.0;
-                tileImageBtn.HeightRequest = 60.0;
-                tileImageBtn.Padding = 10;
+                imgBtn = new ImageButton(); // Create a new ImageButton instance
+                imgBtn.WidthRequest = 60.0;
+                imgBtn.HeightRequest = 60.0;
+                imgBtn.Padding = 10;
+
+                imgBtn.Clicked += OnTile; // Add the OnTile clicked event handler
 
                 // Color each tile in this row accordingly to the colShift integer (makes a checker pattern)
                 if ((iTileCol + colShift) % 2 == 0)
                 {
-                    tileImageBtn.BackgroundColor = Colors.Black;
+                    imgBtn.BackgroundColor = Colors.Black;
                 }
                 else
                 {
-                    tileImageBtn.BackgroundColor = Colors.LightGrey;
+                    imgBtn.BackgroundColor = Colors.LightGrey;
                 }
-                _gridBoard.Children.Add(tileImageBtn);
+                _gridBoard.Children.Add(imgBtn);
 
                 // Credit to Perplexity AI for introducing and giving examples of the SetColumn and SetRow methods
                 // https://www.perplexity.ai/search/0749de26-d9c7-4d68-8614-3e80f49c58fa
-                Grid.SetColumn(tileImageBtn, iTileCol);
-                Grid.SetRow(tileImageBtn, iTileRow);
+                Grid.SetColumn(imgBtn, iTileCol);
+                Grid.SetRow(imgBtn, iTileRow);
             }
 		}
 	}
@@ -95,19 +102,19 @@ public partial class CheckersPage : ContentPage
         }
     }
 
-    //private void OnPiece(object sender, EventArgs e)
-    //{
-    //    if (sender is ImageButton imageButton)
-    //    {
-
-    //    }
-    //}
-
     private void OnTile(object sender, EventArgs e)
     {
-        if (sender is ImageButton tileImageButton)
+        if (sender is ImageButton tile)
         {
-            
+            //_txtGameInfo.Text = "Tile Clicked!";
+
+            // Should the tile have an image inside of it (eg. it has a piece), then try to select it
+            if (tile.Source is not null && _isPieceSelected == false)
+            {
+                tile.Source = SELECTED_PIECE_DIR; // Change the image source to the golden "selected" one
+                _isPieceSelected = true;
+                _lastPieceSelected = tile; // Save this ImageButton for later use/movements
+            }
         }
     }
 }
