@@ -134,6 +134,29 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        internal void MovePiece(ref ImageButton initial, ref ImageButton destination)
+        {
+            // Step 1: Get the corresponding logical Tile instances
+
+
+            // Step 2: Validate the Tile instances (eg. ensure the initial has a piece, final does not have a piece)
+
+
+            // Step 3: Act - move the pieces.
+
+        }
+
+        private void CapturePiece(Piece piece)
+        {
+            _pieceList.Remove(piece);
+        }
+
+        private Piece FindPieceByImageButton(int xPos, int yPos)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #endregion
     }
 }

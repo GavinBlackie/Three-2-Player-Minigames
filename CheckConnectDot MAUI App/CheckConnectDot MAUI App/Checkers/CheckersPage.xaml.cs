@@ -1,4 +1,5 @@
 using CheckConnectDot_MAUI_App.Checkers;
+using CheckConnectDot_MAUI_App.Checkers.Exceptions;
 using Microsoft.Maui.Layouts;
 
 namespace CheckConnectDot_MAUI_App;
@@ -7,24 +8,48 @@ public partial class CheckersPage : ContentPage
 {
     #region Fields
 
+    /// <summary>
+    /// The CheckerGame instance for this CheckersPage
+    /// </summary>
     private CheckersGame _checkersGame;
 
+    /// <summary>
+    /// True or false statement on if a piece is currently selected
+    /// </summary>
     private bool _isPieceSelected;
 
+    /// <summary>
+    /// ImageButton field that represents the last clicked button
+    /// </summary>
     private ImageButton _lastPieceSelected;
 
+    /// <summary>
+    /// Directory string of the blue piece image
+    /// </summary>
 	private const string BLUE_PIECE_DIR = "blue_piece.png";
 
+    /// <summary>
+    /// Directory string of the red piece image
+    /// </summary>
 	private const string RED_PIECE_DIR = "red_piece.png";
 
+    /// <summary>
+    /// Directory string of the selected piece image
+    /// </summary>
 	private const string SELECTED_PIECE_DIR = "selected_piece.png";
 
     #endregion
 
+    /// <summary>
+    /// Constructor for a new CheckersPage instance. Accepts a single checkersGame parameter
+    /// (preferably a singleton instance).
+    /// </summary>
+    /// <param name="checkersGame"></param>
     public CheckersPage(CheckersGame checkersGame)
 	{
 		_checkersGame = checkersGame; // Contain the given singleton of a Checkers Game
         _isPieceSelected = false;
+        _lastPieceSelected = new ImageButton(); // Place a placeholder instance for the last piece selected
 
         InitializeComponent();
 
@@ -110,15 +135,40 @@ public partial class CheckersPage : ContentPage
 
     private void OnTile(object sender, EventArgs e)
     {
-        // If the object being clicked is an ImageButton tile, then try to 
-        if (sender is ImageButton tile)
+        // If the object being clicked is an ImageButton tile, then try to act accordingly
+        if (sender is ImageButton imageButton)
         {
-            // Should the tile have an image inside of it (eg. it has a piece), then try to select it
-            if (tile.Source is not null && _isPieceSelected == false)
+            AttemptPieceSelect(imageButton); // Attempt to select a piece
+
+            AttemptMoveOrCapture(imageButton); // Attempt to move or capture a piece
+        }
+    }
+
+    private void AttemptPieceSelect(ImageButton imageButton)
+    {
+        // Should the imageButton (the "visible" tile) have an image inside of it (eg. its image source is not empty), then try to select it
+        if (imageButton.Source is not null && _isPieceSelected == false)
+        {
+            imageButton.Source = SELECTED_PIECE_DIR; // Change the image source to the golden "selected" one
+            _isPieceSelected = true;
+            _lastPieceSelected = imageButton; // Save this ImageButton for later use/movements
+        }
+    }
+
+    private void AttemptMoveOrCapture(ImageButton imageButton)
+    {
+        // Should a piece already be selected, attempt to move or capture
+        if (_isPieceSelected)
+        {
+            // Try to move that piece
+            try
             {
-                tile.Source = SELECTED_PIECE_DIR; // Change the image source to the golden "selected" one
-                _isPieceSelected = true;
-                _lastPieceSelected = tile; // Save this ImageButton for later use/movements
+                _checkersGame.MovePiece(ref imageButton, ref _lastPieceSelected);
+            }
+            // Catch cases where a move is determined invalid between the two tiles
+            catch (InvalidPieceMove ex)
+            {
+
             }
         }
     }
