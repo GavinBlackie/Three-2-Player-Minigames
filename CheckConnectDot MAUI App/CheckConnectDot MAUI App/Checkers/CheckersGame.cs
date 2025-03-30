@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using CheckConnectDot_MAUI_App.Checkers.Exceptions;
 
 namespace CheckConnectDot_MAUI_App.Checkers
 {
@@ -15,10 +18,10 @@ namespace CheckConnectDot_MAUI_App.Checkers
         /// </summary>
         private List<Piece> _pieceList;
 
-        /// <summary>
-        /// Array of tiles representing each tile on the board
-        /// </summary>
-        private Tile[] _tilesArr;
+        ///// <summary>
+        ///// Array of tiles representing each tile on the board
+        ///// </summary>
+        //private Tile[] _tilesArr;
 
         /// <summary>
         /// Tuple of strings representing the team names
@@ -42,7 +45,8 @@ namespace CheckConnectDot_MAUI_App.Checkers
         public CheckersGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
         {
             _pieceList = new List<Piece>();
-            _tilesArr = new Tile[64];
+
+
             _teamNames = ("Blue", "Red");
             _gameState = CheckersGameState.BlueTurn;
             _btnToTile = new Dictionary<ImageButton, Tile>();
@@ -63,18 +67,6 @@ namespace CheckConnectDot_MAUI_App.Checkers
             set
             {
                 _pieceList = value;
-            }
-        }
-
-        internal Tile[] Tiles
-        {
-            get
-            {
-                return _tilesArr;
-            }
-            set
-            {
-                _tilesArr = value;
             }
         }
 
@@ -137,25 +129,86 @@ namespace CheckConnectDot_MAUI_App.Checkers
         internal void MovePiece(ref ImageButton initial, ref ImageButton destination)
         {
             // Step 1: Get the corresponding logical Tile instances
+            Tile initialTile = _btnToTile[initial];
+            Tile destTile = _btnToTile[destination];
+
+            // Additionally, get an int multiplier to help with calculations for non-king pieces
+            int moveDir = GetMoveDirection();
 
 
             // Step 2: Validate the Tile instances (eg. ensure the initial has a piece, final does not have a piece)
+            if (initialTile.Piece is null)
+            {
+                throw new InvalidPieceMove("The intial tile did not have a logical piece to move");
+            }
+            if (destTile.Piece is not null)
+            {
+                throw new InvalidPieceMove("The destination tile had a logical tile ontop of it, could not move into space.");
+            }
+
+            // Step 3: Act - try to move the piece
+            (int x, int y) initialPos = initialTile.Position;
+            (int x, int y) destPos = destTile.Position;
+
+            // If the direct distances between the tiles are 1, then move
+            if (Math.Abs(destPos.x - initialPos.x) == 1 && Math.Abs(destPos.y - initialPos.y) == 1)
+            {
+                // "Move" the piece images on the board
+                destination.Source = initial.Source;
+                initial.Source = null;
+
+                // Logically "move" the pieces by exchanging piece instances
+                destTile.Piece = initialTile.Piece;
+                initialTile.Piece = null;
+
+                // Adjust the logical Piece positions
+                //destTile.Piece.Position = ()
+            }
+
+        }
+
+        internal void CapturePiece(ref ImageButton initial, ref ImageButton destination)
+        {
+            // Step 1: Get the corresponding logical Tile instances
+            Tile initialTile = _btnToTile[initial];
+            Tile destTile = _btnToTile[destination];
+
+            // Additionally, get an int multiplier for directional movement calculations (for non-king pieces)
+            int moveDir = GetMoveDirection();
+
+            // Step 2: Validate Tile instances & validate that there is a piece to capture
+            if (initialTile.Piece is null)
+            {
+                throw new InvalidPieceMove("The intial tile did not have a logical piece to move");
+            }
 
 
-            // Step 3: Act - move the pieces.
 
+            // Step 3: Act - try to capture a piece
+        }
+
+        private int GetMoveDirection()
+        {
+            int movementDirection;
+            if (_gameState == CheckersGameState.BlueTurn)
+            {
+                movementDirection = 1;
+            }
+            else if (_gameState == CheckersGameState.RedTurn)
+            {
+                movementDirection = -1;
+            }
+            else
+            {
+                throw new InvalidGameState("The checkers game is neither of the expected player turn modes");
+            }
+            return movementDirection;
         }
 
         private void CapturePiece(Piece piece)
         {
             _pieceList.Remove(piece);
         }
-
-        private Piece FindPieceByImageButton(int xPos, int yPos)
-        {
-            throw new NotImplementedException();
-        }
-
 
         #endregion
     }

@@ -1,3 +1,4 @@
+using System.IO.Pipelines;
 using CheckConnectDot_MAUI_App.Checkers;
 using CheckConnectDot_MAUI_App.Checkers.Exceptions;
 using Microsoft.Maui.Layouts;
@@ -21,7 +22,7 @@ public partial class CheckersPage : ContentPage
     /// <summary>
     /// ImageButton field that represents the last clicked button
     /// </summary>
-    private ImageButton _lastPieceSelected;
+    private ImageButton _lastImageButtonSelected;
 
     /// <summary>
     /// Directory string of the blue piece image
@@ -49,7 +50,7 @@ public partial class CheckersPage : ContentPage
 	{
 		_checkersGame = checkersGame; // Contain the given singleton of a Checkers Game
         _isPieceSelected = false;
-        _lastPieceSelected = new ImageButton(); // Place a placeholder instance for the last piece selected
+        _lastImageButtonSelected = new ImageButton(); // Place a placeholder instance for the last piece selected
 
         InitializeComponent();
 
@@ -96,6 +97,16 @@ public partial class CheckersPage : ContentPage
                 // Create the new logical Tile instance
                 Tile tile = new Tile((iTileCol, iTileRow));
 
+                // Make sure that the tile references a piece if required
+                for (int iPiece = 0; iPiece < _checkersGame.Pieces.Count; iPiece++)
+                {
+                    Piece piece = _checkersGame.Pieces[iPiece];
+                    if (piece.Position == tile.Position)
+                    {
+                        tile.Piece = piece;
+                    }
+                }
+
                 // Pair the two objects in the CheckersGame dictionary
                 _checkersGame.BtnToTile.Add(imgBtn, tile);
             }
@@ -138,38 +149,87 @@ public partial class CheckersPage : ContentPage
         // If the object being clicked is an ImageButton tile, then try to act accordingly
         if (sender is ImageButton imageButton)
         {
-            AttemptPieceSelect(imageButton); // Attempt to select a piece
+            // Attempt to select a piece
+            if (AttemptPieceSelect(imageButton))
+            {
+                return; // Preemtively end call should a piece have been selected
+            }
 
-            AttemptMoveOrCapture(imageButton); // Attempt to move or capture a piece
+            // Attempt to move a piece
+            if (AttemptMove(imageButton))
+            {
+                return; // Preemtively end call should a piece be moved
+            }
+
+            // Attempt to capture a piece
+            if (AttemptCapture(imageButton))
+            {
+                return;
+            }
         }
     }
 
-    private void AttemptPieceSelect(ImageButton imageButton)
+    private bool AttemptPieceSelect(ImageButton imageButton)
     {
         // Should the imageButton (the "visible" tile) have an image inside of it (eg. its image source is not empty), then try to select it
         if (imageButton.Source is not null && _isPieceSelected == false)
         {
             imageButton.Source = SELECTED_PIECE_DIR; // Change the image source to the golden "selected" one
             _isPieceSelected = true;
-            _lastPieceSelected = imageButton; // Save this ImageButton for later use/movements
+            _lastImageButtonSelected = imageButton; // Save this ImageButton for later use/movements
+
+            return true;
         }
+        return false;
     }
 
-    private void AttemptMoveOrCapture(ImageButton imageButton)
+    private bool AttemptMove(ImageButton imageButton)
     {
-        // Should a piece already be selected, attempt to move or capture
+        // Should a piece already be selected, attempt to move
         if (_isPieceSelected)
         {
             // Try to move that piece
             try
             {
-                _checkersGame.MovePiece(ref imageButton, ref _lastPieceSelected);
+                _checkersGame.MovePiece(ref _lastImageButtonSelected, ref imageButton);
+                return true;
             }
             // Catch cases where a move is determined invalid between the two tiles
             catch (InvalidPieceMove ex)
             {
 
             }
+            // Catch unintended case where the game is in the incorrect gamestate
+            catch (InvalidGameState)
+            {
+
+            }
         }
+        return false;
+    }
+
+    private bool AttemptCapture(ImageButton imageButton)
+    {
+        // Should a piece already be selected, attempt to capture
+        if (_isPieceSelected)
+        {
+            // Try to move that piece
+            try
+            {
+                _checkersGame.CapturePiece(ref imageButton, ref _lastImageButtonSelected);
+                return true;
+            }
+            // Catch cases where a move is determined invalid between the two tiles
+            catch (InvalidPieceMove ex)
+            {
+
+            }
+            // Catch unintended case where the game is in the incorrect gamestate
+            catch (InvalidGameState)
+            {
+
+            }
+        }
+        return false;
     }
 }

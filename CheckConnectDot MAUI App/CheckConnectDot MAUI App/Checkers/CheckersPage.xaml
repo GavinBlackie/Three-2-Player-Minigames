@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckConnectDot_MAUI_App.CheckersPage"
              Title="Checkers">
-    <VerticalStackLayout Spacing="50">
-        <Label 
+    <Grid RowDefinitions="*, auto" ColumnDefinitions="*" Margin="15">
+        <Label Grid.Column="0" Grid.Row="0"
             Text="Welcome to Checkers!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         
-        <Grid x:Name="_gridBoard" ColumnDefinitions="*, *, *, *, *, *, *, *, *" RowDefinitions="*, *, *, *, *, *, *, *"
+        <Grid Grid.Column="0" Grid.Row="1"
+            x:Name="_gridBoard" ColumnDefinitions="*, *, *, *, *, *, *, *, *" RowDefinitions="*, *, *, *, *, *, *, *"
               
               ColumnSpacing="0"
               RowSpacing="0"
@@ -19,5 +20,5 @@
 
         <Label x:Name="_txtGameInfo" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center"></Label>
         
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

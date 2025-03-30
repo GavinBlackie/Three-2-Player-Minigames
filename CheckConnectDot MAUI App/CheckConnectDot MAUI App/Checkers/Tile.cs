@@ -11,7 +11,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
     {
         #region Fields
 
-        private (int xPos, int yPos) _pos;
+        private (int, int) _pos;
 
         private Piece? _piece;
 
@@ -39,6 +39,18 @@ namespace CheckConnectDot_MAUI_App.Checkers
             set
             {
                 _piece = value;
+            }
+        }
+
+        internal (int xPos, int yPos) Position
+        {
+            get
+            {
+                return _pos;
+            }
+            set
+            {
+                _pos = value;
             }
         }
 
