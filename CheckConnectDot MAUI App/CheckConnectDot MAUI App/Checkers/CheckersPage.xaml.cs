@@ -204,7 +204,9 @@ public partial class CheckersPage : ContentPage
             {
                 if (ex.Piece is Piece piece)
                 {
-                    DefaultPieceSource(imageButton, piece);
+                    DefaultPieceSource(_lastImageButtonSelected, piece);
+
+                    _isPieceSelected = false; // Declare that no piece is selected
                 }
             }
         }

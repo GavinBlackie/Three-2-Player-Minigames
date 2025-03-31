@@ -162,15 +162,15 @@ namespace CheckConnectDot_MAUI_App.Checkers
             if (Math.Abs(destPos.x - initialPos.x) == 1 && Math.Abs(destPos.y - initialPos.y) == 1)
             {
                 // Logically "move" the pieces by exchanging piece instances
-                destPiece = initialPiece;
-                initialPiece = null;
+                destTile.Piece = initialPiece;
+                initialTile.Piece = null;
 
                 // Adjust the Piece's logical position values
-                destPiece.Position = (destPiece.Position.xPos + 1 * xMoveMultiplier, destPiece.Position.yPos + 1 * yMoveMultiplier);
+                destTile.Piece.Position = (destTile.Piece.Position.xPos + 1 * xMoveMultiplier, destTile.Piece.Position.yPos + 1 * yMoveMultiplier);
 
                 ChangeTurn(); // Alternate the turn upon a successful move
 
-                return destPiece;
+                return destTile.Piece;
             }
 
             throw new InvalidPieceMove("All piece and tiles were valid, but a move could not be made", initialPiece);
