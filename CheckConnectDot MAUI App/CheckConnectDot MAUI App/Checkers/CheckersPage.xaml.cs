@@ -146,16 +146,26 @@ public partial class CheckersPage : ContentPage
                 return; // Preemtively end call should a piece have been selected
             }
 
-            // Attempt to move a piece
-            if (AttemptMove(imageButton))
+            // Try to move a piece, if you could not, try to capture a piece, if you could not - deselect
+            try
             {
-                return; // Preemtively end call should a piece be moved
+                AttemptMove(imageButton);
             }
-
-            // Attempt to capture a piece
-            if (AttemptCapture(imageButton))
+            // Catch cases where a move is determined invalid between the two tiles
+            catch (InvalidPieceMove)
             {
-                return;
+                try
+                {
+                    AttemptCapture(imageButton);
+                }
+                catch (InvalidCaptureMove ex)
+                {
+                    if (ex.Piece is Piece piece)
+                    {
+                        DefaultPieceSource(_lastImageButtonSelected, piece);
+                        _isPieceSelected = false; // Declare that no piece is selected
+                    }
+                }
             }
         }
     }
@@ -182,33 +192,19 @@ public partial class CheckersPage : ContentPage
         // Should a piece already be selected, attempt to move
         if (_isPieceSelected)
         {
-            // Try to move that piece
-            try
-            {
-                // First, logically move the pieces
-                Piece pieceMoved = _checkersGame.MovePiece(ref _lastImageButtonSelected, ref imageButton);
+            // First, logically move the pieces
+            Piece pieceMoved = _checkersGame.MovePiece(ref _lastImageButtonSelected, ref imageButton);
 
-                // Then, move the piece images on the board
-                imageButton.Source = _lastImageButtonSelected.Source;
-                _lastImageButtonSelected.Source = null;
+            // Then, move the piece images on the board
+            imageButton.Source = _lastImageButtonSelected.Source;
+            _lastImageButtonSelected.Source = null;
 
-                // Default the piece's display image after moving
-                DefaultPieceSource(imageButton, pieceMoved);
+            // Default the piece's display image after moving
+            DefaultPieceSource(imageButton, pieceMoved);
 
-                _isPieceSelected = false; // Declare that no piece is selected
+            _isPieceSelected = false; // Declare that no piece is selected
 
-                return true;
-            }
-            // Catch cases where a move is determined invalid between the two tiles
-            catch (InvalidPieceMove ex)
-            {
-                if (ex.Piece is Piece piece)
-                {
-                    DefaultPieceSource(_lastImageButtonSelected, piece);
-
-                    _isPieceSelected = false; // Declare that no piece is selected
-                }
-            }
+            return true;
         }
         return false;
     }
@@ -218,17 +214,19 @@ public partial class CheckersPage : ContentPage
         // Should a piece already be selected, attempt to capture
         if (_isPieceSelected)
         {
-            // Try to move that piece
-            try
-            {
-                //Piece pieceMoved = _checkersGame.CapturePiece(ref imageButton, ref _lastImageButtonSelected);
-                return true;
-            }
-            // Catch cases where a move is determined invalid between the two tiles
-            catch (InvalidPieceMove ex)
-            {
+            // First, logically capture the pieces
+            Piece pieceMoved = _checkersGame.CapturePiece(ref _lastImageButtonSelected, ref imageButton);
 
-            }
+            // Then, move the piece images on the board
+            imageButton.Source = _lastImageButtonSelected.Source;
+            _lastImageButtonSelected.Source = null;
+
+            // Default the piece's display image after moving
+            DefaultPieceSource(imageButton, pieceMoved);
+
+            _isPieceSelected = false; // Declare that no piece is selected
+
+            return true;
         }
         return false;
     }

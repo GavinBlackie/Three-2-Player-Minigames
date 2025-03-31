@@ -145,10 +145,6 @@ namespace CheckConnectDot_MAUI_App.Checkers
             {
                 throw new InvalidPieceMove("The destination tile had a piece, could not move", initialPiece);
             }
-            if ((int)initialPiece.Team != (int)_gameState)
-            {
-                throw new InvalidPieceMove("Piece clicked was of the wrong team", initialPiece);
-            }
 
             // Step 3: Act - try to move the piece (get the tiles positions to reference in the movement)
             (int x, int y) initialPos = initialTile.Position;
@@ -164,36 +160,60 @@ namespace CheckConnectDot_MAUI_App.Checkers
                 // Logically "move" the pieces by exchanging piece instances
                 destTile.Piece = initialPiece;
                 initialTile.Piece = null;
-
-                // Adjust the Piece's logical position values
+                // Then, adjust the Piece's logical position values
                 destTile.Piece.Position = (destTile.Piece.Position.xPos + 1 * xMoveMultiplier, destTile.Piece.Position.yPos + 1 * yMoveMultiplier);
 
                 ChangeTurn(); // Alternate the turn upon a successful move
-
                 return destTile.Piece;
             }
 
             throw new InvalidPieceMove("All piece and tiles were valid, but a move could not be made", initialPiece);
         }
 
-        internal void CapturePiece(ref ImageButton initial, ref ImageButton destination)
+        internal Piece CapturePiece(ref ImageButton initial, ref ImageButton destination)
         {
-            // Step 1: Get the corresponding logical Tile instances
+            // Step 1: Get the corresponding logical Tile and Piece instances
             Tile initialTile = _btnToTile[initial];
             Tile destTile = _btnToTile[destination];
+            Piece? initialPiece = initialTile.Piece;
+            Piece? destPiece = destTile.Piece;
 
-            // Additionally, get an int multiplier for directional movement calculations (for non-king pieces)
-            int moveDir = GetYMoveDirection();
-
-            // Step 2: Validate Tile instances & validate that there is a piece to capture
-            if (initialTile.Piece is null)
+            // Step 2: Validate the Tile instances (eg. ensure the initial has a piece, final does not have a piece)
+            if (initialPiece is null)
             {
-                throw new InvalidPieceMove("The intial tile did not have a logical piece to move", initialTile.Piece);
+                throw new InvalidCaptureMove("The intial tile did not have a logical piece to move", initialPiece);
+            }
+            if (destPiece is not null)
+            {
+                throw new InvalidCaptureMove("The destination tile had a piece, could not move", initialPiece);
             }
 
+            // Step 3: Act - try to move the piece (get the tiles positions to reference in the movement)
+            (int x, int y) initialPos = initialTile.Position;
+            (int x, int y) destPos = destTile.Position;
 
+            // Additionally, get int multipliers to help with calculations for non-king pieces
+            int xMoveMultiplier = (initialPos.x < destPos.x) ? 1 : -1;
+            int yMoveMultiplier = GetYMoveDirection();
 
-            // Step 3: Act - try to capture a piece
+            // If the direct distances between the tiles are 2, then proceed to move and capture
+            if (Math.Abs(destPos.x - initialPos.x) == 2 && Math.Abs(destPos.y - initialPos.y) == 2)
+            {
+                // First, validate the capture move (ensure that there is a piece to caputre)
+                (Piece pieceCaptured, Tile captureTile) = ValidateCapture(initialTile, destTile, initialPiece.Team);
+                CapturePiece(pieceCaptured, captureTile); // If the capture is valid (i.e an enemy piece exists in the capture tile, capture it)
+
+                // Logically "move" the pieces by exchanging piece instances
+                destTile.Piece = initialPiece;
+                initialTile.Piece = null;
+                // Then, adjust the Piece's logical position values
+                destTile.Piece.Position = (destTile.Piece.Position.xPos + 2 * xMoveMultiplier, destTile.Piece.Position.yPos + 2 * yMoveMultiplier);
+
+                ChangeTurn(); // Alternate the turn upon a successful move
+                return destTile.Piece;
+            }
+
+            throw new InvalidCaptureMove("All pieces and tiles were valid, but a capture could not be made", initialPiece);
         }
 
         private int GetYMoveDirection()
@@ -227,9 +247,49 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
-        private void CapturePiece(Piece piece)
+        private (Piece, Tile) ValidateCapture(Tile initial, Tile dest, Team attackingTeam)
         {
+            // Save the positions of the two tiles for later
+            (int x, int y) initialPos = initial.Position;
+            (int x, int y) destPos = dest.Position;
+
+            // Iterate through all tiles. Should one be between the initial and destination tiles and have a piece,
+            // the capture is confirmed to be valid
+            foreach (Tile capTile in _btnToTile.Values)
+            {
+                (int x, int y) capTilePos = capTile.Position;
+                Piece? pieceCaptured = capTile.Piece;
+
+                /*
+                If the direct distance between the initial and destination tiles is 1 in each direction, the
+                tile in question indeed has a piece, and the team of the piece is opposite, the move is valid
+                */
+                if ( Math.Abs(capTilePos.x - initialPos.x) == 1 && Math.Abs(capTilePos.y - initialPos.y) == 1
+                    
+                    && Math.Abs(capTilePos.x - destPos.x) == 1 && Math.Abs(capTilePos.y - destPos.y) == 1
+
+                    && pieceCaptured is not null && pieceCaptured.Team != attackingTeam)
+                {
+                    return (pieceCaptured, capTile);
+                }
+            }
+
+            // Should no piece be found with an enemy to be captured, then throw an InvalidCaptureMove
+            throw new InvalidCaptureMove("No enemy piece was available to be captured!", initial.Piece);
+        }
+
+        private void CapturePiece(Piece piece, Tile capTile)
+        {
+            capTile.Piece = null;
             _pieceList.Remove(piece);
+
+            foreach (ImageButton imageButton in _btnToTile.Keys)
+            {
+                if (_btnToTile[imageButton] == capTile)
+                {
+                    imageButton.Source = null;
+                }
+            }
         }
 
         #endregion

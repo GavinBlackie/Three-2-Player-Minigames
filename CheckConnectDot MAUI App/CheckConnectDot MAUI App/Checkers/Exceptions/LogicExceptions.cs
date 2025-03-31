@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CheckConnectDot_MAUI_App.Checkers.Exceptions
 {
-    public class InvalidPieceMove : Exception
+    public class CheckersPieceException : Exception
     {
         private Piece? _piece;
 
-        public InvalidPieceMove(string message, Piece? piece = null) : base(message)
+        public CheckersPieceException(string message, Piece? piece = null) : base(message)
         {
             _piece = piece;
         }
@@ -21,6 +21,20 @@ namespace CheckConnectDot_MAUI_App.Checkers.Exceptions
             {
                 return _piece;
             }
+        }
+    }
+
+    public class InvalidPieceMove : CheckersPieceException
+    {
+        public InvalidPieceMove(string message, Piece? piece = null) : base(message, piece)
+        {
+        }
+    }
+
+    public class InvalidCaptureMove : CheckersPieceException
+    {
+        public InvalidCaptureMove(string message, Piece? piece = null) : base(message, piece)
+        {
         }
     }
 }
