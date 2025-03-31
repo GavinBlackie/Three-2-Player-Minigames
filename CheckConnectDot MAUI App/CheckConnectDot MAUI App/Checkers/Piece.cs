@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace CheckConnectDot_MAUI_App.Checkers
 {
-    internal class Piece
+    public class Piece
     {
         #region Fields
 
         private (int xPos, int yPos) _pos;
 
-        private string _team;
+        private Team _team;
 
         private bool _isKing;
 
@@ -20,7 +20,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
 
         #region Constructors
         
-        internal Piece((int, int) pos, string team)
+        internal Piece((int, int) pos, Team team)
         {
             _pos = pos;
             _team = team;
@@ -43,7 +43,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
-        internal string Team
+        internal Team Team
         {
             get
             {

@@ -12,8 +12,8 @@ namespace CheckConnectDot_MAUI_App.Checkers
     /// </summary>
     internal enum CheckersGameState
     {
-        BlueTurn = 1,
-        RedTurn,
+        RedTurn = 1,
+        BlueTurn,
         WinMenu
     }
 }

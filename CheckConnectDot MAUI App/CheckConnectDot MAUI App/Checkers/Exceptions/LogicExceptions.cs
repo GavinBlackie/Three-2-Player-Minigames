@@ -8,17 +8,19 @@ namespace CheckConnectDot_MAUI_App.Checkers.Exceptions
 {
     public class InvalidPieceMove : Exception
     {
-        public InvalidPieceMove(string message) : base(message)
-        {
+        private Piece? _piece;
 
+        public InvalidPieceMove(string message, Piece? piece = null) : base(message)
+        {
+            _piece = piece;
         }
-    }
 
-    public class InvalidGameState : Exception 
-    {
-        public InvalidGameState(string message) : base(message)
+        public Piece? Piece
         {
-
+            get
+            {
+                return _piece;
+            }
         }
     }
 }

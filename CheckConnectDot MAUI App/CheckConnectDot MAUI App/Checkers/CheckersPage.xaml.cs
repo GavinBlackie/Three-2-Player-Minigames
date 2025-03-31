@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Pipelines;
 using CheckConnectDot_MAUI_App.Checkers;
 using CheckConnectDot_MAUI_App.Checkers.Exceptions;
@@ -128,17 +129,7 @@ public partial class CheckersPage : ContentPage
                 // If this piece's position equals the tile's row/col position, add it
                 if (piece.Position.xPos == Grid.GetColumn(imageButton) && piece.Position.yPos == Grid.GetRow(imageButton))
                 {
-
-                    // Should the piece name be the first one, then make the piece blue, else it will be red
-                    if (checkerPieces[iPiece].Team == _checkersGame.TeamNames.team1)
-                    {
-                        imageButton.Source = BLUE_PIECE_DIR;
-                    }
-                    else
-                    {
-                        imageButton.Source = RED_PIECE_DIR;
-                    }
-
+                    DefaultPieceSource(imageButton, piece); // Use the default image source for that piece
                 }
             }
         }
@@ -172,13 +163,16 @@ public partial class CheckersPage : ContentPage
     private bool AttemptPieceSelect(ImageButton imageButton)
     {
         // Should the imageButton (the "visible" tile) have an image inside of it (eg. its image source is not empty), then try to select it
-        if (imageButton.Source is not null && _isPieceSelected == false)
+        if (imageButton.Source is not null && _checkersGame.BtnToTile[imageButton].Piece is not null 
+            && _isPieceSelected == false)
         {
-            imageButton.Source = SELECTED_PIECE_DIR; // Change the image source to the golden "selected" one
-            _isPieceSelected = true;
-            _lastImageButtonSelected = imageButton; // Save this ImageButton for later use/movements
-
-            return true;
+            if ( (int)_checkersGame.BtnToTile[imageButton].Piece.Team == (int)_checkersGame.GameState)
+            {
+                imageButton.Source = SELECTED_PIECE_DIR; // Change the image source to the golden "selected" one
+                _isPieceSelected = true;
+                _lastImageButtonSelected = imageButton; // Save this ImageButton for later use/movements
+                return true;
+            }
         }
         return false;
     }
@@ -191,18 +185,27 @@ public partial class CheckersPage : ContentPage
             // Try to move that piece
             try
             {
-                _checkersGame.MovePiece(ref _lastImageButtonSelected, ref imageButton);
+                // First, logically move the pieces
+                Piece pieceMoved = _checkersGame.MovePiece(ref _lastImageButtonSelected, ref imageButton);
+
+                // Then, move the piece images on the board
+                imageButton.Source = _lastImageButtonSelected.Source;
+                _lastImageButtonSelected.Source = null;
+
+                // Default the piece's display image after moving
+                DefaultPieceSource(imageButton, pieceMoved);
+
+                _isPieceSelected = false; // Declare that no piece is selected
+
                 return true;
             }
             // Catch cases where a move is determined invalid between the two tiles
             catch (InvalidPieceMove ex)
             {
-
-            }
-            // Catch unintended case where the game is in the incorrect gamestate
-            catch (InvalidGameState)
-            {
-
+                if (ex.Piece is Piece piece)
+                {
+                    DefaultPieceSource(imageButton, piece);
+                }
             }
         }
         return false;
@@ -216,7 +219,7 @@ public partial class CheckersPage : ContentPage
             // Try to move that piece
             try
             {
-                _checkersGame.CapturePiece(ref imageButton, ref _lastImageButtonSelected);
+                //Piece pieceMoved = _checkersGame.CapturePiece(ref imageButton, ref _lastImageButtonSelected);
                 return true;
             }
             // Catch cases where a move is determined invalid between the two tiles
@@ -224,12 +227,24 @@ public partial class CheckersPage : ContentPage
             {
 
             }
-            // Catch unintended case where the game is in the incorrect gamestate
-            catch (InvalidGameState)
-            {
-
-            }
         }
         return false;
+    }
+
+    private void DefaultPieceSource(ImageButton imageButton, Piece piece)
+    {
+        switch (piece.Team)
+        {
+            case Team.Blue:
+                imageButton.Source = BLUE_PIECE_DIR;
+                break;
+            case Team.Red:
+                imageButton.Source = RED_PIECE_DIR;
+                break;
+            default:
+                Debug.Assert(false, "Unexpected team name, defaulting to the selected piece image");
+                imageButton.Source = SELECTED_PIECE_DIR;
+                break;
+        }
     }
 }
