@@ -79,19 +79,31 @@ public partial class ConnectFourPage : ContentPage
 
     protected void OnCol(object sender, EventArgs e)
     {
+        if (_connectFourGame.GameOver)
+        {
+            return;
+        }
         if (sender is Button col && col.CommandParameter is int columnIndex)
         {
-            try
+            bool moveSuccessful = _connectFourGame.DropDisk(columnIndex, UpdateCellImage, UpdateDiskCounts);
+
+            if (!moveSuccessful)
             {
-                _connectFourGame.DropDisk(columnIndex, UpdateCellImage, UpdateDiskCounts);
-                UpdateTurnDisplay();
+                DisplayAlert("Invalid Move", "Column is full or no disks left!", "OK");
+                return;
             }
-            catch (Connect4Exception ex)
+
+            if (_connectFourGame.GameOver && _connectFourGame.Winner != null)
             {
-                DisplayAlert("Move Invalid", ex.Message, "OK");
+                DisplayAlert("Game Over", $"Player {_connectFourGame.Winner.Number} wins!", "OK");
+            }
+            else
+            {
+                UpdateTurnDisplay();
             }
         }
     }
+
 
     private void UpdateCellImage(int col, int row, string imageSource)
     {

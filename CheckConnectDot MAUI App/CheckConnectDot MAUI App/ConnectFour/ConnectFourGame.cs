@@ -12,6 +12,9 @@
 
         private const string RED_DISK_DIR = "player1_disk.png";
         private const string BLUE_DISK_DIR = "player2_disk.png";
+        
+        public bool GameOver { get; private set; } = false;
+        public Player? Winner { get; private set; } = null;
 
         
         public ConnectFourGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
@@ -27,7 +30,7 @@
         public int DisksLeft1 { get { return _disksLeft1; } }
         public int DisksLeft2 { get { return _disksLeft2; } }
 
-        public void DropDisk(int column, Action<int, int, string> updateCell, Action<int, int> updateDisks)
+        public bool DropDisk(int column, Action<int, int, string> updateCell, Action<int, int> updateDisks)
         {
             // Check if current player has disks left
             if ((_currentPlayer.Number == 1 && _disksLeft1 <= 0) ||
@@ -60,13 +63,22 @@
                     updateCell(col, row, imageSource);
                     updateDisks(_disksLeft1, _disksLeft2);
                     
+                    if (CheckWin(col, row))
+                    {
+                        GameOver = true;
+                        Winner = _currentPlayer;
+                    }
+                    
                     // Switch players
-                    _currentPlayer = _currentPlayer == _players[0] ? _players[1] : _players[0];
-                    return;
+                    if (!GameOver)
+                    {
+                        _currentPlayer = _currentPlayer == _players[0] ? _players[1] : _players[0];
+                    }
+                    return true;
                 }
             }
             // If we get here, the column is full
-            throw new Connect4Exception("Column is full");
+            return false;
         }
 
         public void ResetGame()
@@ -74,10 +86,43 @@
             // Reset to initial state
         }
 
-        protected bool IsGameOver()
+        private bool CheckWin(int col, int row)
         {
-            // Check for 4 in a row, column, or diagonal
+            int player = _board[col, row];
+    
+            // Check horizontal (left and right)
+            if (CountInDirection(col, row, -1, 0, player) + CountInDirection(col, row, 1, 0, player) >= 3)
+                return true;
+    
+            // Check vertical (only downward since disks stack upward)
+            if (CountInDirection(col, row, 0, 1, player) >= 3)
+                return true;
+    
+            // Check diagonal (top-left to bottom-right)
+            if (CountInDirection(col, row, -1, -1, player) + CountInDirection(col, row, 1, 1, player) >= 3)
+                return true;
+    
+            // Check diagonal (top-right to bottom-left)
+            if (CountInDirection(col, row, 1, -1, player) + CountInDirection(col, row, -1, 1, player) >= 3)
+                return true;
+    
             return false;
+        }
+
+        private int CountInDirection(int startCol, int startRow, int colStep, int rowStep, int player)
+        {
+            int count = 0;
+            int col = startCol + colStep;
+            int row = startRow + rowStep;
+    
+            while (col >= 0 && col < COLS && row >= 0 && row < ROWS && _board[col, row] == player)
+            {
+                count++;
+                col += colStep;
+                row += rowStep;
+            }
+    
+            return count;
         }
     }
 }
