@@ -13,8 +13,8 @@
         private const string RED_DISK_DIR = "player1_disk.png";
         private const string BLUE_DISK_DIR = "player2_disk.png";
         
-        public bool GameOver { get; private set; } = false;
-        public Player? Winner { get; private set; } = null;
+        public bool GameOver { get; private set; }
+        public Player? Winner { get; private set; }
 
         
         public ConnectFourGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
