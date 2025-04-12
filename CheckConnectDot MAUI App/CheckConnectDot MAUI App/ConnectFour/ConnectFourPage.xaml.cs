@@ -79,12 +79,25 @@ public partial class ConnectFourPage : ContentPage
 
     protected void OnCol(object sender, EventArgs e)
     {
-        
+        if (sender is Button col && col.CommandParameter is int columnIndex)
+        {
+            try
+            {
+                _connectFourGame.DropDisk(columnIndex, UpdateCellImage);
+            }
+            catch (Connect4Exception ex)
+            {
+                DisplayAlert("Move Invalid", ex.Message, "OK");
+            }
+        }
     }
 
     private void UpdateCellImage(int col, int row, string imageSource)
     {
-        
+        if (col >= 0 && col < 7 && row >= 0 && row < 6)
+        {
+            _boardImages[col, row].Source = imageSource;
+        }
     }
 
     private void UpdateTurnDisplay()

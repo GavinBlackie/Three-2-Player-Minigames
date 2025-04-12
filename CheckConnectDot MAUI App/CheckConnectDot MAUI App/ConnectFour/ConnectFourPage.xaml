@@ -38,7 +38,7 @@
                 <Label Text="Player 1 Disks:" HorizontalOptions="Center" FontSize="35"/>
                 <Frame BackgroundColor="Gray" BorderColor="Black" CornerRadius="20" Padding="10" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
-                        <Image Source="red.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+                        <Image Source="red_disk.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
                         <Label x:Name="diskAMT1" FontSize="25" HorizontalOptions="Center">21</Label>
                     </VerticalStackLayout>
                 </Frame>
@@ -126,7 +126,7 @@
                 <Label Text="Player 2 Disks:" HorizontalOptions="Center" FontSize="35"/>
                 <Frame BackgroundColor="Gray" BorderColor="Black" CornerRadius="20" Padding="10" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
-                        <Image Source="blue.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+                        <Image Source="blue_disk.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
                         <Label x:Name="diskAMT2" FontSize="25" HorizontalOptions="Center">21</Label>
                     </VerticalStackLayout>
                 </Frame>
