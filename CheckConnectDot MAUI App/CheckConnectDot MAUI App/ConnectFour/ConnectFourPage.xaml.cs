@@ -83,7 +83,7 @@ public partial class ConnectFourPage : ContentPage
         {
             try
             {
-                _connectFourGame.DropDisk(columnIndex, UpdateCellImage);
+                _connectFourGame.DropDisk(columnIndex, UpdateCellImage, UpdateDiskCounts);
             }
             catch (Connect4Exception ex)
             {
@@ -107,7 +107,12 @@ public partial class ConnectFourPage : ContentPage
 
     private void UpdateDiskCounts(int diskCount1, int diskCount2)
     {
+        diskAMT1.Text = diskCount1.ToString();
+        diskAMT2.Text = diskCount2.ToString();
         
+        // Change text color when running low
+        diskAMT1.TextColor = diskCount1 <= 5 ? Colors.Red : Colors.White;
+        diskAMT2.TextColor = diskCount2 <= 5 ? Colors.Red : Colors.White;
     }
 
     private void UpdateGameDisplay()

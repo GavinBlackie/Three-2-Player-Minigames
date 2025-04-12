@@ -27,7 +27,7 @@
         public int DisksLeft1 { get { return _disksLeft1; } }
         public int DisksLeft2 { get { return _disksLeft2; } }
 
-        public void DropDisk(int column, Action<int, int, string> updateCell)
+        public void DropDisk(int column, Action<int, int, string> updateCell, Action<int, int> updateDisks)
         {
             // Check if current player has disks left
             if ((_currentPlayer.Number == 1 && _disksLeft1 <= 0) ||
@@ -46,9 +46,20 @@
                     // Place the disk
                     _board[col, row] = _currentPlayer.Number;
                     string imageSource = _currentPlayer.Number == 1 ? RED_DISK_DIR : BLUE_DISK_DIR;
+
+                    if (_currentPlayer.Number == 1)
+                    {
+                        _disksLeft1--;
+                    }
+                    else
+                    {
+                        _disksLeft2--;
+                    }
                     
                     // Update the UI
                     updateCell(col, row, imageSource);
+                    updateDisks(_disksLeft1, _disksLeft2);
+                    
                     return;
                 }
             }
