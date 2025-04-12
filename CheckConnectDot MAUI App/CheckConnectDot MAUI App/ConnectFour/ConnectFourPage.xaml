@@ -9,7 +9,8 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             FontSize="24"
-            FontAttributes="Bold" />
+            FontAttributes="Bold" 
+            Margin="0, 10"/>
 
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
             <Button Text="Checkers" />
@@ -17,9 +18,9 @@
             <Button Text="Options, Saves and Statistics" />
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-            <Label Text="Player 1 Wins: 0" />
-            <Label Text="Player 2 Wins: 0" />
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0, 20, 0,0">
+            <Label Text="Player 1 Wins: 0" FontSize="20"/>
+            <Label Text="Player 2 Wins: 0" FontSize="20"/>
         </HorizontalStackLayout>
 
         <Label 
@@ -27,23 +28,22 @@
             Text="Player 1's Turn!"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
-            FontSize="18"
+            FontSize="25"
             Margin="0,10" />
 
-        <!-- Player Disks Left -->
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-            <Label Text="Player 1 Disks:" VerticalOptions="Center" />
-            <HorizontalStackLayout Spacing="5">
-                <Image Source="player1_disk.png" WidthRequest="30" HeightRequest="30" />
-                <Label x:Name="diskAMT1">21</Label>
-            </HorizontalStackLayout>
-            <Label Text="Player 2 Disks:" VerticalOptions="Center" />
-            <HorizontalStackLayout Spacing="5">
-                <Image Source="player2_disk.png" WidthRequest="30" HeightRequest="30" />
-                <Label x:Name="diskAMT2">21</Label>
-            </HorizontalStackLayout>
-        </HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" >
 
+            <!-- Player 1 Disks Left -->
+            <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+                <Label Text="Player 1 Disks:" HorizontalOptions="Center" FontSize="35"/>
+                <Frame BackgroundColor="Gray" BorderColor="Black" CornerRadius="20" Padding="10" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
+                        <Image Source="red.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+                        <Label x:Name="diskAMT1" FontSize="25" HorizontalOptions="Center">21</Label>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+            
         <!-- Connect 4 Board (7x6 Grid) -->
         <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="0,20">
             <!-- 7 columns -->
@@ -120,6 +120,19 @@
             <Image x:Name="Cell_5_5" Source="empty_space.png" Grid.Column="5" Grid.Row="5" />
             <Image x:Name="Cell_6_5" Source="empty_space.png" Grid.Column="6" Grid.Row="5" />
         </Grid>
+            
+            <!-- Player 2 Disks Left -->
+            <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+                <Label Text="Player 2 Disks:" HorizontalOptions="Center" FontSize="35"/>
+                <Frame BackgroundColor="Gray" BorderColor="Black" CornerRadius="20" Padding="10" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
+                        <Image Source="blue.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+                        <Label x:Name="diskAMT2" FontSize="25" HorizontalOptions="Center">21</Label>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+        </HorizontalStackLayout>
 
         <!-- Column Buttons -->
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0,10">
