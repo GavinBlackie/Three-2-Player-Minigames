@@ -13,7 +13,7 @@ public partial class ConnectFourPage : ContentPage
         InitializeComponent();
         InitializeBoardReferences();
         SetParams();
-        UpdateGameDisplay();
+        UpdateTurnDisplay();
     }
 
     private void InitializeBoardReferences()
@@ -84,6 +84,7 @@ public partial class ConnectFourPage : ContentPage
             try
             {
                 _connectFourGame.DropDisk(columnIndex, UpdateCellImage, UpdateDiskCounts);
+                UpdateTurnDisplay();
             }
             catch (Connect4Exception ex)
             {
@@ -102,7 +103,8 @@ public partial class ConnectFourPage : ContentPage
 
     private void UpdateTurnDisplay()
     {
-        
+        TurnLabel.Text = $"Player {_connectFourGame.CurrentPlayer.Number}'s Turn!";
+        TurnLabel.TextColor = _connectFourGame.CurrentPlayer.Number == 1 ? Colors.Red : Colors.Blue;
     }
 
     private void UpdateDiskCounts(int diskCount1, int diskCount2)
@@ -113,11 +115,6 @@ public partial class ConnectFourPage : ContentPage
         // Change text color when running low
         diskAMT1.TextColor = diskCount1 <= 5 ? Colors.Red : Colors.White;
         diskAMT2.TextColor = diskCount2 <= 5 ? Colors.Red : Colors.White;
-    }
-
-    private void UpdateGameDisplay()
-    {
-        
     }
 
     protected void SetParams()
