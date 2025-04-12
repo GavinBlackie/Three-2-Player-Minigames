@@ -60,6 +60,8 @@
                     updateCell(col, row, imageSource);
                     updateDisks(_disksLeft1, _disksLeft2);
                     
+                    // Switch players
+                    _currentPlayer = _currentPlayer == _players[0] ? _players[1] : _players[0];
                     return;
                 }
             }
