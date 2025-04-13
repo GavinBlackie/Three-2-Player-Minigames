@@ -4,31 +4,25 @@
     {
         private Player _currentPlayer;
         private Player[] _players;
-        private int[,] _board;
+        private Disk[,]? _board;
         private int _disksLeft1;
         private int _disksLeft2;
         private const int ROWS = 6;
         private const int COLS = 7;
 
-        private const string RED_DISK_DIR = "player1_disk.png";
-        private const string BLUE_DISK_DIR = "player2_disk.png";
-        
         public bool GameOver { get; private set; }
         public Player? Winner { get; private set; }
 
-        
         public ConnectFourGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
         {
             _players = new Player[] { playersTuple.Item1, playersTuple.Item2 };
-            _currentPlayer = _players[0]; // Player 1 starts
-            _board = new int[COLS, ROWS]; // 7 columns, 6 rows
+            _currentPlayer = _players[0];
+            _board = new Disk[COLS, ROWS];
             _disksLeft1 = 21;
             _disksLeft2 = 21;
         }
 
         public Player CurrentPlayer { get { return _currentPlayer; } }
-        public int DisksLeft1 { get { return _disksLeft1; } }
-        public int DisksLeft2 { get { return _disksLeft2; } }
 
         public bool DropDisk(int column, Action<int, int, string> updateCell, Action<int, int> updateDisks)
         {
@@ -44,11 +38,11 @@
 
             for (int row = ROWS - 1; row >= 0; row--)
             {
-                if (_board[col, row] == 0) // Check if empty
+                if (_board[col, row] == null) // Check if empty
                 {
-                    // Place the disk
-                    _board[col, row] = _currentPlayer.Number;
-                    string imageSource = _currentPlayer.Number == 1 ? RED_DISK_DIR : BLUE_DISK_DIR;
+                    // Create and place the disk
+                    Disk disk = new PlayerDisk(col, row, _currentPlayer.Number);
+                    _board[col, row] = disk;
 
                     if (_currentPlayer.Number == 1)
                     {
@@ -60,8 +54,11 @@
                     }
                     
                     // Update the UI
-                    updateCell(col, row, imageSource);
+                    updateCell(col, row, disk.ImageSource);
                     updateDisks(_disksLeft1, _disksLeft2);
+                    
+                    // OnPlace method to play the sound
+                    disk.OnPlace();
                     
                     if (CheckWin(col, row))
                     {
@@ -81,14 +78,11 @@
             return false;
         }
 
-        public void ResetGame()
-        {
-            // Reset to initial state
-        }
-
         private bool CheckWin(int col, int row)
         {
-            int player = _board[col, row];
+            if (_board[col, row] == null) return false;
+            
+            int player = _board[col, row].PlayerNumber;
     
             // Check horizontal (left and right)
             if (CountInDirection(col, row, -1, 0, player) + CountInDirection(col, row, 1, 0, player) >= 3)
@@ -115,7 +109,8 @@
             int col = startCol + colStep;
             int row = startRow + rowStep;
     
-            while (col >= 0 && col < COLS && row >= 0 && row < ROWS && _board[col, row] == player)
+            while (col >= 0 && col < COLS && row >= 0 && row < ROWS && 
+                   _board[col, row] != null && _board[col, row].PlayerNumber == player)
             {
                 count++;
                 col += colStep;
@@ -123,6 +118,11 @@
             }
     
             return count;
+        }
+
+        public void ResetGame()
+        {
+           
         }
     }
 }
