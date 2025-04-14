@@ -16,7 +16,7 @@ public partial class CheckersPage : ContentPage
     private CheckersGame _checkersGame;
 
     /// <summary>
-    /// True or false statement on if a piece is currently selected
+    /// True or false statement on if a piece is currently selected on screen
     /// </summary>
     private bool _isPieceSelected;
 

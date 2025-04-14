@@ -130,53 +130,74 @@ namespace CheckConnectDot_MAUI_App.Checkers
 
         internal Piece MovePiece(ref ImageButton initial, ref ImageButton destination)
         {
-            // Step 1: Get the corresponding logical Tile and Piece instances
+            // Step 1: Get relevant information for a move
+
+            // Get the corresponding logical Tile and Piece instances
             Tile initialTile = _btnToTile[initial];
             Tile destTile = _btnToTile[destination];
             Piece? initialPiece = initialTile.Piece;
             Piece? destPiece = destTile.Piece;
-
-            // Step 2: Validate the Tile instances (eg. ensure the initial has a piece, final does not have a piece)
-            if (initialPiece is null)
-            {
-                throw new InvalidPieceMove("The intial tile did not have a logical piece to move", initialPiece);
-            }
-            if (destPiece is not null)
-            {
-                throw new InvalidPieceMove("The destination tile had a piece, could not move", initialPiece);
-            }
-
-            // Step 3: Act - try to move the piece (get the tiles positions to reference in the movement)
+            // Next, Get the postions of the tiles
             (int x, int y) initialPos = initialTile.Position;
             (int x, int y) destPos = destTile.Position;
-
             // Additionally, get int multipliers to help with calculations for non-king pieces
             int xMoveMultiplier = (initialPos.x < destPos.x) ? 1 : -1;
             int yMoveMultiplier = GetYMoveDirection();
 
-            // If the direct distances between the tiles are 1, then move
-            if (Math.Abs(destPos.x - initialPos.x) == 1 && Math.Abs(destPos.y - initialPos.y) == 1)
-            {
-                // Logically "move" the pieces by exchanging piece instances
-                destTile.Piece = initialPiece;
-                initialTile.Piece = null;
-                // Then, adjust the Piece's logical position values
-                destTile.Piece.Position = (destTile.Piece.Position.xPos + 1 * xMoveMultiplier, destTile.Piece.Position.yPos + 1 * yMoveMultiplier);
+            // Step 2: Validate the Tile instances
 
-                ChangeTurn(); // Alternate the turn upon a successful move
-                return destTile.Piece;
+            // Ensure the initial tile has a piece (cannot make a move of an invisible piece)
+            if (initialPiece is null)
+            {
+                throw new InvalidPieceMove("The intial tile did not have a logical piece to move", initialPiece);
+            }
+            // Ensure that the destination tile does not have a piece
+            if (destPiece is not null)
+            {
+                throw new InvalidPieceMove("The destination tile had a piece, could not move", initialPiece);
+            }
+            // Enure that the direct distances in X and Y are both 1
+            if ((Math.Abs(destPos.x - initialPos.x) == 1 && Math.Abs(destPos.y - initialPos.y) == 1) == false)
+            {
+                throw new InvalidPieceMove("All piece and tiles were valid, but the move was not in the right spot", initialPiece);
+            }
+            // Ensure that the Y-direction the piece is moving is correct for its team (unless its a king)
+            if (initialPiece.IsKing == false && 
+                (initialPiece.Team == Team.Red && yMoveMultiplier == 1)
+                ||
+                (initialPiece.Team == Team.Blue && yMoveMultiplier == -1))
+            {
+                throw new InvalidPieceMove("Attempting to move backwards with a non-king piece", initialPiece);
             }
 
-            throw new InvalidPieceMove("All piece and tiles were valid, but a move could not be made", initialPiece);
+            // Step 3: Act - Move the piece (The move has been validated, now move)
+
+            // First, logically adjust the position of the initial tile's piece
+            initialPiece.Position = (initialPiece.Position.xPos + 1 * xMoveMultiplier, initialPiece.Position.yPos + 1 * yMoveMultiplier);
+
+            // Then, "move" the pieces by exchanging piece instances
+            destTile.Piece = initialPiece;
+            initialTile.Piece = null;
+
+            ChangeTurn(); // Alternate the turn upon a successful move
+            return destTile.Piece;
         }
 
         internal Piece CapturePiece(ref ImageButton initial, ref ImageButton destination)
         {
-            // Step 1: Get the corresponding logical Tile and Piece instances
+            // Step 1: Get relevant information for a capture
+
+            // Get the corresponding logical Tile and Piece instances
             Tile initialTile = _btnToTile[initial];
             Tile destTile = _btnToTile[destination];
             Piece? initialPiece = initialTile.Piece;
             Piece? destPiece = destTile.Piece;
+            // Next, Get the postions of the tiles
+            (int x, int y) initialPos = initialTile.Position;
+            (int x, int y) destPos = destTile.Position;
+            // Additionally, get int multipliers to help with calculations for non-king pieces
+            int xMoveMultiplier = (initialPos.x < destPos.x) ? 1 : -1;
+            int yMoveMultiplier = GetYMoveDirection();
 
             // Step 2: Validate the Tile instances (eg. ensure the initial has a piece, final does not have a piece)
             if (initialPiece is null)
@@ -189,12 +210,6 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
 
             // Step 3: Act - try to move the piece (get the tiles positions to reference in the movement)
-            (int x, int y) initialPos = initialTile.Position;
-            (int x, int y) destPos = destTile.Position;
-
-            // Additionally, get int multipliers to help with calculations for non-king pieces
-            int xMoveMultiplier = (initialPos.x < destPos.x) ? 1 : -1;
-            int yMoveMultiplier = GetYMoveDirection();
 
             // If the direct distances between the tiles are 2, then proceed to move and capture
             if (Math.Abs(destPos.x - initialPos.x) == 2 && Math.Abs(destPos.y - initialPos.y) == 2)
