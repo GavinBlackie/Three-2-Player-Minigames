@@ -89,13 +89,23 @@ public partial class ConnectFourPage : ContentPage
 
             if (!moveSuccessful)
             {
-                DisplayAlert("Invalid Move", "Column is full or no disks left!", "OK");
+                DisplayAlert("Invalid Move", "Column is full!", "OK");
                 return;
             }
 
             if (_connectFourGame.GameOver && _connectFourGame.Winner != null)
             {
                 DisplayAlert("Game Over", $"Player {_connectFourGame.Winner.Number} wins!", "OK");
+                if (_connectFourGame.Winner.Number == 1)
+                {
+                    int wins = _connectFourGame.Players[0].NumWins += 1;
+                    _lbl1Wins.Text = $"Player {_connectFourGame.Players[0].Number} Wins: {wins.ToString()}";
+                }
+                else
+                {
+                    int wins = _connectFourGame.Players[1].NumWins += 1;
+                    _lbl2Wins.Text = $"Player {_connectFourGame.Players[1].Number} Wins: {wins.ToString()}";
+                }
             }
             else
             {

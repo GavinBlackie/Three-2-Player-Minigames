@@ -23,6 +23,8 @@
         }
 
         public Player CurrentPlayer { get { return _currentPlayer; } }
+        
+        public Player[] Players { get { return _players; } }
 
         public bool DropDisk(int column, Action<int, int, string> updateCell, Action<int, int> updateDisks)
         {
