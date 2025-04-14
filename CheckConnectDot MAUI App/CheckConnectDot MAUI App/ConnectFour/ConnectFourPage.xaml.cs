@@ -106,6 +106,10 @@ public partial class ConnectFourPage : ContentPage
                     int wins = _connectFourGame.Players[1].NumWins += 1;
                     _lbl2Wins.Text = $"Player {_connectFourGame.Players[1].Number} Wins: {wins.ToString()}";
                 }
+                // Reset game and board UI
+                _connectFourGame.ResetGame();
+                ResetBoardUI();
+                UpdateTurnDisplay();
             }
             else
             {
@@ -113,6 +117,21 @@ public partial class ConnectFourPage : ContentPage
             }
         }
     }
+    
+    private void ResetBoardUI()
+    {
+        for (int col = 0; col < 7; col++)
+        {
+            for (int row = 0; row < 6; row++)
+            {
+                _boardImages[col, row].Source = "empty_space.png";
+            }
+        }
+    
+        // Reset disk counters
+        UpdateDiskCounts(21, 21);
+    }
+
 
 
     private void UpdateCellImage(int col, int row, string imageSource)

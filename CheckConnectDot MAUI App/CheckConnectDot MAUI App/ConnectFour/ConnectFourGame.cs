@@ -124,7 +124,11 @@
 
         public void ResetGame()
         {
-           
+           GameOver = false;
+           Winner = null;
+           _board = new Disk[COLS, ROWS];
+           _disksLeft1 = 21;
+           _disksLeft2 = 21;
         }
     }
 }
