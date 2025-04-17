@@ -9,9 +9,10 @@ public partial class ConnectFourPage : ContentPage
     private ConnectFourGame _connectFourGame;
     private Image[,] _boardImages;
 
-    public ConnectFourPage(ConnectFourGame connectFourGame)
-    {
-        _connectFourGame = connectFourGame;
+	public ConnectFourPage(ConnectFourGame connectFourGame)
+	{
+		_connectFourGame = connectFourGame; // Contain the given singleton of a connectFourGame
+    
         InitializeComponent();
         InitializeBoardReferences();
         SetParams();
