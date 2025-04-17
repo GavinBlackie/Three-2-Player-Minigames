@@ -243,16 +243,23 @@ public partial class CheckersPage : ContentPage
 
     private void DefaultPieceSource(ImageButton imageButton, Piece piece)
     {
+        // Switch through the piece teams, default to corresponding image source as needed
         switch (piece.Team)
         {
             case Team.Blue:
-                if (piece.IsKing)
+                if (piece.IsKing) // Set the source to be a blue king, if the piece is a king
                 {
-                    imageButton.Source = 
+                    imageButton.Source = BLUE_PIECE_KING_DIR;
+                    break;
                 }
                 imageButton.Source = BLUE_PIECE_DIR;
                 break;
             case Team.Red:
+                if (piece.IsKing) // Set the source to be a red king, if the piece is a king
+                {
+                    imageButton.Source = RED_PIECE_KING_DIR;
+                    break;
+                }
                 imageButton.Source = RED_PIECE_DIR;
                 break;
             default:

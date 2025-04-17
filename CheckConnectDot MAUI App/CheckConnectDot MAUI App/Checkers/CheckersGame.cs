@@ -163,9 +163,9 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
             // Ensure that the Y-direction the piece is moving is correct for its team (unless its a king)
             if (initialPiece.IsKing == false && 
-                (initialPiece.Team == Team.Red && yMoveMultiplier == 1)
+                ((initialPiece.Team == Team.Red && destPos.y > initialPos.y)
                 ||
-                (initialPiece.Team == Team.Blue && yMoveMultiplier == -1))
+                (initialPiece.Team == Team.Blue && destPos.y < initialPos.y)) )
             {
                 throw new InvalidPieceMove("Attempting to move backwards with a non-king piece", initialPiece);
             }
@@ -173,13 +173,21 @@ namespace CheckConnectDot_MAUI_App.Checkers
             // Step 3: Act - Move the piece (The move has been validated, now move)
 
             // First, logically adjust the position of the initial tile's piece
-            initialPiece.Position = (initialPiece.Position.xPos + 1 * xMoveMultiplier, initialPiece.Position.yPos + 1 * yMoveMultiplier);
+            if (initialPiece.IsKing == false)
+            {
+                initialPiece.Position = (initialPiece.Position.xPos + 1 * xMoveMultiplier, initialPiece.Position.yPos + 1 * yMoveMultiplier);
+            }
+            else
+            {
+                initialPiece.Position = (initialPiece.Position.xPos + 1, initialPiece.Position.yPos + 1);
+            }
 
             // Then, "move" the pieces by exchanging piece instances
             destTile.Piece = initialPiece;
             initialTile.Piece = null;
 
             ChangeTurn(); // Alternate the turn upon a successful move
+            TryKingPromote(destTile.Piece); // Try to make that piece can be a king!
             return destTile.Piece;
         }
 
@@ -221,16 +229,28 @@ namespace CheckConnectDot_MAUI_App.Checkers
                 // Logically "move" the pieces by exchanging piece instances
                 destTile.Piece = initialPiece;
                 initialTile.Piece = null;
-                // Then, adjust the Piece's logical position values
-                destTile.Piece.Position = (destTile.Piece.Position.xPos + 2 * xMoveMultiplier, destTile.Piece.Position.yPos + 2 * yMoveMultiplier);
+                // Then, adjust the Piece's logical position values (do not include the move multipliers if it is a king)
+                if (destTile.Piece.IsKing == false)
+                {
+                    destTile.Piece.Position = (destTile.Piece.Position.xPos + 2 * xMoveMultiplier, destTile.Piece.Position.yPos + 2 * yMoveMultiplier);
+                }
+                else
+                {
+                    destTile.Piece.Position = (destTile.Piece.Position.xPos + 2, destTile.Piece.Position.yPos + 2);
+                }
 
                 ChangeTurn(); // Alternate the turn upon a successful move
+                TryKingPromote(destTile.Piece); // Try to make that piece can be a king!
                 return destTile.Piece;
             }
 
             throw new InvalidCaptureMove("All pieces and tiles were valid, but a capture could not be made", initialPiece);
         }
 
+        /// <summary>
+        /// Method that returns either 1 or -1 as a multiplier for a move direction
+        /// </summary>
+        /// <returns></returns>
         private int GetYMoveDirection()
         {
             switch (_gameState)
@@ -242,6 +262,32 @@ namespace CheckConnectDot_MAUI_App.Checkers
                 default:
                     Debug.Assert(false, "The game was not in an expected turn gamestate, defaulting to 1");
                     return 1;
+            }
+        }
+
+        /// <summary>
+        /// Void return method that checks if a given piece should be promoted to king based on its position or not
+        /// </summary>
+        /// <param name="piece">The piece to check if it can become a king</param>
+        private void TryKingPromote(Piece piece)
+        {
+            switch (piece.Team)
+            {
+                case Team.Blue:
+                    if (piece.Position.yPos >= 7)
+                    {
+                        piece.IsKing = true;
+                    }
+                    break;
+                case Team.Red:
+                    if (piece.Position.yPos <= 0)
+                    {
+                        piece.IsKing = true;
+                    }
+                    break;
+                default:
+                    Debug.Assert(false, "Unknown team name, cannot complete a king promotion check");
+                    break;
             }
         }
 
