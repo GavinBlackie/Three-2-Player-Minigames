@@ -252,7 +252,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
             {
                 // First, validate the capture move (ensure that there is a piece to caputre)
                 (Piece pieceCaptured, Tile captureTile) = ValidateCapture(initialTile, destTile, initialPiece.Team);
-                CapturePiece(pieceCaptured, captureTile); // If the capture is valid (i.e an enemy piece exists in the capture tile, capture it)
+                PerformCapture(pieceCaptured, captureTile); // If the capture is valid (i.e an enemy piece exists in the capture tile, capture it)
 
                 // Logically "move" the pieces by exchanging piece instances
                 destTile.Piece = initialPiece;
@@ -384,7 +384,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
         /// </summary>
         /// <param name="piece"> The piece that was captured </param>
         /// <param name="capTile"> The logical tile instance to find the ImageButton off of </param>
-        private void CapturePiece(Piece piece, Tile capTile)
+        private void PerformCapture(Piece piece, Tile capTile)
         {
             // Nulify the captured tile's reference and remove the piece from the list collection
             capTile.Piece = null;
