@@ -40,7 +40,7 @@ Checkers:
 
 **Checkers Section Zoom-in:**
 
-![Screenshot 2025-03-17 182128](https://github.com/user-attachments/assets/429d46bb-5e02-4b48-8dec-3c49e5d17bef)
+![image](https://github.com/user-attachments/assets/1b39cb98-d257-4260-946b-74c02a48f36f)
 
 **Implementation Notes Zoom-in:**
 
