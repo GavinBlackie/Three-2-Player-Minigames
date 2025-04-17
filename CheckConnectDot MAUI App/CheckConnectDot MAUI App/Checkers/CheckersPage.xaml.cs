@@ -31,9 +31,19 @@ public partial class CheckersPage : ContentPage
 	private const string BLUE_PIECE_DIR = "blue_piece.png";
 
     /// <summary>
+    /// Directory string of the king blue piece image
+    /// </summary>
+    private const string BLUE_PIECE_KING_DIR = "blue_piece_king.png";
+
+    /// <summary>
     /// Directory string of the red piece image
     /// </summary>
 	private const string RED_PIECE_DIR = "red_piece.png";
+
+    /// <summary>
+    /// Directory string of the king red piece image
+    /// </summary>
+    private const string RED_PIECE_KING_DIR = "red_piece_king.png";
 
     /// <summary>
     /// Directory string of the selected piece image
@@ -236,6 +246,10 @@ public partial class CheckersPage : ContentPage
         switch (piece.Team)
         {
             case Team.Blue:
+                if (piece.IsKing)
+                {
+                    imageButton.Source = 
+                }
                 imageButton.Source = BLUE_PIECE_DIR;
                 break;
             case Team.Red:
