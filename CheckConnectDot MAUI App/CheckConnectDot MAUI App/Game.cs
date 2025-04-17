@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Author: Gavin Blackie
+ * File Description:
+ *      Defines the main "Game" abstract class, and its basic functionality
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
