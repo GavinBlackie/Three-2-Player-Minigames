@@ -3,22 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckConnectDot_MAUI_App.CheckersPage"
              Title="Checkers">
-    <Grid RowDefinitions="*, auto" ColumnDefinitions="*" Margin="15">
+    
+    
+    <Grid RowDefinitions="auto, *, auto" RowSpacing="25" ColumnDefinitions="*" ColumnSpacing="25" Margin="15">
         <Label Grid.Column="0" Grid.Row="0"
-            Text="Welcome to Checkers!"
+            x:Name="_txtTurnLabel"
+            Text="Red Player's Turn!"
+            TextColor="Red"
+            FontSize="Title"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        
+
+        <!-- 
+        The "Board" Checkers grid 
+        (note that ImageButtons are added by the page after creation instead of repeating XAML ImageButtons 64 times)
+        -->
         <Grid Grid.Column="0" Grid.Row="1"
-            x:Name="_gridBoard" ColumnDefinitions="*, *, *, *, *, *, *, *, *" RowDefinitions="*, *, *, *, *, *, *, *"
+              x:Name="_gridBoard" 
+              ColumnDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto" 
+              RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto"
               
               ColumnSpacing="0"
               RowSpacing="0"
               HorizontalOptions="Center"
               
-              ></Grid>
+              />
 
-        <Label x:Name="_txtGameInfo" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+        <Label Grid.Column="0" Grid.Row="2"
+            x:Name="_txtMoveInfo" Text="" TextColor="DarkGoldenrod"
+               FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center"></Label>
         
     </Grid>
 </ContentPage>

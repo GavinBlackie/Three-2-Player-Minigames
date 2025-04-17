@@ -212,6 +212,9 @@ public partial class CheckersPage : ContentPage
             // Default the piece's display image after moving
             DefaultPieceSource(imageButton, pieceMoved);
 
+            // Display the label information after moving
+            UpdateTurnLabels(pieceMoved);
+
             _isPieceSelected = false; // Declare that no piece is selected
 
             return true;
@@ -234,6 +237,9 @@ public partial class CheckersPage : ContentPage
             // Default the piece's display image after moving
             DefaultPieceSource(imageButton, pieceMoved);
 
+            // Display the label information after moving
+            UpdateTurnLabels(pieceMoved);
+
             _isPieceSelected = false; // Declare that no piece is selected
 
             return true;
@@ -241,6 +247,12 @@ public partial class CheckersPage : ContentPage
         return false;
     }
 
+    /// <summary>
+    /// Defaults the an ImageButton's source to the correct piece image
+    /// when given the ImageButton and logical Piece instances as parameters.
+    /// </summary>
+    /// <param name="imageButton"> The ImageButton control to change the image source of </param>
+    /// <param name="piece"> The related Piece instance in the same spot as that ImageButton </param>
     private void DefaultPieceSource(ImageButton imageButton, Piece piece)
     {
         // Switch through the piece teams, default to corresponding image source as needed
@@ -265,6 +277,32 @@ public partial class CheckersPage : ContentPage
             default:
                 Debug.Assert(false, "Unexpected team name, defaulting to the selected piece image");
                 imageButton.Source = SELECTED_PIECE_DIR;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Updates the turn labels based on the last piece that was moved/interacted with.
+    /// </summary>
+    /// <param name="piece"> The piece to update the label information to</param>
+    private void UpdateTurnLabels(Piece piece)
+    {
+        // Update the move info label to tell where the piece was moved to
+        _txtMoveInfo.Text = $"Piece moved to ({piece.Position.xPos}, {piece.Position.yPos})";
+
+        // Update the turn label based on the last moved piece's team (if it was red - then its blue's turn, and vice versa)
+        switch (piece.Team)
+        {
+            case Team.Red:
+                _txtTurnLabel.Text = "Blue Player's Turn!";
+                _txtTurnLabel.TextColor = Colors.Blue;
+                break;
+            case Team.Blue:
+                _txtTurnLabel.Text = "Red Player's Turn!";
+                _txtTurnLabel.TextColor = Colors.Red;
+                break;
+            default:
+                Debug.Assert(false, "Invalid piece team to alter display labels to");
                 break;
         }
     }
