@@ -63,7 +63,7 @@ Connect 4:
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
 | **Business Logic**  | `ConnectFourGame`, `SoundPlayer`, `Disk`, `Connect4Exception` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box` |
-| **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
+| **Data Layer**      | Handles `PlayerData` using `JSONHandler`          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
 
