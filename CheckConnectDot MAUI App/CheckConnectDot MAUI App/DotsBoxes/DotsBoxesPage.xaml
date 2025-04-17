@@ -94,7 +94,7 @@
             <BoxView Grid.Row="6" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
             <BoxView Grid.Row="6" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
             <BoxView Grid.Row="6" Grid.Column="7" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
-            
+
             <BoxView Grid.Row="8" Grid.Column="1" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
             <BoxView Grid.Row="8" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
             <BoxView Grid.Row="8" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
@@ -151,6 +151,14 @@
             <Image x:Name="_img7_7" Grid.Row="7" Grid.Column="7" Source="box_placeholder.png" Aspect="AspectFill" />
 
         </Grid>
+
+        <HorizontalStackLayout>
+
+            <Label x:Name="_lblDot1"/>
+            <Label x:Name="_lblDot2"/>
+
+            <Button IsVisible="False"/>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 
 </ContentPage>
