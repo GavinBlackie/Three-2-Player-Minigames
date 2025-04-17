@@ -1,4 +1,5 @@
 namespace CheckConnectDot_MAUI_App.ConnectFour;
+// Author: Artem Kotliar
 
 /// <summary>
 /// Disk base class represents the disks.

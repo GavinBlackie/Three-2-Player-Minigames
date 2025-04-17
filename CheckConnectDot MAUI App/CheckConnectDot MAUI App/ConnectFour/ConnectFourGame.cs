@@ -1,4 +1,7 @@
 ﻿namespace CheckConnectDot_MAUI_App.ConnectFour
+// Author: Artem Kotliar
+// This is a ConnectFourGame class which is derived from a base Game class. This class represents the connect 4 game.
+
 {
     public class ConnectFourGame : Game
     {
@@ -10,9 +13,19 @@
         private const int ROWS = 6;
         private const int COLS = 7;
 
+        /// <summary>
+        /// Property to get and set GameOver
+        /// </summary>
         public bool GameOver { get; private set; }
+        /// <summary>
+        /// Property to get and set Winner
+        /// </summary>
         public Player? Winner { get; private set; }
 
+        /// <summary>
+        /// Constructor for the ConnectFourGame class
+        /// </summary>
+        /// <param name="playersTuple">The player tuple</param>
         public ConnectFourGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
         {
             _players = new Player[] { playersTuple.Item1, playersTuple.Item2 };
@@ -22,10 +35,24 @@
             _disksLeft2 = 21;
         }
 
+        /// <summary>
+        /// Property to get the current player
+        /// </summary>
         public Player CurrentPlayer { get { return _currentPlayer; } }
         
+        /// <summary>
+        /// Property to get the players
+        /// </summary>
         public Player[] Players { get { return _players; } }
 
+        /// <summary>
+        /// Method to drop the disk in the game
+        /// </summary>
+        /// <param name="column">The column of the disk</param>
+        /// <param name="updateCell">Callback to update the visual cell on the UI</param>
+        /// <param name="updateDisks">Callback to update the remaining disk counts on the UI</param>
+        /// <returns>True if the disk was successfully dropped and false if the column is full</returns>
+        /// <exception cref="Connect4Exception">Thrown when a player has no disks left to drop</exception>
         public bool DropDisk(int column, Action<int, int, string> updateCell, Action<int, int> updateDisks)
         {
             // Check if current player has disks left
@@ -80,10 +107,18 @@
             return false;
         }
 
+        /// <summary>
+        /// Method to check for the win of the most recent player
+        /// </summary>
+        /// <param name="col">The column of the placed disk</param>
+        /// <param name="row">The row of the placed disk</param>
+        /// <returns>True if the player has 4 connected disks in any direction and otherwise false</returns>
         private bool CheckWin(int col, int row)
         {
+            // return false if no disk at the specified location
             if (_board[col, row] == null) return false;
             
+            // Get the player number of the disk at the current position
             int player = _board[col, row].PlayerNumber;
     
             // Check horizontal (left and right)
@@ -102,9 +137,19 @@
             if (CountInDirection(col, row, 1, -1, player) + CountInDirection(col, row, -1, 1, player) >= 3)
                 return true;
     
+            // If no direction resulted in 4 in a row return false
             return false;
         }
 
+        /// <summary>
+        /// Counts how many consecutive disks belong to the same player
+        /// </summary>
+        /// <param name="startCol">Column of the last disk that was placed</param>
+        /// <param name="startRow">Row of the last disk that was placed</param>
+        /// <param name="colStep">Direction to move in the column axis</param>
+        /// <param name="rowStep">Direction to move in the row axis</param>
+        /// <param name="player">The player number whose disks we are checking for</param>
+        /// <returns>The number of consecutive disks matching the player's disk in the given direction</returns>
         private int CountInDirection(int startCol, int startRow, int colStep, int rowStep, int player)
         {
             int count = 0;
@@ -118,10 +163,13 @@
                 col += colStep;
                 row += rowStep;
             }
-    
             return count;
         }
 
+        /// <summary>
+        /// Resets the game state to start a new game
+        /// Clears the board and resets the disk counts as well as removes the winner
+        /// </summary>
         public void ResetGame()
         {
            GameOver = false;

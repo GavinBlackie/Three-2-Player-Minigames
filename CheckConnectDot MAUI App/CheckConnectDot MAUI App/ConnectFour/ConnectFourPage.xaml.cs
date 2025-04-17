@@ -1,4 +1,6 @@
 using CheckConnectDot_MAUI_App.ConnectFour;
+// Author: Artem Kotliar
+// This is the ConnectFourPage class, used to interact with the ConnectFourGame.xaml
 
 namespace CheckConnectDot_MAUI_App;
 
@@ -77,6 +79,10 @@ public partial class ConnectFourPage : ContentPage
         _boardImages[6, 5] = Cell_6_5;
     }
 
+    /// <summary>
+    /// Handles a column button click event in the Connect Four game
+    /// Drops a disk in the selected column, updates the UI, and checks for a win
+    /// </summary>
     protected void OnCol(object sender, EventArgs e)
     {
         if (_connectFourGame.GameOver)
@@ -109,7 +115,6 @@ public partial class ConnectFourPage : ContentPage
                 // Reset game and board UI
                 _connectFourGame.ResetGame();
                 ResetBoardUI();
-                UpdateTurnDisplay();
             }
             else
             {
@@ -118,6 +123,9 @@ public partial class ConnectFourPage : ContentPage
         }
     }
     
+    /// <summary>
+    /// Resets the visual game board by clearing all disk images and resetting the disk counters for both players
+    /// </summary>
     private void ResetBoardUI()
     {
         for (int col = 0; col < 7; col++)
@@ -127,13 +135,16 @@ public partial class ConnectFourPage : ContentPage
                 _boardImages[col, row].Source = "empty_space.png";
             }
         }
-    
         // Reset disk counters
         UpdateDiskCounts(21, 21);
     }
-
-
-
+    
+    /// <summary>
+    /// Updates the image displayed in a specific cell on the game board setting it to the player's disk image.
+    /// </summary>
+    /// <param name="col">The column index</param>
+    /// <param name="row">The row index</param>
+    /// <param name="imageSource">The image file name to display</param>
     private void UpdateCellImage(int col, int row, string imageSource)
     {
         if (col >= 0 && col < 7 && row >= 0 && row < 6)
@@ -142,12 +153,21 @@ public partial class ConnectFourPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Updates the turn label to show which player's turn it is and changes the label color based on the player.
+    /// </summary>
     private void UpdateTurnDisplay()
     {
         TurnLabel.Text = $"Player {_connectFourGame.CurrentPlayer.Number}'s Turn!";
         TurnLabel.TextColor = _connectFourGame.CurrentPlayer.Number == 1 ? Colors.Red : Colors.Blue;
     }
 
+    /// <summary>
+    /// Updates the screen display showing the remaining number of disks for each player
+    /// Also changes the text color to red if the count is low (5 or fewer)
+    /// </summary>
+    /// <param name="diskCount1"></param>
+    /// <param name="diskCount2"></param>
     private void UpdateDiskCounts(int diskCount1, int diskCount2)
     {
         diskAMT1.Text = diskCount1.ToString();
@@ -158,6 +178,9 @@ public partial class ConnectFourPage : ContentPage
         diskAMT2.TextColor = diskCount2 <= 5 ? Colors.Red : Colors.White;
     }
 
+    /// <summary>
+    /// Sets the command parameters and event handlers for each column button
+    /// </summary>
     protected void SetParams()
     {
         Col1.CommandParameter = 1;
@@ -180,5 +203,103 @@ public partial class ConnectFourPage : ContentPage
         
         Col7.CommandParameter = 7;
         Col7.Clicked += OnCol;
+    }
+
+    /// <summary>
+    /// Handles the forfeit button click event
+    /// </summary>
+    private async void OnForfeit(object sender, EventArgs e)
+    {
+        if (_connectFourGame.GameOver)
+        {
+            return;
+        }
+
+        // Ask for confirmation
+        bool confirm = await DisplayAlert(
+            "Forfeit Game", 
+            $"Player {_connectFourGame.CurrentPlayer.Number}, are you sure you want to forfeit?", 
+            "Yes", "No");
+
+        if (confirm)
+        {
+            // The forfeiting player loses, the other player wins
+            Player winner = _connectFourGame.CurrentPlayer.Number == 1 ? _connectFourGame.Players[1] : _connectFourGame.Players[0];
+
+            // Update win
+            winner.NumWins++;
+
+            // Update UI
+            if (winner.Number == 1)
+            {
+                _lbl1Wins.Text = $"Player {winner.Number} Wins: {winner.NumWins}";
+            }
+            else
+            {
+                _lbl2Wins.Text = $"Player {winner.Number} Wins: {winner.NumWins}";
+            }
+
+            // Show result
+            await DisplayAlert(
+                "Game Forfeited", 
+                $"Player {_connectFourGame.CurrentPlayer.Number} forfeited!\nPlayer {winner.Number} wins by default.", 
+                "OK");
+
+            // Reset the game
+            _connectFourGame.ResetGame();
+            ResetBoardUI();
+        }
+    }
+    /// <summary>
+    /// Handles the save button click event to store player data
+    /// </summary>
+    private void OnSave(object sender, EventArgs e)
+    {
+        try
+        {
+            Connect4JSONHandler.SaveGameData(_connectFourGame.PlayerTuple);
+            DisplayAlert("Success", "Game data saved!", "OK");
+        }
+        catch (Connect4Exception ex)
+        {
+            DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+    
+    /// <summary>
+    /// Loads saved player data and updates the UI accordingly
+    /// </summary>
+    private void LoadPlayerData()
+    {
+        try
+        {
+            PlayerData playerData = Connect4JSONHandler.LoadGameData();
+        
+            // Update Player 1
+            _connectFourGame.PlayerTuple.Item1.Name = playerData.Player1Name;
+            _connectFourGame.PlayerTuple.Item1.NumWins = playerData.Player1Wins;
+        
+            // Update Player 2
+            _connectFourGame.PlayerTuple.Item2.Name = playerData.Player2Name;
+            _connectFourGame.PlayerTuple.Item2.NumWins = playerData.Player2Wins;
+        
+            // Update UI
+            _lbl1Wins.Text = $"{playerData.Player1Name} Wins: {playerData.Player1Wins}";
+            _lbl2Wins.Text = $"{playerData.Player2Name} Wins: {playerData.Player2Wins}";
+        }
+        catch (Connect4Exception ex)
+        {
+            DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+    
+    /// <summary>
+    /// Called automatically when the page becomes visible to the user
+    /// Loads player data from storage when the game screen appears
+    /// </summary>
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadPlayerData();
     }
 }
