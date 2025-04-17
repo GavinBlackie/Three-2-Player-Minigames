@@ -12,8 +12,18 @@
     
     
     <!-- The main grid layout -->
-    <Grid RowDefinitions="auto, *, auto" RowSpacing="25" ColumnDefinitions="*" ColumnSpacing="25" Margin="15">
-        <Label Grid.Column="0" Grid.Row="0"
+    <Grid RowDefinitions="auto, auto, *, auto" RowSpacing="25" ColumnDefinitions="*, 3*, *" ColumnSpacing="25" Margin="15">
+
+        <!-- The player win count labels and save data button -->
+        <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="End"
+                x:Name="_txtPlayer1" Text="Player 1 Wins: 0" FontSize="20"/>
+        <Button Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
+                Text="Save Scores" Clicked="OnSave"/>
+        <Label Grid.Column="2" Grid.Row="0" HorizontalOptions="Start"
+            x:Name="_txtPlayer2" Text="Player 2 Wins: 0" FontSize="20"/>
+        
+        
+        <Label Grid.Column="1" Grid.Row="1"
             x:Name="_txtTurnLabel"
             Text="Red Player's Turn!"
             TextColor="Red"
@@ -22,7 +32,7 @@
             HorizontalOptions="Center" />
 
         <!-- The replay button (initially invisible) -->
-        <Button Grid.Column="0" Grid.Row="1"
+        <Button Grid.Column="1" Grid.Row="2"
             x:Name="_btnReplay"
             Text="Play Again!"
             IsVisible="True"
@@ -37,7 +47,7 @@
         The "Board" Checkers grid 
         (note that ImageButtons are added by the page after creation instead of repeating XAML ImageButtons 64 times)
         -->
-        <Grid Grid.Column="0" Grid.Row="1"
+        <Grid Grid.Column="1" Grid.Row="2"
               x:Name="_gridBoard" 
               ColumnDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto" 
               RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto"
@@ -48,7 +58,7 @@
               
               />
 
-        <Label Grid.Column="0" Grid.Row="2"
+        <Label Grid.Column="1" Grid.Row="3"
             x:Name="_txtMoveInfo" Text="" TextColor="DarkGoldenrod"
                FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center"></Label>
         

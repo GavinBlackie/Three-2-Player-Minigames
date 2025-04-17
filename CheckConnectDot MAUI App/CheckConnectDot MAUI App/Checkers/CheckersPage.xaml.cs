@@ -384,4 +384,65 @@ public partial class CheckersPage : ContentPage
         AddTiles();
         AddPieces();
     }
+
+    /*-----------------------------------------------------
+     
+       PLEASE NOTE: THIS NEXT SECTION IS CREDITED TO Artem !!!!
+       (this section was adapted from his code !!!!!)
+
+     -----------------------------------------------------
+     */
+    
+    /// <summary>
+    /// Handles the save button click event to store player data
+    /// </summary>
+    private void OnSave(object sender, EventArgs e)
+    {
+        try
+        {
+            JSONHandler.SaveGameData(_checkersGame.PlayerTuple);
+            DisplayAlert("Success", "Game data saved!", "OK");
+        }
+        catch (Connect4Exception ex)
+        {
+            DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
+    /// <summary>
+    /// Loads saved player data and updates the UI accordingly
+    /// </summary>
+    private void LoadPlayerData()
+    {
+        try
+        {
+            PlayerData playerData = JSONHandler.LoadGameData();
+
+            // Update Player 1
+            _checkersGame.PlayerTuple.Item1.Name = playerData.Player1Name;
+            _checkersGame.PlayerTuple.Item1.NumWins = playerData.Player1Wins;
+
+            // Update Player 2
+            _checkersGame.PlayerTuple.Item2.Name = playerData.Player2Name;
+            _checkersGame.PlayerTuple.Item2.NumWins = playerData.Player2Wins;
+
+            // Update UI
+            _txtPlayer1.Text = $"Player 1 {playerData.Player1Name} Wins: {playerData.Player1Wins}";
+            _txtPlayer2.Text = $"Player 2 {playerData.Player2Name} Wins: {playerData.Player2Wins}";
+        }
+        catch (Connect4Exception ex)
+        {
+            DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
+    /// <summary>
+    /// Called automatically when the page becomes visible to the user
+    /// Loads player data from storage when the game screen appears
+    /// </summary>
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        LoadPlayerData();
+    }
 }
