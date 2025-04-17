@@ -15,15 +15,12 @@
         -->
         <ShellContent Title="Checkers"
             ContentTemplate="{DataTemplate local:CheckersPage}"
-            Route="RentalPage"
         />
         <ShellContent Title="Connect 4"
                       ContentTemplate="{DataTemplate local:ConnectFourPage}"
-                      Route="RentalPage"
         />
         <ShellContent Title="Dots and Boxes"
             ContentTemplate="{DataTemplate local:DotsBoxesPage}"
-            Route="RentalPage"
         />
         
     </TabBar>
