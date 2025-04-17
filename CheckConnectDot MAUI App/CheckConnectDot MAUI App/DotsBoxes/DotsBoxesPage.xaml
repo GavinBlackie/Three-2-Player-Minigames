@@ -3,16 +3,154 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckConnectDot_MAUI_App.DotsBoxesPage"
              Title="Dots and Boxes">
-    <VerticalStackLayout>
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
         <Label 
             Text="Welcome to Dots and Boxes!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Grid x:Name="GameCanvas"
               Margin="10"
-              HorizontalOptions="FillAndExpand"
+              HorizontalOptions="CenterAndExpand"
               VerticalOptions="FillAndExpand"
-              BackgroundColor="White">
+              BackgroundColor="BurlyWood"
+              RowSpacing="0"
+              ColumnSpacing="0">
+
+            <!-- 9 rows for 5 dots and 4 gaps (lines/images) -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- 9 columns for 5 dots and 4 gaps (lines/images) -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Image dots -->
+            <!-- Row: 0,2,4,6,8 and Column: 0,2,4,6,8 -->
+            <ImageButton Grid.Row="0" Grid.Column="0" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="0" Grid.Column="2" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="0" Grid.Column="4" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="0" Grid.Column="6" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="0" Grid.Column="8" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+
+            <ImageButton Grid.Row="2" Grid.Column="0" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="2" Grid.Column="2" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="2" Grid.Column="4" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="2" Grid.Column="6" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="2" Grid.Column="8" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+
+            <ImageButton Grid.Row="4" Grid.Column="0" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="4" Grid.Column="2" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="4" Grid.Column="4" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="4" Grid.Column="6" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="4" Grid.Column="8" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+
+            <ImageButton Grid.Row="6" Grid.Column="0" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="6" Grid.Column="2" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="6" Grid.Column="4" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="6" Grid.Column="6" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="6" Grid.Column="8" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+
+            <ImageButton Grid.Row="8" Grid.Column="0" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="8" Grid.Column="2" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="8" Grid.Column="4" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="8" Grid.Column="6" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+            <ImageButton Grid.Row="8" Grid.Column="8" WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="White" BorderColor="Red" BorderWidth="2" Clicked="OnDotClicked"/>
+
+            <!-- Horizontal lines -->
+            <BoxView Grid.Row="0" Grid.Column="1" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="0" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="0" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="0" Grid.Column="7" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+
+            <BoxView Grid.Row="2" Grid.Column="1" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="2" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="2" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="2" Grid.Column="7" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+
+            <BoxView Grid.Row="4" Grid.Column="1" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="4" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="4" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="4" Grid.Column="7" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+
+            <BoxView Grid.Row="6" Grid.Column="1" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="6" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="6" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="6" Grid.Column="7" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            
+            <BoxView Grid.Row="8" Grid.Column="1" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="8" Grid.Column="3" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="8" Grid.Column="5" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+            <BoxView Grid.Row="8" Grid.Column="7" HeightRequest="4" BackgroundColor="Gray" VerticalOptions="Center" />
+
+            <!-- Vertical lines -->
+            <BoxView Grid.Row="1" Grid.Column="0" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="3" Grid.Column="0" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="5" Grid.Column="0" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="7" Grid.Column="0" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+
+            <BoxView Grid.Row="1" Grid.Column="2" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="3" Grid.Column="2" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="5" Grid.Column="2" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="7" Grid.Column="2" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+
+            <BoxView Grid.Row="1" Grid.Column="4" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="3" Grid.Column="4" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="5" Grid.Column="4" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="7" Grid.Column="4" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+
+            <BoxView Grid.Row="1" Grid.Column="6" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="3" Grid.Column="6" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="5" Grid.Column="6" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="7" Grid.Column="6" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+
+            <BoxView Grid.Row="1" Grid.Column="8" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="3" Grid.Column="8" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="5" Grid.Column="8" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+            <BoxView Grid.Row="7" Grid.Column="8" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
+
+            <!-- Box images (between the lines, ex. row=1, col=1) -->
+            <Image x:Name="_img1_1" Grid.Row="1" Grid.Column="1" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img1_3" Grid.Row="1" Grid.Column="3" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img1_5" Grid.Row="1" Grid.Column="5" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img1_7" Grid.Row="1" Grid.Column="7" Source="box_placeholder.png" Aspect="AspectFill" />
+
+            <!-- Row 3 -->
+            <Image x:Name="_img3_1" Grid.Row="3" Grid.Column="1" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img3_3" Grid.Row="3" Grid.Column="3" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img3_5" Grid.Row="3" Grid.Column="5" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img3_7" Grid.Row="3" Grid.Column="7" Source="box_placeholder.png" Aspect="AspectFill" />
+
+            <!-- Row 5 -->
+            <Image x:Name="_img5_1" Grid.Row="5" Grid.Column="1" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img5_3" Grid.Row="5" Grid.Column="3" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img5_5" Grid.Row="5" Grid.Column="5" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img5_7" Grid.Row="5" Grid.Column="7" Source="box_placeholder.png" Aspect="AspectFill" />
+
+            <!-- Row 7 -->
+            <Image x:Name="_img7_1" Grid.Row="7" Grid.Column="1" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img7_3" Grid.Row="7" Grid.Column="3" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img7_5" Grid.Row="7" Grid.Column="5" Source="box_placeholder.png" Aspect="AspectFill" />
+            <Image x:Name="_img7_7" Grid.Row="7" Grid.Column="7" Source="box_placeholder.png" Aspect="AspectFill" />
+
         </Grid>
     </VerticalStackLayout>
+
 </ContentPage>
