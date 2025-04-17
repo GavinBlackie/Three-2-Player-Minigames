@@ -19,6 +19,9 @@ Dots & Boxes:
 Connect 4:
 ![connect4Interface](https://github.com/user-attachments/assets/a90ef9d7-f8a4-4384-b0eb-e42c1340edde)
 
+Checkers:
+![image](https://github.com/user-attachments/assets/12e39293-38f2-491f-9d60-75455a3d98d2)
+
 ## Project Design Diagrams
 
 **The Main Class Diagram:**
