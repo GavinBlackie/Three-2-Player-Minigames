@@ -9,7 +9,7 @@ public partial class ConnectFourPage : ContentPage
 	public ConnectFourPage(ConnectFourGame connectFourGame)
 	{
 		_connectFourGame = connectFourGame; // Contain the given singleton of a connectFourGame
-        
+
         InitializeComponent();
 	}
 }
