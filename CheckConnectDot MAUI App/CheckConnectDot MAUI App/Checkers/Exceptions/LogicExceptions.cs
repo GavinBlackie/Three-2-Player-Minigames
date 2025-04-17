@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Author: Gavin Blackie
+ * File Description: 
+ *      LogicExceptions is for any logical exception definitions that are related to the checkers game
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

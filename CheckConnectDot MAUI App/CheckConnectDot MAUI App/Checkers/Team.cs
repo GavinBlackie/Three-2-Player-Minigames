@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Author: Gavin Blackie
+ * File Description: 
+ *      An enumeration that is used to differentiate the red team from the blue team in a checkers game
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

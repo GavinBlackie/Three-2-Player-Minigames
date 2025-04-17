@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Author: Gavin Blackie
+ * File Description: 
+ *      The CheckersGame class definition, defines the main logic and calculations in a checkers game
+*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -38,6 +44,12 @@ namespace CheckConnectDot_MAUI_App.Checkers
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Constructor for a new Checkers game instance. Takes in a tuple reference for two players to send to the
+        /// game base class, and then begins initializing the game variables and pieces.
+        /// </summary>
+        /// <param name="playersTuple"></param>
         public CheckersGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
         {
             _pieceList = new List<Piece>();
@@ -52,6 +64,10 @@ namespace CheckConnectDot_MAUI_App.Checkers
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Read-write property for the pieces collection in a checkers game
+        /// </summary>
         internal List<Piece> Pieces
         {
             get
@@ -64,14 +80,9 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
-        internal (string team1, string team2) TeamNames
-        {
-            get
-            {
-                return _teamNames;
-            }
-        }
-
+        /// <summary>
+        /// Read-write property for the GameState 
+        /// </summary>
         internal CheckersGameState GameState
         {
             get
@@ -84,6 +95,9 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        /// <summary>
+        /// Read-write property for the BtnToTile dictionary variable
+        /// </summary>
         internal Dictionary<ImageButton, Tile> BtnToTile
         {
             get
@@ -128,6 +142,13 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        /// <summary>
+        /// Moves a piece based on two ImageButton references.
+        /// </summary>
+        /// <param name="initial"> The initial tile of the moving piece </param>
+        /// <param name="destination"> The destination/last clicked tile for the movement</param>
+        /// <returns> The piece that was moved </returns>
+        /// <exception cref="InvalidPieceMove"></exception>
         internal Piece MovePiece(ref ImageButton initial, ref ImageButton destination)
         {
             // Step 1: Get relevant information for a move
@@ -191,6 +212,13 @@ namespace CheckConnectDot_MAUI_App.Checkers
             return destTile.Piece;
         }
 
+        /// <summary>
+        /// Complex method that captures a piece based on a reference to two ImageButtons.
+        /// </summary>
+        /// <param name="initial">The initial ImageButton that the moving piece is on </param>
+        /// <param name="destination"> The destination ImageButton that the moving piece wants to go to </param>
+        /// <returns> The piece instance that was moved </returns>
+        /// <exception cref="InvalidCaptureMove"></exception>
         internal Piece CapturePiece(ref ImageButton initial, ref ImageButton destination)
         {
             // Step 1: Get relevant information for a capture
@@ -311,6 +339,15 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        /// <summary>
+        /// Validates a capture based on various information gained from two tile instances, and a Team instance
+        /// reprsenting the attacking/capturing team.
+        /// </summary>
+        /// <param name="initial">The initial tile </param>
+        /// <param name="dest">The destination tile of the capture movement </param>
+        /// <param name="attackingTeam"> The team that is trying to caputre </param>
+        /// <returns> A tuple containing a piece that was captured and the tile it was located on </returns>
+        /// <exception cref="InvalidCaptureMove"></exception>
         private (Piece, Tile) ValidateCapture(Tile initial, Tile dest, Team attackingTeam)
         {
             // Save the positions of the two tiles for later

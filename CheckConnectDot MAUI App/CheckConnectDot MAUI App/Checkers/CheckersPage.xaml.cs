@@ -1,3 +1,9 @@
+/*
+ * Author: Gavin Blackie
+ * File Description:
+ *      The CheckersPage file, responsible for all UI, eventhandlers, and graphical changes to the checkers game
+*/
+
 using System.Diagnostics;
 using System.IO.Pipelines;
 using CheckConnectDot_MAUI_App.Checkers;
@@ -69,6 +75,10 @@ public partial class CheckersPage : ContentPage
         AddPieces(); // Add the pieces ontop of the tiles in the game
     }
 
+    /// <summary>
+    /// Special method that creates all of the imagebuttons in a checkerboard format with their colours, links their
+    /// event handlers, etc., to create the visible board and link it back to the checkergame instance.
+    /// </summary>
 	private void AddTiles()
 	{
 		ImageButton imgBtn; // Declare the ImageButton variable that will be used
@@ -124,6 +134,9 @@ public partial class CheckersPage : ContentPage
 		}
 	}
 
+    /// <summary>
+    /// Special method that alls all of the piece images to the visible UI on the grid board
+    /// </summary>
     private void AddPieces()
     {
         List<Piece> checkerPieces = _checkersGame.Pieces; // Variable so the property accessor only has to run once
@@ -194,6 +207,12 @@ public partial class CheckersPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Attempts to select a piece based on a given ImageButton instance. 
+    /// Essentially checks to make sure there is actually a pairable piece instance with that imageButton, and selects it.
+    /// </summary>
+    /// <param name="imageButton"> The ImageButton to select a piece on </param>
+    /// <returns> A boolean on if the piece select was successful or not </returns>
     private bool AttemptPieceSelect(ImageButton imageButton)
     {
         // Should the imageButton (the "visible" tile) have an image inside of it (eg. its image source is not empty), then try to select it
@@ -211,6 +230,11 @@ public partial class CheckersPage : ContentPage
         return false;
     }
 
+    /// <summary>
+    /// Attempts to move a piece to the specified ImageButton parameter.
+    /// </summary>
+    /// <param name="imageButton"> The ImageButton to move the selected piece to </param>
+    /// <returns> Bool on whether the move was successful or not </returns>
     private bool AttemptMove(ImageButton imageButton)
     {
         // Should a piece already be selected, attempt to move
@@ -236,6 +260,11 @@ public partial class CheckersPage : ContentPage
         return false;
     }
 
+    /// <summary>
+    /// Attempts to capture a piece based on an ImageButton instance of where the selected piece wants to go
+    /// </summary>
+    /// <param name="imageButton"> The ImageButton the user wants to move a piece to </param>
+    /// <returns> A true or false statement on if the capture move was successful or not </returns>
     private bool AttemptCapture(ImageButton imageButton)
     {
         // Should a piece already be selected, attempt to capture
