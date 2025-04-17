@@ -26,7 +26,7 @@ Checkers:
 
 **The Main Class Diagram:**
 
-(see lower diagrams for "zoom-ins" of this one)
+(see lower diagrams for "zoom-ins" of this one - NOTE THIS OVERALL DIAGRAM IS OLD, THE SECTION ONES ARE UPDATED TO PRESENT)
 
 ![Screenshot 2025-03-17 174038](https://github.com/user-attachments/assets/f1abd78c-363a-437e-bbd5-99df13bafafd)
 
