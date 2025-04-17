@@ -8,5 +8,11 @@
             Text="Welcome to Dots and Boxes!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Grid x:Name="GameCanvas"
+              Margin="10"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="White">
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

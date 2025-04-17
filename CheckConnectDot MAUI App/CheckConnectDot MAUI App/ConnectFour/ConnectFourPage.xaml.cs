@@ -6,6 +6,8 @@ public partial class ConnectFourPage : ContentPage
 {
 	private ConnectFourGame _connectFourGame;
 
+	//Add the dirs here
+
 	public ConnectFourPage(ConnectFourGame connectFourGame)
 	{
 		_connectFourGame = connectFourGame; // Contain the given singleton of a connectFourGame
