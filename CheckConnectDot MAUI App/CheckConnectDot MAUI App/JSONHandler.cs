@@ -1,8 +1,8 @@
-namespace CheckConnectDot_MAUI_App.ConnectFour;
+namespace CheckConnectDot_MAUI_App;
 using System.Text.Json;
 // Author: Artem Kotliar
 // This is a handler for saving and loading data from a json file.
-public class Connect4JSONHandler
+public class JSONHandler
 {
     // Name of the player data file
     private const string FILE_NAME = "PlayerData.json";

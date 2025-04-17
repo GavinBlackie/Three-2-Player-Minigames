@@ -258,7 +258,7 @@ public partial class ConnectFourPage : ContentPage
     {
         try
         {
-            Connect4JSONHandler.SaveGameData(_connectFourGame.PlayerTuple);
+            JSONHandler.SaveGameData(_connectFourGame.PlayerTuple);
             DisplayAlert("Success", "Game data saved!", "OK");
         }
         catch (Connect4Exception ex)
@@ -274,7 +274,7 @@ public partial class ConnectFourPage : ContentPage
     {
         try
         {
-            PlayerData playerData = Connect4JSONHandler.LoadGameData();
+            PlayerData playerData = JSONHandler.LoadGameData();
         
             // Update Player 1
             _connectFourGame.PlayerTuple.Item1.Name = playerData.Player1Name;
