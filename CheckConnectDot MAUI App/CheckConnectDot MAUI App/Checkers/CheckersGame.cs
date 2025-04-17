@@ -108,7 +108,7 @@ namespace CheckConnectDot_MAUI_App.Checkers
         /// <param name="team">A string parameter for the team each piece is on</param>
         /// <param name="yOffset">The initial y offset position</param>
         /// <param name="rowShiftConditional">Special integer parameter that is either 0 or 1. Will change the row offset to "mirror" the initial piece x positions</param>
-        private void CreateTeamDefaultPieces(Team team, int yOffset=0, int rowShiftConditional=0)
+        internal void CreateTeamDefaultPieces(Team team, int yOffset=0, int rowShiftConditional=0)
         {
             // Iterate three times, one for each row of pieces (each y/Row position)
             for (int iRow = 0; iRow < 3; iRow++)
@@ -291,6 +291,9 @@ namespace CheckConnectDot_MAUI_App.Checkers
             }
         }
 
+        /// <summary>
+        /// Logically changes the turn based on the current turn
+        /// </summary>
         private void ChangeTurn()
         {
             switch (_gameState)
@@ -339,11 +342,18 @@ namespace CheckConnectDot_MAUI_App.Checkers
             throw new InvalidCaptureMove("No enemy piece was available to be captured!", initial.Piece);
         }
 
+        /// <summary>
+        /// Captures a piece and updates the corresponding ImageButton to no longer have that piece
+        /// </summary>
+        /// <param name="piece"> The piece that was captured </param>
+        /// <param name="capTile"> The logical tile instance to find the ImageButton off of </param>
         private void CapturePiece(Piece piece, Tile capTile)
         {
+            // Nulify the captured tile's reference and remove the piece from the list collection
             capTile.Piece = null;
             _pieceList.Remove(piece);
 
+            // Find the corresponding ImageButton in the dictionary 
             foreach (ImageButton imageButton in _btnToTile.Keys)
             {
                 if (_btnToTile[imageButton] == capTile)
@@ -351,6 +361,54 @@ namespace CheckConnectDot_MAUI_App.Checkers
                     imageButton.Source = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Method for telling if this game is over or not
+        /// </summary>
+        /// <returns> A tuple containing a true/false on if the game is over, a string on the winning team, and their color</returns>
+        public (bool isOver, string teamWon, Color color) IsGameOver()
+        {
+            // Add counters for the pieces that are still alive
+            int bluePiecesAlive = 0;
+            int redPiecesAlive = 0;
+
+            // Iterate through all of the pieces
+            for (int iPiece = 0; iPiece < _pieceList.Count; iPiece++)
+            {
+                // Get the current piece
+                Piece piece = _pieceList[iPiece];
+
+                if (piece.Team == Team.Blue)
+                {
+                    bluePiecesAlive++;
+                }
+                else if (piece.Team == Team.Red)
+                {
+                    redPiecesAlive++;
+                }
+            }
+
+            // If there are no blue pieces, red has won
+            if (bluePiecesAlive <= 0)
+            {
+                // Increment the games won counter
+                _playerTuple.Item1.NumWins++;
+
+                return (true, "Red", Colors.Red);
+            }
+
+            // If there are no red pieces, blue has won
+            if (redPiecesAlive <= 0)
+            {
+                // Increment the games won counter
+                _playerTuple.Item2.NumWins++;
+
+                return (true, "Blue", Colors.Blue);
+            }
+
+            // Else, the game is not over
+            return (false, "", Colors.Red);
         }
 
         #endregion

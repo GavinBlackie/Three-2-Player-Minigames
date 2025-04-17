@@ -4,7 +4,7 @@
              x:Class="CheckConnectDot_MAUI_App.CheckersPage"
              Title="Checkers">
     
-    
+    <!-- The main grid layout -->
     <Grid RowDefinitions="auto, *, auto" RowSpacing="25" ColumnDefinitions="*" ColumnSpacing="25" Margin="15">
         <Label Grid.Column="0" Grid.Row="0"
             x:Name="_txtTurnLabel"
@@ -13,6 +13,18 @@
             FontSize="Title"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <!-- The replay button (initially invisible) -->
+        <Button Grid.Column="0" Grid.Row="1"
+            x:Name="_btnReplay"
+            Text="Play Again!"
+            IsVisible="True"
+            FontSize="Medium"
+            Padding="70, 20"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Clicked="OnReplayGame"
+            />
 
         <!-- 
         The "Board" Checkers grid 

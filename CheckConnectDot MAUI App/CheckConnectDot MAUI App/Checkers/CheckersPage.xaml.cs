@@ -177,6 +177,20 @@ public partial class CheckersPage : ContentPage
                     }
                 }
             }
+
+            // Finally, check if the game is over or not (and act accordingly)
+            if (_checkersGame.IsGameOver().isOver)
+            {
+                _gridBoard.IsVisible = false; // Hide the board from the user
+                _checkersGame.GameState = CheckersGameState.WinMenu; // Set the gamestate to be the win menu
+
+                Color winThemeColor = _checkersGame.IsGameOver().color;
+                _btnReplay.BackgroundColor = winThemeColor; // Change the replay buttons colour
+
+                // Change the colour and text of the turn label to tell who has won the game!
+                _txtTurnLabel.TextColor = winThemeColor;
+                _txtTurnLabel.Text = $"{_checkersGame.IsGameOver().teamWon} Team Won!";
+            }
         }
     }
 
@@ -305,5 +319,40 @@ public partial class CheckersPage : ContentPage
                 Debug.Assert(false, "Invalid piece team to alter display labels to");
                 break;
         }
+    }
+
+    /// <summary>
+    /// Event handler for when the user wants to replay a checkers game
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnReplayGame(object sender, EventArgs e)
+    {
+        // Swap the button and board grid visibilities (they occupy the same space)
+        _btnReplay.IsVisible = false;
+        _gridBoard.IsVisible = true;
+
+        // Clear the ImageButtons, pieces, tiles
+        _gridBoard.Clear();
+        _checkersGame.Pieces.Clear();
+        _checkersGame.BtnToTile.Clear();
+
+        // Reset some other variables
+        _isPieceSelected = false;
+        _lastImageButtonSelected = new ImageButton(); // Place a placeholder instance for the last piece selected
+
+        // Create the default pieces for the new game
+        _checkersGame.CreateTeamDefaultPieces(Team.Blue);
+        _checkersGame.CreateTeamDefaultPieces(Team.Red, 5, 1);
+
+        // Reset the checker gamestate
+        _checkersGame.GameState = CheckersGameState.RedTurn;
+
+        // Change the player turn label
+        _txtTurnLabel.Text = "Red Player's Turn!";
+
+        // Reset/Add the starting pieces, imagebuttons and tiles
+        AddTiles();
+        AddPieces();
     }
 }
