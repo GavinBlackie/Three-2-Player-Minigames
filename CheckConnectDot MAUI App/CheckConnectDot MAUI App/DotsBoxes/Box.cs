@@ -8,13 +8,44 @@ namespace CheckConnectDot_MAUI_App
 {
     public class Box
     {
-        private ValueTuple<Line, Line, Line, Line> _pos;
+        private Line _top;
+        private Line _bottom;
+        private Line _left;
+        private Line _right;
         private string _team;
 
-        public Box(Line Line1, Line Line2, Line Line3, Line Line4, string team)
+        public Box(Line top, Line bottom, Line left, Line right, string team)
         {
-            _pos = new ValueTuple<Line, Line, Line, Line>(Line1, Line2, Line3, Line4);
+            _top = top;
+            _bottom = bottom;
+            _left = left;
+            _right = right;
             _team = team;
         }
+
+        private Line Top
+        {
+            get { return _top; }
+        }
+
+        private Line Bottom
+        {
+            get { return _bottom; }
+        }
+
+        private Line Left
+        {
+            get { return _left; }
+        }
+
+        private Line Right
+        {
+            get { return _right; }
+        }
+        private String Team
+        {
+            get { return _team; }
+        }
     }
+
 }
