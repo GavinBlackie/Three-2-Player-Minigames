@@ -13,6 +13,8 @@ namespace CheckConnectDot_MAUI_App
         private Line _left;
         private Line _right;
         private DotsandBoxesGameState _team;
+        private int  _row;
+        private int _column;
 
 
         public Box(Line top, Line bottom, Line left, Line right, DotsandBoxesGameState team)
@@ -22,11 +24,10 @@ namespace CheckConnectDot_MAUI_App
             _left = left;
             _right = right;
             _team = team;
+            _row = _top.Y1;
+            _column = _left.X1;
 
         }
-
-        public int GridRow => Math.Min(Top.Y1, Bottom.Y1) + 1;
-        public int GridCol => Math.Min(Left.X1, Right.X1);
 
         public Line Top
         {
@@ -50,24 +51,36 @@ namespace CheckConnectDot_MAUI_App
         public DotsandBoxesGameState Team
         {
             get { return _team; }
+            set { _team = value; }
+        }
+        public int Row
+        {
+            get { return _row; }
+            set { _row = value; }
+        }
+        public int Column
+        {
+            get { return _column; }
+            set { _column = value; }
         }
 
         public override bool Equals(object obj)
         {
             if (obj is Box other)
             {
-                return _top.X1 == other.Top.X1 && _top.Y1 == other.Top.Y1 &&
-                       _bottom.X1 == other.Bottom.X1 && _bottom.Y1 == other.Bottom.Y1 &&
-                       _left.X1 == other.Left.X1 && _left.Y1 == other.Left.Y1 &&
-                       _right.X1 == other.Right.X1 && _right.Y1 == other.Right.Y1;
+                return Row == other.Row &&
+                       Column == other.Column &&
+                       Top.Equals(other.Top) &&
+                       Bottom.Equals(other.Bottom) &&
+                       Left.Equals(other.Left) &&
+                       Right.Equals(other.Right);
             }
             return false;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(_top.X1, _top.Y1, _bottom.X1, _bottom.Y1,
-                                    _left.X1, _left.Y1, _right.X1, _right.Y1);
+            return HashCode.Combine(Row, Column, Top, Bottom, Left, Right);
         }
 
         public override string ToString()

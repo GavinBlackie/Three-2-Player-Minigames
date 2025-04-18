@@ -33,7 +33,8 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             _currentPlayerColor = Colors.Blue;
             _blueBoxes = new List<Box>();
             _redBoxes = new List<Box>();
-            _gridSize = 5;
+
+            _gridSize = 4;
 
         }
 
@@ -45,6 +46,11 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         public List<Line> Lines
         {
             get { return _lines; }
+        }
+
+        public List<Box> Boxes
+        {
+            get { return _boxes; }
         }
 
         public int BlueScore
@@ -65,6 +71,101 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         }
 
 
+        public void MakeMove(Line line)
+        {
+            _lines.Add(line);
+            List<Box> newlyCompletedBoxes = new();
+
+            foreach (var box in _boxes)
+            {
+                if (box.Team == DotsandBoxesGameState.None && IsBoxComplete(box))
+                {
+                    box.Team = _gameState;
+                    newlyCompletedBoxes.Add(box);
+                }
+            }
+
+            if (newlyCompletedBoxes.Count > 0)
+            {
+                foreach (var box in newlyCompletedBoxes)
+                {
+                    if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
+                    {
+                        _blueBoxes.Add(box);
+                        _blueScore++;
+                    }
+                    else
+                    {
+                        _redBoxes.Add(box);
+                        _redScore++;
+                    }
+                    //UpdateBoxAppearance(box); // Ensure this method updates the UI
+                }
+            }
+            else
+            {
+                SwitchPlayer();
+            }
+        }
+
+        //public List<Line> CompleteBox(Line line)
+        //{
+        //    List<Line> completedLines = new List<Line>();
+
+        //    if (line.IsHorizontal)
+        //    {
+        //        // Box ABOVE
+        //        if (line.Y1 > 0)
+        //        {
+        //            completedLines.AddRange(CreateBoxLines(line, line.Y1 - 1));
+        //        }
+
+        //        // Box BELOW
+        //        if (line.Y1 < _gridSize - 1)
+        //        {
+        //            completedLines.AddRange(CreateBoxLines(line, line.Y1 + 1));
+        //        }
+        //    }
+        //    else // Vertical
+        //    {
+        //        // Box to the LEFT
+        //        if (line.X1 > 0)
+        //        {
+        //            completedLines.AddRange(CreateBoxLines(line, line.X1 - 1));
+        //        }
+
+        //        // Box to the RIGHT
+        //        if (line.X1 < _gridSize - 1)
+        //        {
+        //            completedLines.AddRange(CreateBoxLines(line, line.X1 + 1));
+        //        }
+        //    }
+
+        //    return completedLines;
+        //}
+
+        //private List<Line> CreateBoxLines(Line line, int offset)
+        //{
+        //    List<Line> boxLines = new List<Line>();
+
+        //    if (line.IsHorizontal)
+        //    {
+        //        boxLines.Add(new Line(line.X1, offset, line.X2, offset, line.Team)); // Top or Bottom line
+        //        boxLines.Add(new Line(line.X1, offset + 1, line.X2, offset + 1, line.Team)); // Opposite line
+        //        boxLines.Add(new Line(line.X1, offset, line.X1, offset + 1, line.Team)); // Left line
+        //        boxLines.Add(new Line(line.X2, offset, line.X2, offset + 1, line.Team)); // Right line
+        //    }
+        //    else
+        //    {
+        //        boxLines.Add(new Line(offset, line.Y1, offset, line.Y2, line.Team)); // Left or Right line
+        //        boxLines.Add(new Line(offset + 1, line.Y1, offset + 1, line.Y2, line.Team)); // Opposite line
+        //        boxLines.Add(new Line(offset, line.Y1, offset + 1, line.Y1, line.Team)); // Top line
+        //        boxLines.Add(new Line(offset, line.Y2, offset + 1, line.Y2, line.Team)); // Bottom line
+        //    }
+
+        //    return boxLines;
+        //}
+
         public Line CreateLine(int x1, int y1, int x2, int y2)
         {
             return new Line((byte)x1, (byte)y1, (byte)x2, (byte)y2, _gameState);
@@ -77,130 +178,14 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
                 l.X2 == line.X2 && l.Y2 == line.Y2);
         }
 
-        public void MakeMove(Line line)
-        {
-            var completedBoxes = CheckForCompletedBoxes(line);
-
-            if (completedBoxes.Count == 0)
-            {
-                SwitchPlayer();
-            }
-            else
-            {
-                foreach (var box in completedBoxes)
-                {
-                    _boxes.Add(box);
-                    if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
-                    {
-                        _blueBoxes.Add(box);
-                        BlueScore += completedBoxes.Count;
-                    }
-                    else
-                    {
-                        _redBoxes.Add(box);
-                        RedScore += completedBoxes.Count;
-
-                    }
-                }
-
-            }
-
-        }
-
-        public List<Box> CheckForCompletedBoxes(Line newLine)
-        {
-            var completedBoxes = new List<Box>();
-
-            foreach (var potentialBox in GetPotentialBoxes(newLine))
-            {
-                Debug.WriteLine(potentialBox);
-                if (IsBoxComplete(potentialBox))
-                {
-                    Box box = new Box(
-                        potentialBox.Top,
-                        potentialBox.Bottom,
-                        potentialBox.Left,
-                        potentialBox.Right,
-                        _gameState  // Use current game state
-                    );
-
-                    Debug.WriteLine(box);
-
-                    completedBoxes.Add(box);
-                }
-            }
-            return completedBoxes;
-        }
-
-
-        private List<Box> GetPotentialBoxes(Line line)
-        {
-            var potentialBoxes = new List<Box>();
-
-            if (line.IsHorizontal)
-            {
-                // Check for box above the horizontal line
-                if (line.Y1 > 0)  // Ensure it's not out of bounds
-                {
-                    potentialBoxes.Add(new Box(
-                        new Line(line.X1, line.Y1 - 1, line.X2, line.Y2 - 1, line.Team), // Top
-                        line, // Bottom
-                        new Line(line.X1, line.Y1 - 1, line.X1, line.Y1, line.Team), // Left
-                        new Line(line.X2, line.Y2 - 1, line.X2, line.Y2, line.Team), // Right
-                        line.Team
-                    ));
-                }
-
-                // Check for box below the horizontal line
-                if (line.Y1 < _gridSize - 1)  // Ensure it's not out of bounds
-                {
-                    potentialBoxes.Add(new Box(
-                        line, // Top
-                        new Line(line.X1, line.Y1 + 1, line.X2, line.Y2 + 1, line.Team), // Bottom
-                        new Line(line.X1, line.Y1, line.X1, line.Y1 + 1, line.Team), // Left
-                        new Line(line.X2, line.Y2, line.X2, line.Y2 + 1, line.Team), // Right
-                        line.Team
-                    ));
-                }
-            }
-            else // Vertical line
-            {
-                // Check for box to the left of the vertical line
-                if (line.X1 > 0)  // Ensure it's not out of bounds
-                {
-                    potentialBoxes.Add(new Box(
-                        new Line(line.X1 - 1, line.Y1, line.X1, line.Y1, line.Team), // Top
-                        new Line(line.X1 - 1, line.Y2, line.X1, line.Y2, line.Team), // Bottom
-                        new Line(line.X1 - 1, line.Y1, line.X1 - 1, line.Y2, line.Team), // Left
-                        line, // Right
-                        line.Team
-                    ));
-                }
-
-                // Check for box to the right of the vertical line
-                if (line.X1 < _gridSize - 1)  // Ensure it's not out of bounds
-                {
-                    potentialBoxes.Add(new Box(
-                        new Line(line.X1, line.Y1, line.X1 + 1, line.Y1, line.Team), // Top
-                        new Line(line.X1, line.Y2, line.X1 + 1, line.Y2, line.Team), // Bottom
-                        line, // Left
-                        new Line(line.X1 + 1, line.Y1, line.X1 + 1, line.Y2, line.Team), // Right
-                        line.Team
-                    ));
-                }
-            }
-
-            return potentialBoxes.Distinct().ToList();
-        }
-
-
-
         private bool IsBoxComplete(Box box)
         {
-            return _lines.Contains(box.Top) &&
-                   _lines.Contains(box.Bottom) &&
-                   _lines.Contains(box.Left) &&
-                   _lines.Contains(box.Right);
+            bool hasTop = _lines.Contains(box.Top);
+            bool hasBottom = _lines.Contains(box.Bottom);
+            bool hasLeft = _lines.Contains(box.Left);
+            bool hasRight = _lines.Contains(box.Right);
+
+            return hasTop && hasBottom && hasLeft && hasRight;
         }
 
 
@@ -220,6 +205,18 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             }
         }
 
+        //private void UpdateBoxAppearance(Box box)
+        //{
+        //    // Ensure that the box color is updated on the UI to reflect the player's color
+        //    Color color = box.Team == DotsandBoxesGameState.BluePlayerTurn ? Colors.Blue :
+        //                  box.Team == DotsandBoxesGameState.RedPlayerTurn ? Colors.Red :
+        //                  Colors.Gray;
+
+        //    // Update UI or game state to show the completed box with the correct color
+        //    // You can update the BoxView here or similar UI elements
+        //}
+
+
 
         private void SwitchPlayer()
         {
@@ -230,6 +227,26 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             else
             {
                 _gameState = DotsandBoxesGameState.BluePlayerTurn;
+            }
+        }
+
+        public void MarkBoxAsCompleted(Image image)
+        {
+            // Logic to mark the box as completed and update player scores or status
+            // For example:
+            if (_currentPlayerColor == Colors.Blue)
+            {
+                image.BackgroundColor = Colors.Blue;
+                _blueScore += 1;
+            }
+            else if (_currentPlayerColor == Colors.Red)
+            {
+                image.BackgroundColor = Colors.Red;
+                _redScore += 1;
+            }
+            else
+            {
+
             }
         }
 

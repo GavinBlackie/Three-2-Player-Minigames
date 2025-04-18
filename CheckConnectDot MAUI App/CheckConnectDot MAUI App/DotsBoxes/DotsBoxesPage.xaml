@@ -157,7 +157,7 @@
             <Label x:Name="_lblDot1"/>
             <Label x:Name="_lblDot2"/>
 
-            <Button x:Name="_btnConnect" Clicked="OnConnectDots"/>
+            <Button x:Name="_btnConnect" Text="Connect" Clicked="OnConnectDots"/>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 

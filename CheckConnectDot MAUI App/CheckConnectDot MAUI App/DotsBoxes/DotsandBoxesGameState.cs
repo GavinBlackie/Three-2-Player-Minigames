@@ -8,6 +8,7 @@ namespace CheckConnectDot_MAUI_App
 {
     public enum DotsandBoxesGameState
     {
+        None = 0,
         BluePlayerTurn = 1,
         RedPlayerTurn,
         PlayerWinMenu

@@ -19,18 +19,14 @@ namespace CheckConnectDot_MAUI_App
 
         public Line(int x1, int y1, int x2, int y2, DotsandBoxesGameState team)
         {
-            if (x1 < x2 || (x1 == x2 && y1 < y2))
-            {
-                _x1 = x1; _y1 = y1; _x2 = x2; _y2 = y2;
-            }
-            else
-            {
-                _x1 = x2; _y1 = y2; _x2 = x1; _y2 = y1;
-            }
+            _x1 = x1 / 2;
+            _y1 = y1 / 2;
+            _x2 = x2 / 2;
+            _y2 = y2 / 2;
             _team = team;
 
-            _isVertical = IsLineVertical();
-            _isHorizontal = IsLineHorizontal();
+            _isVertical = _x1 == _x2;
+            _isHorizontal = _y1 == _y2;
         }
 
         public int X1
@@ -68,45 +64,35 @@ namespace CheckConnectDot_MAUI_App
             get { return _isHorizontal; }
         }
 
-        private bool IsLineVertical()
+        private static (int x1, int y1, int x2, int y2) NormalizeCoordinates(int x1, int y1, int x2, int y2)
         {
-            if (_x1 == _x2)
+            if (x1 < x2 || (x1 == x2 && y1 < y2))
             {
-                return true;
+                return (x1, y1, x2, y2);
             }
             else
             {
-                return false;
+                return (x2, y2, x1, y1);
             }
         }
 
-        private bool IsLineHorizontal()
-        {
-            if (_y1 == _y2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (obj is Line other)
-            {
-                return _x1 == other._x1 &&
-                       _y1 == other._y1 &&
-                       _x2 == other._x2 &&
-                       _y2 == other._y2;
-            }
-            return false;
+            if (obj is not Line other) return false;
+
+            // Normalize both lines for comparison
+            (int ax1, int ay1, int ax2, int ay2) = NormalizeCoordinates(this._x1, this._y1, this._x2, this._y2);
+            (int bx1, int by1, int bx2, int by2) = NormalizeCoordinates(other._x1, other._y1, other._x2, other._y2);
+
+            return ax1 == bx1 && ay1 == by1 &&
+                   ax2 == bx2 && ay2 == by2;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(_x1, _y1, _x2, _y2);
+            (int nx1, int ny1, int nx2, int ny2) = NormalizeCoordinates(_x1, _y1, _x2, _y2);
+            return HashCode.Combine(nx1, ny1, nx2, ny2);
         }
 
         public override string ToString()
