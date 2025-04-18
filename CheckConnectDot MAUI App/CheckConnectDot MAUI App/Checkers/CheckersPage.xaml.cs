@@ -427,8 +427,8 @@ public partial class CheckersPage : ContentPage
             _checkersGame.PlayerTuple.Item2.NumWins = playerData.Player2Wins;
 
             // Update UI
-            _txtPlayer1.Text = $"Player 1 {playerData.Player1Name} Wins: {playerData.Player1Wins}";
-            _txtPlayer2.Text = $"Player 2 {playerData.Player2Name} Wins: {playerData.Player2Wins}";
+            _txtPlayer1.Text = $"{playerData.Player1Name} Wins: {playerData.Player1Wins}";
+            _txtPlayer2.Text = $"{playerData.Player2Name} Wins: {playerData.Player2Wins}";
         }
         catch (Connect4Exception ex)
         {
