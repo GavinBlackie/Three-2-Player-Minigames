@@ -3,10 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckConnectDot_MAUI_App.CheckersPage"
              Title="Checkers">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Checkers!"
+    <!-- 
+    Author: Gavin Blackie
+    File Description:
+        The Existing XAML layout for the checkers game!
+    -->
+
+
+
+    <!-- The main grid layout -->
+    <Grid RowDefinitions="auto, auto, *, auto" RowSpacing="25" ColumnDefinitions="auto, 3*, auto" ColumnSpacing="25" Margin="15">
+
+        <!-- The player win count labels and save data button -->
+        <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="End"
+                x:Name="_txtPlayer1" Text="Player 1 Wins: 0" FontSize="20"/>
+        <Button Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
+                Text="Save Scores"/>
+        <Label Grid.Column="2" Grid.Row="0" HorizontalOptions="Start"
+            x:Name="_txtPlayer2" Text="Player 2 Wins: 0" FontSize="20"/>
+
+        <!-- Player turn label control -->
+        <Label Grid.Column="1" Grid.Row="1"
+            x:Name="_txtTurnLabel"
+            Text="Red Player's Turn!"
+            TextColor="Red"
+            FontSize="Title"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+        <!-- The replay button (initially invisible) -->
+        <Button Grid.Column="1" Grid.Row="2"
+            x:Name="_btnReplay"
+            Text="Play Again!"
+            IsVisible="False"
+            FontSize="Medium"
+            Padding="70, 20"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            />
+
+        <!-- 
+        The "Board" Checkers grid 
+        (note that ImageButtons are added by the page after creation instead of repeating XAML ImageButtons 64 times)
+        -->
+        <Grid Grid.Column="1" Grid.Row="2"
+              x:Name="_gridBoard" 
+              ColumnDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto" 
+              RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto"
+              
+              ColumnSpacing="0"
+              RowSpacing="0"
+              HorizontalOptions="Center"
+              
+              />
+
+        <!-- Player Move info label control -->
+        <Label Grid.Column="1" Grid.Row="3"
+            x:Name="_txtMoveInfo" Text="" TextColor="DarkGoldenrod"
+               FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+
+    </Grid>
 </ContentPage>

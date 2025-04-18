@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+* Author: Gavin Blackie
+* File Description:
+*      Defines the Player class, a class responsible for representing a player in some sort of game.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -3,11 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CheckConnectDot_MAUI_App.DotsBoxesPage"
              Title="Dots and Boxes">
+
+    <!-- Author: Joseph Thomas
+        Description: The XAML page for the Dots and Boxes game -->
+
+
     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <Label 
-            Text="Welcome to Dots and Boxes!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+        <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="Start"
+                x:Name="_txtPlayer1" Text="Player 1 Wins: 0" FontSize="20"/>
+        <Button Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
+                Text="Save Scores" Clicked="OnSave"/>
+        <Label Grid.Column="2" Grid.Row="0" HorizontalOptions="End"
+             x:Name="_txtPlayer2" Text="Player 2 Wins: 0" FontSize="20"/>
+        
+        
         <Grid x:Name="GameCanvas"
               Margin="10"
               HorizontalOptions="CenterAndExpand"
@@ -155,6 +165,7 @@
         <HorizontalStackLayout>
 
             <Label x:Name="_lblDot1"/>
+            
             <Label x:Name="_lblDot2"/>
 
             <Button x:Name="_btnConnect" Text="Connect" Clicked="OnConnectDots"/>
