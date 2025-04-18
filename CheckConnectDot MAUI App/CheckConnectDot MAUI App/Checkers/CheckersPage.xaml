@@ -35,7 +35,7 @@
         <Button Grid.Column="1" Grid.Row="2"
             x:Name="_btnReplay"
             Text="Play Again!"
-            IsVisible="True"
+            IsVisible="False"
             FontSize="Medium"
             Padding="70, 20"
             HorizontalOptions="Center"
