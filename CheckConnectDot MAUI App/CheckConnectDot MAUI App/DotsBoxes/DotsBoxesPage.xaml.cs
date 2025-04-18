@@ -187,7 +187,6 @@ public partial class DotsBoxesPage : ContentPage
                             _dotsBoxesGame.MarkBoxAsCompleted(boxEntry.Key);
                             _boxToLinesMap.Remove(boxEntry.Key);
                             boxCompleted = true;
-                            await DisplayAlert("Box Completed!", "You get another turn!", "OK");
                         }
                     }
 
@@ -199,9 +198,8 @@ public partial class DotsBoxesPage : ContentPage
                     // Check for game end
                     if (_dotsBoxesGame.IsGameOver == true)
                     {
-                        UpdatePlayerDisplay();
                         await DisplayAlert("Game Over", _dotsBoxesGame.GetWinner(), "OK");
-                        Debug.WriteLine(_dotsBoxesGame.Boxes.Count());
+                        UpdatePlayerDisplay();
                         _btnReplay.IsVisible = true;
                     }
                 }
