@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls.Shapes;
+using System.Diagnostics;
+
 
 namespace CheckConnectDot_MAUI_App.DotsBoxes
 {
@@ -12,11 +14,15 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         private List<Line> _lines = new();
         private List<Box> _boxes = new();
 
+        private List<Box> _blueBoxes;
+        private List<Box> _redBoxes;
+
         private DotsandBoxesGameState _gameState;
         private int _blueScore;
         private int _redScore;
         private Color _currentPlayerColor;
         private bool _isGameOver;
+        private int _gridSize;
 
         public DotsBoxesGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
         {
@@ -25,6 +31,9 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             _redScore = 0;
             _isGameOver = false;
             _currentPlayerColor = Colors.Blue;
+            _blueBoxes = new List<Box>();
+            _redBoxes = new List<Box>();
+            _gridSize = 5;
 
         }
 
@@ -38,9 +47,9 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             get { return _lines; }
         }
 
-        public int BlueScore 
-        {  
-            get { return _blueScore; } 
+        public int BlueScore
+        {
+            get { return _blueScore; }
             set { _blueScore = value; }
         }
 
@@ -63,50 +72,141 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
 
         public bool IsValidMove(Line line)
         {
-            foreach (Line madeLine in _lines)
-            {
-                if (AreLinesEqual(line, madeLine))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private bool AreLinesEqual(Line a, Line b)
-        {
-            return a.X1 == b.X1 && a.Y1 == b.Y1 &&
-                   a.X2 == b.X2 && a.Y2 == b.Y2;
+            return !_lines.Any(l =>
+                l.X1 == line.X1 && l.Y1 == line.Y1 &&
+                l.X2 == line.X2 && l.Y2 == line.Y2);
         }
 
         public void MakeMove(Line line)
         {
-            _lines.Add(line);
-
             var completedBoxes = CheckForCompletedBoxes(line);
+
             if (completedBoxes.Count == 0)
             {
                 SwitchPlayer();
             }
             else
             {
-                if (GameState == DotsandBoxesGameState.BluePlayerTurn)
-                    BlueScore += completedBoxes.Count;
-                else
-                    RedScore += completedBoxes.Count;
+                foreach (var box in completedBoxes)
+                {
+                    _boxes.Add(box);
+                    if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
+                    {
+                        _blueBoxes.Add(box);
+                        BlueScore += completedBoxes.Count;
+                    }
+                    else
+                    {
+                        _redBoxes.Add(box);
+                        RedScore += completedBoxes.Count;
+
+                    }
+                }
+
             }
+
         }
 
-        private List<Box> CheckForCompletedBoxes(Line newLine)
+        public List<Box> CheckForCompletedBoxes(Line newLine)
         {
-            var boxes = new List<Box>();
-            // Implementation to find completed boxes
-            return boxes;
+            var completedBoxes = new List<Box>();
+
+            foreach (var potentialBox in GetPotentialBoxes(newLine))
+            {
+                Debug.WriteLine(potentialBox);
+                if (IsBoxComplete(potentialBox))
+                {
+                    Box box = new Box(
+                        potentialBox.Top,
+                        potentialBox.Bottom,
+                        potentialBox.Left,
+                        potentialBox.Right,
+                        _gameState  // Use current game state
+                    );
+
+                    Debug.WriteLine(box);
+
+                    completedBoxes.Add(box);
+                }
+            }
+            return completedBoxes;
         }
+
+
+        private List<Box> GetPotentialBoxes(Line line)
+        {
+            var potentialBoxes = new List<Box>();
+
+            if (line.IsHorizontal)
+            {
+                // Check for box above the horizontal line
+                if (line.Y1 > 0)  // Ensure it's not out of bounds
+                {
+                    potentialBoxes.Add(new Box(
+                        new Line(line.X1, line.Y1 - 1, line.X2, line.Y2 - 1, line.Team), // Top
+                        line, // Bottom
+                        new Line(line.X1, line.Y1 - 1, line.X1, line.Y1, line.Team), // Left
+                        new Line(line.X2, line.Y2 - 1, line.X2, line.Y2, line.Team), // Right
+                        line.Team
+                    ));
+                }
+
+                // Check for box below the horizontal line
+                if (line.Y1 < _gridSize - 1)  // Ensure it's not out of bounds
+                {
+                    potentialBoxes.Add(new Box(
+                        line, // Top
+                        new Line(line.X1, line.Y1 + 1, line.X2, line.Y2 + 1, line.Team), // Bottom
+                        new Line(line.X1, line.Y1, line.X1, line.Y1 + 1, line.Team), // Left
+                        new Line(line.X2, line.Y2, line.X2, line.Y2 + 1, line.Team), // Right
+                        line.Team
+                    ));
+                }
+            }
+            else // Vertical line
+            {
+                // Check for box to the left of the vertical line
+                if (line.X1 > 0)  // Ensure it's not out of bounds
+                {
+                    potentialBoxes.Add(new Box(
+                        new Line(line.X1 - 1, line.Y1, line.X1, line.Y1, line.Team), // Top
+                        new Line(line.X1 - 1, line.Y2, line.X1, line.Y2, line.Team), // Bottom
+                        new Line(line.X1 - 1, line.Y1, line.X1 - 1, line.Y2, line.Team), // Left
+                        line, // Right
+                        line.Team
+                    ));
+                }
+
+                // Check for box to the right of the vertical line
+                if (line.X1 < _gridSize - 1)  // Ensure it's not out of bounds
+                {
+                    potentialBoxes.Add(new Box(
+                        new Line(line.X1, line.Y1, line.X1 + 1, line.Y1, line.Team), // Top
+                        new Line(line.X1, line.Y2, line.X1 + 1, line.Y2, line.Team), // Bottom
+                        line, // Left
+                        new Line(line.X1 + 1, line.Y1, line.X1 + 1, line.Y2, line.Team), // Right
+                        line.Team
+                    ));
+                }
+            }
+
+            return potentialBoxes.Distinct().ToList();
+        }
+
+
+
+        private bool IsBoxComplete(Box box)
+        {
+            return _lines.Contains(box.Top) &&
+                   _lines.Contains(box.Bottom) &&
+                   _lines.Contains(box.Left) &&
+                   _lines.Contains(box.Right);
+        }
+
 
         public Color GetPlayerColor()
         {
-            if(_gameState == DotsandBoxesGameState.BluePlayerTurn)
+            if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
             {
                 return Colors.Blue;
             }
@@ -120,9 +220,10 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             }
         }
 
+
         private void SwitchPlayer()
         {
-            if( GameState == DotsandBoxesGameState.BluePlayerTurn)
+            if (GameState == DotsandBoxesGameState.BluePlayerTurn)
             {
                 _gameState = DotsandBoxesGameState.RedPlayerTurn;
             }
@@ -138,7 +239,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             {
                 return "Blue Wins!";
             }
-            else if (_redScore > BlueScore) 
+            else if (_redScore > BlueScore)
             {
                 return "Red Wins!";
             }
@@ -148,5 +249,4 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             }
         }
     }
-
 }
