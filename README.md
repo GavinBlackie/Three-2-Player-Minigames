@@ -59,7 +59,7 @@ Dots & Boxes:
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
 | **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box` |
-| **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
+| **Data Layer**      | Handles `PlayerData` by using `JSONHandler` data storing         | Handles `PlayerData` by using `JSONHandler` data storing           | Handles `Dots&BoxesGameState` storage     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
 
