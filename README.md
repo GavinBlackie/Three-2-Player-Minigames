@@ -56,8 +56,8 @@ Checkers:
   - Save player name.
     
 + Dots & Boxes:
-  - Save line location.
-  - Boxes that have been captured.
+  - Save player score.
+  - Save player name.
   
 + Player Win/Loss Save Data
 
