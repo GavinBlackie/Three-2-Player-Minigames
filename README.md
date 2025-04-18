@@ -15,11 +15,18 @@ Checkers:
 Dots & Boxes:
 ![Dots&BoxesWireframe](https://github.com/user-attachments/assets/86846502-afed-4b00-8eed-f9400bcf3ca1)
 
+## Final Interface
+Connect 4:
+![connect4Interface](https://github.com/user-attachments/assets/a90ef9d7-f8a4-4384-b0eb-e42c1340edde)
+
+Checkers:
+![image](https://github.com/user-attachments/assets/12e39293-38f2-491f-9d60-75455a3d98d2)
+
 ## Project Design Diagrams
 
 **The Main Class Diagram:**
 
-(see lower diagrams for "zoom-ins" of this one)
+(see lower diagrams for "zoom-ins" of this one - NOTE THIS OVERALL DIAGRAM IS OLD, THE SECTION ONES ARE UPDATED TO PRESENT)
 
 ![Screenshot 2025-03-17 174038](https://github.com/user-attachments/assets/f1abd78c-363a-437e-bbd5-99df13bafafd)
 
@@ -33,7 +40,7 @@ Dots & Boxes:
 
 **Checkers Section Zoom-in:**
 
-![Screenshot 2025-03-17 182128](https://github.com/user-attachments/assets/429d46bb-5e02-4b48-8dec-3c49e5d17bef)
+![image](https://github.com/user-attachments/assets/1b39cb98-d257-4260-946b-74c02a48f36f)
 
 **Implementation Notes Zoom-in:**
 
@@ -45,8 +52,8 @@ Dots & Boxes:
   - Save whether the piece is a king.
     
 + Connect 4:
-  - Save disk location.
-  - Amount of disks left for each player.
+  - Save player score.
+  - Save player name.
     
 + Dots & Boxes:
   - Save line location.
@@ -58,8 +65,8 @@ Dots & Boxes:
 | Contribution       | Artem Kotliar                                  | Gavin Blackie                               | Joseph Thomas                            |
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
-| **Business Logic**  | `Connect4Game`, `Connect4GameState`, `TurnTimer`, `Disk` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box` |
-| **Data Layer**      | Handles `Connect4GameState` storage          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
+| **Business Logic**  | `ConnectFourGame`, `SoundPlayer`, `Disk`, `Connect4Exception` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box` |
+| **Data Layer**      | Handles `PlayerData` using `JSONHandler`          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
 
