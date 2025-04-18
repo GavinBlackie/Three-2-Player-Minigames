@@ -193,4 +193,6 @@ namespace CheckConnectDot_MAUI_App
         }
 
     }
+
+    #endregion
 }

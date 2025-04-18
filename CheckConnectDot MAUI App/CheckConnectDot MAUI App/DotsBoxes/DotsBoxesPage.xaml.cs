@@ -15,7 +15,7 @@ public partial class DotsBoxesPage : ContentPage
     /// <summary>
     /// A class that handles some of the game logic for the game
     /// </summary>
-    private DotsBoxesGame _game;
+    private DotsBoxesGame _dotsBoxesGame;
 
     /// <summary>
     /// A tuple that holds two ints that represent the first dot
@@ -53,7 +53,7 @@ public partial class DotsBoxesPage : ContentPage
 
     public DotsBoxesPage(DotsBoxesGame dotsBoxesGame)
     {
-        _game = dotsBoxesGame;
+        _dotsBoxesGame = dotsBoxesGame;
         _lineViews = new Dictionary<string, BoxView>();
         _createdLines = new List<string>();
         _boxToLinesMap = new Dictionary<Image, List<string>>();
@@ -82,6 +82,7 @@ public partial class DotsBoxesPage : ContentPage
 
         CacheLineViews();
         BoxGeneration();
+        UpdatePlayerDisplay();
     }
 
     #endregion
@@ -103,14 +104,13 @@ public partial class DotsBoxesPage : ContentPage
                 int row = Grid.GetRow(button);
                 int col = Grid.GetColumn(button);
 
-                Debug.WriteLine($"{row} {col}");  // Log position for debugging
                 var currentDot = new Tuple<int, int>(row, col);
 
                 // First dot selection
                 if (_firstDot == null)
                 {
                     _firstDot = currentDot;
-                    _lblDot1.Text = $"Dot selected at {_firstDot.Item1}, {_firstDot.Item2}";
+                    _entDot1.Text = $"({_firstDot.Item1 / 2},{_firstDot.Item2 / 2})";
                     return;
                 }
 
@@ -124,7 +124,7 @@ public partial class DotsBoxesPage : ContentPage
                 if (_secondDot == null && _firstDot != null)
                 {
                     _secondDot = currentDot;
-                    _lblDot2.Text = $"Dot selected at {_secondDot.Item1}, {_secondDot.Item2}";
+                    _entDot2.Text = $"({_secondDot.Item1 / 2},{_secondDot.Item2 / 2})";
                     return;
                 }
                 else
@@ -156,20 +156,20 @@ public partial class DotsBoxesPage : ContentPage
             if (AreDotsAdjacent(_firstDot, _secondDot))
             {
                 // Create line between dots
-                var line = _game.CreateLine(
+                var line = _dotsBoxesGame.CreateLine(
                     _firstDot.Item1,
                     _firstDot.Item2,
                     _secondDot.Item1,
                     _secondDot.Item2
                 );
 
-                if (_game.IsValidMove(line))
+                if (_dotsBoxesGame.IsValidMove(line))
                 {
                     // Preserve current player before any state changes
-                    var currentPlayerBeforeMove = _game.GameState;
+                    var currentPlayerBeforeMove = _dotsBoxesGame.GameState;
 
                     // Add line to game state and draw it
-                    _game.Lines.Add(line);
+                    _dotsBoxesGame.Lines.Add(line);
                     DrawLine(_firstDot, _secondDot);
 
                     // Store created line
@@ -183,8 +183,8 @@ public partial class DotsBoxesPage : ContentPage
                         if (boxEntry.Value.All(lineName => _createdLines.Contains(lineName)))
                         {
                             // Complete the box
-                            boxEntry.Key.BackgroundColor = _game.GetPlayerColor();
-                            _game.MarkBoxAsCompleted(boxEntry.Key);
+                            boxEntry.Key.BackgroundColor = _dotsBoxesGame.GetPlayerColor();
+                            _dotsBoxesGame.MarkBoxAsCompleted(boxEntry.Key);
                             _boxToLinesMap.Remove(boxEntry.Key);
                             boxCompleted = true;
                             await DisplayAlert("Box Completed!", "You get another turn!", "OK");
@@ -192,28 +192,27 @@ public partial class DotsBoxesPage : ContentPage
                     }
 
                     // Process the move
-                    _game.MakeMove(line);
+                    _dotsBoxesGame.MakeMove(line);
+                    UpdatePlayerDisplay();
 
-                    // Only announce turn switch if no boxes were completed
-                    if (!boxCompleted)
-                    {
-                        await DisplayAlert("Turn Switch", $"Now it's {_game.GameState}", "OK");
-                    }
 
                     // Check for game end
-                    if (_game.IsGameOver)
+                    if (_dotsBoxesGame.IsGameOver == true)
                     {
-                        await DisplayAlert("Game Over", _game.GetWinner(), "OK");
+                        UpdatePlayerDisplay();
+                        await DisplayAlert("Game Over", _dotsBoxesGame.GetWinner(), "OK");
+                        Debug.WriteLine(_dotsBoxesGame.Boxes.Count());
+                        _btnReplay.IsVisible = true;
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Invalid", "Line already exists", "OK");
+                    throw new DotsBoxesException("Line already exists");
                 }
             }
             else
             {
-                await DisplayAlert("Invalid", "Dots must be adjacent", "OK");
+                throw new DotsBoxesException("Dots must be adjacent");
             }
         }
         catch (DotsBoxesException ex)
@@ -233,6 +232,114 @@ public partial class DotsBoxesPage : ContentPage
     public void OnResetDots(object sender, EventArgs e)
     {
         ResetSelection();
+    }
+
+    /// <summary>
+    /// Saves the game data in a json file
+    /// </summary>
+    /// <param name="sender">The save button</param>
+    /// <param name="e">EventArgs</param>
+    private void OnSave(object sender, EventArgs e)
+    {
+        try
+        {
+            JSONHandler.SaveGameData(_dotsBoxesGame.PlayerTuple);
+            DisplayAlert("Success", "Game data saved!", "OK");
+        }
+        catch (DotsBoxesException ex)
+        {
+            DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
+    /// <summary>
+    /// Resets the game so players can play a new round
+    /// </summary>
+    /// <param name="sender">The replay button</param>
+    /// <param name="e">EventArgs</param>
+    public void OnReplay(object sender, EventArgs e)
+    {
+        //Clears the boxes just in case and re-adds them
+        _boxToLinesMap.Clear();
+
+        _boxToLinesMap.Add(_img1_1, new List<string> { "_line_0_1", "_line_2_1", "_line_1_0", "_line_1_2" });
+        _boxToLinesMap.Add(_img1_3, new List<string> { "_line_0_3", "_line_2_3", "_line_1_2", "_line_1_4" });
+        _boxToLinesMap.Add(_img1_5, new List<string> { "_line_0_5", "_line_2_5", "_line_1_4", "_line_1_6" });
+        _boxToLinesMap.Add(_img1_7, new List<string> { "_line_0_7", "_line_2_7", "_line_1_6", "_line_1_8" });
+
+        _boxToLinesMap.Add(_img3_1, new List<string> { "_line_2_1", "_line_4_1", "_line_3_0", "_line_3_2" });
+        _boxToLinesMap.Add(_img3_3, new List<string> { "_line_2_3", "_line_4_3", "_line_3_2", "_line_3_4" });
+        _boxToLinesMap.Add(_img3_5, new List<string> { "_line_2_5", "_line_4_5", "_line_3_4", "_line_3_6" });
+        _boxToLinesMap.Add(_img3_7, new List<string> { "_line_2_7", "_line_4_7", "_line_3_6", "_line_3_8" });
+
+        _boxToLinesMap.Add(_img5_1, new List<string> { "_line_4_1", "_line_6_1", "_line_5_0", "_line_5_2" });
+        _boxToLinesMap.Add(_img5_3, new List<string> { "_line_4_3", "_line_6_3", "_line_5_2", "_line_5_4" });
+        _boxToLinesMap.Add(_img5_5, new List<string> { "_line_4_5", "_line_6_5", "_line_5_4", "_line_5_6" });
+        _boxToLinesMap.Add(_img5_7, new List<string> { "_line_4_7", "_line_6_7", "_line_5_6", "_line_5_8" });
+
+        _boxToLinesMap.Add(_img7_1, new List<string> { "_line_6_1", "_line_8_1", "_line_7_0", "_line_7_2" });
+        _boxToLinesMap.Add(_img7_3, new List<string> { "_line_6_3", "_line_8_3", "_line_7_2", "_line_7_4" });
+        _boxToLinesMap.Add(_img7_5, new List<string> { "_line_6_5", "_line_8_5", "_line_7_4", "_line_7_6" });
+        _boxToLinesMap.Add(_img7_7, new List<string> { "_line_6_7", "_line_8_7", "_line_7_6", "_line_7_8" });
+
+        //Sets the image background to transparent
+        foreach (var boxImage in _boxToLinesMap.Keys)
+        {
+            if (boxImage != null)
+            {
+                boxImage.BackgroundColor = Colors.Transparent;
+            }
+        }
+
+        //Sets the line colors to gray
+        foreach (var lineView in _lineViews.Values)
+        { 
+    
+            if (lineView != null)
+            {
+                lineView.BackgroundColor = Colors.Gray;
+            }
+        }
+
+        //Resets other game features
+        ResetSelection();
+        _dotsBoxesGame.Reset();
+        _createdLines.Clear();
+        _btnReplay.IsVisible = false;
+        UpdatePlayerDisplay();
+    }
+
+    /// <summary>
+    /// Updates the display above the game grid
+    /// </summary>
+    private void UpdatePlayerDisplay()
+    {
+         // Updates boxes captured by the players
+        _lblPl1Boxes.Text = _dotsBoxesGame.BlueBoxes.Count().ToString();
+        _lblPl2Boxes.Text = _dotsBoxesGame.RedBoxes.Count().ToString();
+
+        // Updates the of display win counts
+        _lblPl1Wins.Text = _dotsBoxesGame.PlayerTuple.Item1.NumWins.ToString();
+        _lblPl2Wins.Text = _dotsBoxesGame.PlayerTuple.Item2.NumWins.ToString();
+
+        // Update the display of boxes left
+        _lblBoxLeft.Text = _boxToLinesMap.Count.ToString();
+
+        // Highlights the current player
+        if (_dotsBoxesGame.GameState == DotsandBoxesGameState.BluePlayerTurn)
+        {
+            _lblPlayer1.FontAttributes = FontAttributes.Bold;
+            _lblPlayer2.FontAttributes = FontAttributes.None;
+            _boxPlayer1.Color = Colors.Blue;
+            _boxPlayer2.Color = Colors.Gray;
+        }
+        else
+        {
+            _lblPlayer1.FontAttributes = FontAttributes.None;
+            _lblPlayer2.FontAttributes = FontAttributes.Bold;
+            _boxPlayer1.Color = Colors.Gray;
+            _boxPlayer2.Color = Colors.Red;
+        }
     }
 
     /// <summary>
@@ -326,7 +433,7 @@ public partial class DotsBoxesPage : ContentPage
         // If a value is found, paints the line the color of the player who captured it
         if (_lineViews.TryGetValue(lineName, out BoxView line))
         {
-            line.BackgroundColor = _game.GetPlayerColor();
+            line.BackgroundColor = _dotsBoxesGame.GetPlayerColor();
         }
     }
 
@@ -337,8 +444,8 @@ public partial class DotsBoxesPage : ContentPage
     {
         _firstDot = null;
         _secondDot = null;
-        _lblDot1.Text = "";
-        _lblDot2.Text = "";
+        _entDot1.Text = "(,)";
+        _entDot2.Text = "(,)";
     }
 
     /// <summary>
@@ -394,8 +501,7 @@ public partial class DotsBoxesPage : ContentPage
                     new Line(x * 2, (y + 1) * 2, (x + 1) * 2, (y + 1) * 2, DotsandBoxesGameState.None), // Bottom
                     DotsandBoxesGameState.None
                 );
-                Debug.WriteLine($"Testing box at grid position: ({box.Row * 2 + 1},{box.Column * 2 + 1})");
-                _game.Boxes.Add(box);
+                _dotsBoxesGame.Boxes.Add(box);
                 UpdateBoxAppearance(box);
             }
         }

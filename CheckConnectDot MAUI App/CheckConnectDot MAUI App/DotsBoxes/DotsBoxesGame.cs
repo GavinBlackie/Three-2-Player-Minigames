@@ -22,8 +22,8 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         /// <summary>
         /// Stores all the lines drawn on the board
         /// </summary>
-        private List<Line> _lines;    
-        
+        private List<Line> _lines;
+
         /// <summary>
         /// Stores all the boxes captured on the board
         /// </summary>
@@ -48,6 +48,11 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         /// </summary>
         private bool _isGameOver;
 
+        /// <summary>
+        /// Tracks the amount of boxes left to capture
+        /// </summary>
+        private int _boxesLeft;
+
         #endregion
 
         #region Constructors
@@ -63,6 +68,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             _redBoxes = new List<Box>();
             _gameState = new DotsandBoxesGameState();
             _gameState = DotsandBoxesGameState.BluePlayerTurn;
+            _boxesLeft = 0;
             _isGameOver = false;
         }
 
@@ -77,6 +83,16 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         public List<Box> Boxes
         {
             get { return _boxes; }
+        }
+
+        public List<Box> BlueBoxes
+        {
+            get { return _blueBoxes; }
+        }
+
+        public List<Box> RedBoxes
+        {
+            get { return _redBoxes; }
         }
 
         public DotsandBoxesGameState GameState
@@ -121,6 +137,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
                 // Process completed boxes
                 foreach (var box in newlyCompletedBoxes)
                 {
+                    _boxesLeft++;
                     // Adds boxes based on which players turn it was
                     if (currentPlayerBeforeMove == DotsandBoxesGameState.BluePlayerTurn)
                     {
@@ -133,8 +150,9 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
                 }
 
                 // Check for game end
-                if (_boxes.Count == 16)
+                if (_boxesLeft == 16)
                 {
+                    _gameState = DotsandBoxesGameState.PlayerWinMenu;
                     _isGameOver = true;
                 }
 
@@ -143,7 +161,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             else
             {
                 // Switch turns if no boxes were completed
-                SwitchPlayer(); 
+                SwitchPlayer();
             }
         }
 
@@ -257,7 +275,37 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
                 return "It's a Tie";
             }
         }
-    }
 
-    #endregion
+        /// <summary>
+        /// Resets the game for new game
+        /// </summary>
+        public void Reset()
+        {
+            //Clear the lists and resets variables
+            _boxes.Clear();
+            _blueBoxes.Clear();
+            _redBoxes.Clear();
+            _lines.Clear();
+            _gameState = DotsandBoxesGameState.BluePlayerTurn;
+            _isGameOver = false;
+            _boxesLeft = 0;
+
+            // Remakes the boxes
+            for (int y = 0; y < 4; y++)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    Box box = new Box(
+                        new Line(x * 2, y * 2, x * 2, (y + 1) * 2, DotsandBoxesGameState.None),           // Left
+                        new Line((x + 1) * 2, y * 2, (x + 1) * 2, (y + 1) * 2, DotsandBoxesGameState.None), // Right
+                        new Line(x * 2, y * 2, (x + 1) * 2, y * 2, DotsandBoxesGameState.None),           // Top
+                        new Line(x * 2, (y + 1) * 2, (x + 1) * 2, (y + 1) * 2, DotsandBoxesGameState.None), // Bottom
+                        DotsandBoxesGameState.None);
+                    _boxes.Add(box);
+                }
+            }
+        }
+
+        #endregion
+    }
 }

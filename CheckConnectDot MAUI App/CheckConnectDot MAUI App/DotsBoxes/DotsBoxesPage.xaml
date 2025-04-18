@@ -10,14 +10,50 @@
 
     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
 
-        <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="Start"
-                x:Name="_txtPlayer1" Text="Player 1 Wins: 0" FontSize="20"/>
-        <Button Grid.Column="1" Grid.Row="0" HorizontalOptions="Center"
-                Text="Save Scores" Clicked="OnSave"/>
-        <Label Grid.Column="2" Grid.Row="0" HorizontalOptions="End"
-             x:Name="_txtPlayer2" Text="Player 2 Wins: 0" FontSize="20"/>
-        
-        
+        <Grid Margin="20" ColumnSpacing="20" RowSpacing="10"
+      ColumnDefinitions="Auto, Auto, Auto, Auto, Auto"
+      RowDefinitions="Auto, Auto, Auto">
+
+        <!-- Player 1 Column -->
+        <Label x:Name="_lblPlayer1" Text="Player 1" Grid.Column="0" Grid.Row="0" HorizontalOptions="Center"FontSize="16" FontAttributes="Bold"/>
+
+        <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Spacing="5">
+            <BoxView x:Name="_boxPlayer1" Color="Blue" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"/>
+            <Label x:Name="_lblPl1Boxes" Text="0" FontSize="16" VerticalOptions="Center"/>
+        </StackLayout>
+
+        <!-- Player 2 Column -->
+        <Label x:Name="_lblPlayer2" Text="Player 2"  Grid.Column="1" Grid.Row="0" HorizontalOptions="Center" FontSize="16"/>
+
+        <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Spacing="5">
+            <BoxView x:Name="_boxPlayer2" Color="Gray" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"/>
+            <Label x:Name="_lblPl2Boxes" Text="0" FontSize="16" VerticalOptions="Center"/>
+        </StackLayout>
+
+        <!-- Boxes Left Column -->
+        <Label Text="Boxes Left" Grid.Column="2" Grid.Row="0" HorizontalOptions="Center" FontSize="16"/>
+
+        <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Spacing="5">
+            <BoxView Color="LightGray" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"/>
+            <Label x:Name="_lblBoxLeft" Text="16" FontSize="16" VerticalOptions="Center"/>
+        </StackLayout>
+
+
+            <!-- Wins  Column -->
+            <Label Text="Player Wins 1"  Grid.Column="3" Grid.Row="0" HorizontalOptions="Center" FontSize="16" TranslationX="20"/>
+
+            <StackLayout Grid.Column="3" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Spacing="5" TranslationX="20">
+                <Label x:Name="_lblPl1Wins" Text="0" FontSize="16" VerticalOptions="Center"/>
+            </StackLayout>
+
+            <Label Text="Player Wins 2" Grid.Column="4" Grid.Row="0" HorizontalOptions="Center" FontSize="16" TranslationX="20"/>
+
+            <StackLayout Grid.Column="4" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Spacing="5" TranslationX="20">
+                <Label x:Name="_lblPl2Wins" Text="0" FontSize="16" VerticalOptions="Center"/>
+            </StackLayout>
+
+        </Grid>
+
         <Grid x:Name="GameCanvas"
               Margin="10"
               HorizontalOptions="CenterAndExpand"
@@ -137,39 +173,45 @@
             <BoxView x:Name="_line_7_8" Grid.Row="7" Grid.Column="8" WidthRequest="4" BackgroundColor="Gray" HorizontalOptions="Center" />
 
             <!-- Box images (between the lines, ex. row=1, col=1) -->
-            <Image x:Name="_img1_1" Grid.Row="1" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.5"/>
-            <Image x:Name="_img1_3" Grid.Row="1" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img1_5" Grid.Row="1" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img1_7" Grid.Row="1" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent"/>
+            <Image x:Name="_img1_1" Grid.Row="1" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img1_3" Grid.Row="1" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img1_5" Grid.Row="1" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img1_7" Grid.Row="1" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
 
             <!-- Row 3 -->
-            <Image x:Name="_img3_1" Grid.Row="3" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img3_3" Grid.Row="3" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img3_5" Grid.Row="3" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img3_7" Grid.Row="3" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent"/>
+            <Image x:Name="_img3_1" Grid.Row="3" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img3_3" Grid.Row="3" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img3_5" Grid.Row="3" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img3_7" Grid.Row="3" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
 
             <!-- Row 5 -->
-            <Image x:Name="_img5_1" Grid.Row="5" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img5_3" Grid.Row="5" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img5_5" Grid.Row="5" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img5_7" Grid.Row="5" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent"/>
+            <Image x:Name="_img5_1" Grid.Row="5" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img5_3" Grid.Row="5" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img5_5" Grid.Row="5" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img5_7" Grid.Row="5" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
 
             <!-- Row 7 -->
-            <Image x:Name="_img7_1" Grid.Row="7" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img7_3" Grid.Row="7" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img7_5" Grid.Row="7" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent"/>
-            <Image x:Name="_img7_7" Grid.Row="7" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent"/>
+            <Image x:Name="_img7_1" Grid.Row="7" Grid.Column="1" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img7_3" Grid.Row="7" Grid.Column="3" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img7_5" Grid.Row="7" Grid.Column="5" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
+            <Image x:Name="_img7_7" Grid.Row="7" Grid.Column="7" Aspect="AspectFill" BackgroundColor="Transparent" Scale="1.15"/>
 
         </Grid>
 
         <HorizontalStackLayout>
 
-            <Label x:Name="_lblDot1"/>
-            
-            <Label x:Name="_lblDot2"/>
+            <Grid RowDefinitions="*, *, *, *" ColumnDefinitions="*, *, *, *, *, *, *, *">
 
-            <Button x:Name="_btnConnect" Text="Connect" Clicked="OnConnectDots"/>
-            <Button x:Name="_btnReset" Text="Reset" Clicked="OnResetDots"/>
+                <Label x:Name="_lblDot1" Text="Select Dot 1" Grid.Row="0" Grid.Column="0" TranslationX="30" TranslationY="-5"/>
+                <Entry x:Name="_entDot1" Grid.Row="1" Grid.Column="0" TranslationX="30" TranslationY="-30"/>
+                <Label x:Name="_lblDot2" Text="Select Dot 2" Grid.Row="0" Grid.Column="1" TranslationX="50" TranslationY="-5"/>
+                <Entry x:Name="_entDot2" Grid.Row="1" Grid.Column="1" TranslationX="50" TranslationY="-30"/>
+
+                <Button x:Name="_btnReset" Text="Reset" Clicked="OnResetDots" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" TranslationX="70"/>
+                <Button x:Name="_btnConnect" Text="Connect" Clicked="OnConnectDots" Grid.Row="0" Grid.Column="5" TranslationX="135"/>
+                <Button x:Name="_btnReplay" Text="Replay" Clicked="OnReplay" Grid.Row="0" Grid.Column="7" TranslationX="200" IsVisible="False"/>
+            </Grid>
+            
         </HorizontalStackLayout>
     </VerticalStackLayout>
 
