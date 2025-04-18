@@ -20,10 +20,10 @@ Connect 4:
 ![connect4Interface](https://github.com/user-attachments/assets/a90ef9d7-f8a4-4384-b0eb-e42c1340edde)
 
 Checkers:
-![image](https://github.com/user-attachments/assets/12e39293-38f2-491f-9d60-75455a3d98d2)
+![checkersInterface](https://github.com/user-attachments/assets/12e39293-38f2-491f-9d60-75455a3d98d2)
 
-Dots&Boxes
-![dots&BoxesInterface](https://github.com/user-attachments/assets/bb752185-acd0-43e5-a7da-0fb57b3281c3))
+Dots&Boxes:
+![dots&BoxesInterface](https://github.com/user-attachments/assets/bb752185-acd0-43e5-a7da-0fb57b3281c3)
 
 
 ## Project Design Diagrams
@@ -36,7 +36,7 @@ Dots&Boxes
 
 **Dots & Boxes Section Zoom-in:**
 
-![Screenshot 2025-04-18 191420](https://github.com/user-attachments/assets/b1301e1d-a26b-4b38-b789-948790bc5413)
+![Dots&BoxesZoomin](https://github.com/user-attachments/assets/b1301e1d-a26b-4b38-b789-948790bc5413)
 
 **Connect 4 Section Zoom-in:**
 
@@ -44,7 +44,7 @@ Dots&Boxes
 
 **Checkers Section Zoom-in:**
 
-![image](https://github.com/user-attachments/assets/1b39cb98-d257-4260-946b-74c02a48f36f)
+![CheckersZoomin](https://github.com/user-attachments/assets/1b39cb98-d257-4260-946b-74c02a48f36f)
 
 **Implementation Notes Zoom-in:**
 
@@ -69,7 +69,7 @@ Dots&Boxes
 | Contribution       | Artem Kotliar                                  | Gavin Blackie                               | Joseph Thomas                            |
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
-| **Business Logic**  | `ConnectFourGame`, `SoundPlayer`, `Disk`, `Connect4Exception` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box` |
+| **Business Logic**  | `ConnectFourGame`, `SoundPlayer`, `Disk`, `Connect4Exception` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box`, `DotsBoxesException` |
 | **Data Layer**      | Handles `PlayerData` using `JSONHandler`          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
