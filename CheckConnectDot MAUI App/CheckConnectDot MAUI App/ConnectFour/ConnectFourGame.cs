@@ -95,6 +95,13 @@
                         Winner = _currentPlayer;
                     }
                     
+                    // Check for draw
+                    if (_disksLeft1 == 0 && _disksLeft2 == 0 && !GameOver)
+                    {
+                        GameOver = true;
+                        Winner = null; // Draw
+                    }
+                    
                     // Switch players
                     if (!GameOver)
                     {
