@@ -36,7 +36,7 @@ Checkers:
 
 **Connect 4 Section Zoom-in:**
 
-![Screenshot 2025-03-17 182047](https://github.com/user-attachments/assets/10442b9e-a313-4a17-9630-d7158fb8c7da)
+![Connect4Zoomin]([https://github.com/user-attachments/assets/10442b9e-a313-4a17-9630-d7158fb8c7da](https://github.com/user-attachments/assets/8c13ed3c-7bfa-4887-80ab-33cfaf4447af))
 
 **Checkers Section Zoom-in:**
 
