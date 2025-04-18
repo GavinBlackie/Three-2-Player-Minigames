@@ -27,6 +27,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         public DotsBoxesGame(ref (Player, Player) playersTuple) : base(ref playersTuple)
         {
             _gameState = new DotsandBoxesGameState();
+            _gameState = DotsandBoxesGameState.BluePlayerTurn;
             _blueScore = 0;
             _redScore = 0;
             _isGameOver = false;
@@ -76,11 +77,14 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             _lines.Add(line);
             List<Box> newlyCompletedBoxes = new();
 
+            // Store current player before any potential switch
+            var currentPlayerBeforeMove = _gameState;
+
             foreach (var box in _boxes)
             {
                 if (box.Team == DotsandBoxesGameState.None && IsBoxComplete(box))
                 {
-                    box.Team = _gameState;
+                    box.Team = currentPlayerBeforeMove; 
                     newlyCompletedBoxes.Add(box);
                 }
             }
@@ -89,7 +93,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             {
                 foreach (var box in newlyCompletedBoxes)
                 {
-                    if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
+                    if (currentPlayerBeforeMove == DotsandBoxesGameState.BluePlayerTurn)
                     {
                         _blueBoxes.Add(box);
                         _blueScore++;
@@ -99,72 +103,14 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
                         _redBoxes.Add(box);
                         _redScore++;
                     }
-                    //UpdateBoxAppearance(box); // Ensure this method updates the UI
                 }
+                // Player keeps turn if a box was caputured
             }
             else
             {
-                SwitchPlayer();
+                SwitchPlayer(); // Only switch if no boxes were captured
             }
         }
-
-        //public List<Line> CompleteBox(Line line)
-        //{
-        //    List<Line> completedLines = new List<Line>();
-
-        //    if (line.IsHorizontal)
-        //    {
-        //        // Box ABOVE
-        //        if (line.Y1 > 0)
-        //        {
-        //            completedLines.AddRange(CreateBoxLines(line, line.Y1 - 1));
-        //        }
-
-        //        // Box BELOW
-        //        if (line.Y1 < _gridSize - 1)
-        //        {
-        //            completedLines.AddRange(CreateBoxLines(line, line.Y1 + 1));
-        //        }
-        //    }
-        //    else // Vertical
-        //    {
-        //        // Box to the LEFT
-        //        if (line.X1 > 0)
-        //        {
-        //            completedLines.AddRange(CreateBoxLines(line, line.X1 - 1));
-        //        }
-
-        //        // Box to the RIGHT
-        //        if (line.X1 < _gridSize - 1)
-        //        {
-        //            completedLines.AddRange(CreateBoxLines(line, line.X1 + 1));
-        //        }
-        //    }
-
-        //    return completedLines;
-        //}
-
-        //private List<Line> CreateBoxLines(Line line, int offset)
-        //{
-        //    List<Line> boxLines = new List<Line>();
-
-        //    if (line.IsHorizontal)
-        //    {
-        //        boxLines.Add(new Line(line.X1, offset, line.X2, offset, line.Team)); // Top or Bottom line
-        //        boxLines.Add(new Line(line.X1, offset + 1, line.X2, offset + 1, line.Team)); // Opposite line
-        //        boxLines.Add(new Line(line.X1, offset, line.X1, offset + 1, line.Team)); // Left line
-        //        boxLines.Add(new Line(line.X2, offset, line.X2, offset + 1, line.Team)); // Right line
-        //    }
-        //    else
-        //    {
-        //        boxLines.Add(new Line(offset, line.Y1, offset, line.Y2, line.Team)); // Left or Right line
-        //        boxLines.Add(new Line(offset + 1, line.Y1, offset + 1, line.Y2, line.Team)); // Opposite line
-        //        boxLines.Add(new Line(offset, line.Y1, offset + 1, line.Y1, line.Team)); // Top line
-        //        boxLines.Add(new Line(offset, line.Y2, offset + 1, line.Y2, line.Team)); // Bottom line
-        //    }
-
-        //    return boxLines;
-        //}
 
         public Line CreateLine(int x1, int y1, int x2, int y2)
         {
@@ -205,48 +151,32 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             }
         }
 
-        //private void UpdateBoxAppearance(Box box)
-        //{
-        //    // Ensure that the box color is updated on the UI to reflect the player's color
-        //    Color color = box.Team == DotsandBoxesGameState.BluePlayerTurn ? Colors.Blue :
-        //                  box.Team == DotsandBoxesGameState.RedPlayerTurn ? Colors.Red :
-        //                  Colors.Gray;
-
-        //    // Update UI or game state to show the completed box with the correct color
-        //    // You can update the BoxView here or similar UI elements
-        //}
-
-
-
-        private void SwitchPlayer()
+        public void SwitchPlayer()
         {
-            if (GameState == DotsandBoxesGameState.BluePlayerTurn)
+            if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
             {
                 _gameState = DotsandBoxesGameState.RedPlayerTurn;
+                _currentPlayerColor = Colors.Red;
             }
             else
             {
                 _gameState = DotsandBoxesGameState.BluePlayerTurn;
+                _currentPlayerColor = Colors.Blue;
             }
         }
 
+
         public void MarkBoxAsCompleted(Image image)
         {
-            // Logic to mark the box as completed and update player scores or status
-            // For example:
-            if (_currentPlayerColor == Colors.Blue)
+            if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
             {
                 image.BackgroundColor = Colors.Blue;
                 _blueScore += 1;
             }
-            else if (_currentPlayerColor == Colors.Red)
+            else if (_gameState == DotsandBoxesGameState.RedPlayerTurn)
             {
                 image.BackgroundColor = Colors.Red;
                 _redScore += 1;
-            }
-            else
-            {
-
             }
         }
 

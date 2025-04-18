@@ -88,11 +88,7 @@ public partial class DotsBoxesPage : ContentPage
 
     public async void OnConnectDots(object sender, EventArgs e)
     {
-        if (_firstDot == null || _secondDot == null)
-        {
-            await DisplayAlert("Error", "Please select two dots first", "OK");
-            return;
-        }
+        if (_firstDot == null || _secondDot == null) return;
 
         if (AreDotsAdjacent(_firstDot, _secondDot))
         {
@@ -105,28 +101,34 @@ public partial class DotsBoxesPage : ContentPage
 
             if (_game.IsValidMove(line))
             {
+                // Store current player before making the move
+                var currentPlayerBeforeMove = _game.GameState;
+
                 _game.Lines.Add(line);
-                _game.MakeMove(line);
                 DrawLine(_firstDot, _secondDot);
 
                 string lineId = GetLineName(_firstDot, _secondDot);
                 _createdLines.Add(lineId);
 
                 // Check for completed boxes
-                foreach (var boxEntry in _boxToLinesMap)
+                bool boxCompleted = false;
+                foreach (var boxEntry in _boxToLinesMap.ToList())
                 {
-                    var boxImage = boxEntry.Key;
-                    var requiredLines = boxEntry.Value;
-
-                    // Check if all four lines of the box have been drawn
-                    if (requiredLines.All(lineName => _createdLines.Contains(lineName)))
+                    if (boxEntry.Value.All(lineName => _createdLines.Contains(lineName)))
                     {
-                        // Mark the box as completed (update UI and game state)
+                        boxEntry.Key.BackgroundColor = _game.GetPlayerColor();
+                        _game.MarkBoxAsCompleted(boxEntry.Key);
                         _boxToLinesMap.Remove(boxEntry.Key);
-                        boxImage.BackgroundColor = _game.GetPlayerColor();
-                        _game.MarkBoxAsCompleted(boxImage); // You'll need to implement this method
-                        await DisplayAlert("Box Completed!", $"Box at {boxImage.StyleId} captured!", "OK");
+                        boxCompleted = true;
+                        await DisplayAlert("Box Completed!", "You get another turn!", "OK");
                     }
+                }
+
+                _game.MakeMove(line);
+
+                if (!boxCompleted)
+                {
+                    await DisplayAlert("Turn Switch", $"Now it's {_game.GameState}n", "OK");
                 }
 
                 if (_game.IsGameOver)
@@ -182,27 +184,6 @@ public partial class DotsBoxesPage : ContentPage
                 }
             }
         }
-    }
-
-    private bool LineExistsFromImage(string imageId)
-    {
-        // Remove the prefix "_line_" from the imageId
-        var parts = imageId.Substring(6).Split('_'); // Start after "_line_"
-
-        if (parts.Length != 2) return false; // Ensure there are exactly two numbers after "_line_"
-
-        // Parse the integers
-        if (!int.TryParse(parts[0], out int col) || !int.TryParse(parts[1], out int row))
-        {
-            return false; // If parsing fails, return false
-        }
-
-        // Assuming the orientation is determined by whether the line is horizontal or vertical
-        // You would need to adjust the creation of the `Line` object based on this orientation logic
-        // Here, I'm assuming it's always a vertical line, but adjust accordingly
-        Line testLine = new Line(col, row, col, row + 1, _game.GameState); // Example of a vertical line
-
-        return _game.Lines.Any(l => l.Equals(testLine));
     }
 
     private void UpdateBoxAppearance(Box box)
