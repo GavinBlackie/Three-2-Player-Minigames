@@ -14,6 +14,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
         private List<Line> _lines = new();
         private List<Box> _boxes = new();
 
+        private int numOfBoxes;
         private List<Box> _blueBoxes;
         private List<Box> _redBoxes;
 
@@ -30,6 +31,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             _gameState = DotsandBoxesGameState.BluePlayerTurn;
             _blueScore = 0;
             _redScore = 0;
+            numOfBoxes = 16;
             _isGameOver = false;
             _currentPlayerColor = Colors.Blue;
             _blueBoxes = new List<Box>();
@@ -93,6 +95,7 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             {
                 foreach (var box in newlyCompletedBoxes)
                 {
+                    numOfBoxes--;
                     if (currentPlayerBeforeMove == DotsandBoxesGameState.BluePlayerTurn)
                     {
                         _blueBoxes.Add(box);
@@ -103,6 +106,11 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
                         _redBoxes.Add(box);
                         _redScore++;
                     }
+                }
+
+                if (numOfBoxes == 0)
+                {
+                    _isGameOver = true;
                 }
                 // Player keeps turn if a box was caputured
             }
@@ -156,15 +164,12 @@ namespace CheckConnectDot_MAUI_App.DotsBoxes
             if (_gameState == DotsandBoxesGameState.BluePlayerTurn)
             {
                 _gameState = DotsandBoxesGameState.RedPlayerTurn;
-                _currentPlayerColor = Colors.Red;
             }
             else
             {
                 _gameState = DotsandBoxesGameState.BluePlayerTurn;
-                _currentPlayerColor = Colors.Blue;
             }
         }
-
 
         public void MarkBoxAsCompleted(Image image)
         {

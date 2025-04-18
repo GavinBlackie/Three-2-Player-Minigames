@@ -128,7 +128,7 @@ public partial class DotsBoxesPage : ContentPage
 
                 if (!boxCompleted)
                 {
-                    await DisplayAlert("Turn Switch", $"Now it's {_game.GameState}n", "OK");
+                    await DisplayAlert("Turn Switch", $"Now it's {_game.GameState}", "OK");
                 }
 
                 if (_game.IsGameOver)
@@ -146,6 +146,11 @@ public partial class DotsBoxesPage : ContentPage
             await DisplayAlert("Invalid", "Dots must be adjacent", "OK");
         }
 
+        ResetSelection();
+    }
+
+    public void OnResetDots(object sender, EventArgs e)
+    {
         ResetSelection();
     }
 
