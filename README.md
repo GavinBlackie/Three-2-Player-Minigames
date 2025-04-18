@@ -70,7 +70,7 @@ Dots&Boxes:
 |--------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------|
 | **Presentation Layer** | **Connect 4 Page**                           | **Checkers Page**                           | **Dots & Boxes Page**                     |
 | **Business Logic**  | `ConnectFourGame`, `SoundPlayer`, `Disk`, `Connect4Exception` | `CheckerGame`, `CheckerGameState`, `Piece`, `Tile` | `Dots&BoxesGame`, `Dots&BoxesGameState`, `Line`, `Box`, `DotsBoxesException` |
-| **Data Layer**      | Handles `PlayerData` using `JSONHandler`          | Handles `CheckerGameState` storage         | Handles `Dots&BoxesGameState` storage     |
+| **Data Layer**      | Handles `PlayerData` using `JSONHandler`          | Handles `CheckerGameState` storage         | Handles `PlayerData` using `JSONHandler`     |
 | **Report**         | Connect 4 Documentation                      | Checkers Documentation                     | Dots & Boxes Documentation                |
 
 
