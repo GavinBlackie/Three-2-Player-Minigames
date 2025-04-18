@@ -117,6 +117,12 @@ public partial class ConnectFourPage : ContentPage
                 _connectFourGame.ResetGame();
                 ResetBoardUI();
             }
+            else if (_connectFourGame.GameOver && _connectFourGame.Winner == null)
+            {
+                DisplayAlert("Game Over", "It's a draw!", "OK");
+                _connectFourGame.ResetGame();
+                ResetBoardUI();
+            }
             else
             {
                 UpdateTurnDisplay();
