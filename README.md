@@ -22,6 +22,10 @@ Connect 4:
 Checkers:
 ![image](https://github.com/user-attachments/assets/12e39293-38f2-491f-9d60-75455a3d98d2)
 
+Dots&Boxes
+![dots&BoxesInterface](https://github.com/user-attachments/assets/bb752185-acd0-43e5-a7da-0fb57b3281c3))
+
+
 ## Project Design Diagrams
 
 **The Main Class Diagram:**
@@ -32,7 +36,7 @@ Checkers:
 
 **Dots & Boxes Section Zoom-in:**
 
-![Screenshot 2025-03-17 182020](https://github.com/user-attachments/assets/427f5c87-dc6e-4fb6-9b61-48abbdccdad6)
+![Screenshot 2025-04-18 191420](https://github.com/user-attachments/assets/b1301e1d-a26b-4b38-b789-948790bc5413)
 
 **Connect 4 Section Zoom-in:**
 
