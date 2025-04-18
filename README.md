@@ -48,8 +48,8 @@ Checkers:
 
 ## Data Design
 + Checkers:
-  - Save piece location.
-  - Save whether the piece is a king.
+  - Save player score
+  - Save player name
     
 + Connect 4:
   - Save player score.
