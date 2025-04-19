@@ -6,7 +6,6 @@ namespace CheckConnectDot_MAUI_App
 
     public class DotsBoxesException : Exception
     {
-
         #region Constructor
         /// <summary>
         /// Constructor for DotsBoxesException that derives from base class Exception

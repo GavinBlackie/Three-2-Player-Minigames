@@ -52,7 +52,6 @@ namespace CheckConnectDot_MAUI_App
         #endregion
 
         #region Constructors
-
         /// <summary>
         /// Constructor that creates a new line instance with specified X and Y coords and Team
         /// </summary>
@@ -75,10 +74,10 @@ namespace CheckConnectDot_MAUI_App
 
         #endregion
 
+        #region Properties
         /// <summary>
         /// Gets the first X coord of the box
         /// </summary>
-        #region Properties
         public int X1
         {
             get { return _x1; }
@@ -134,9 +133,7 @@ namespace CheckConnectDot_MAUI_App
 
         #endregion
 
-
         #region Methods
-
         /// <summary>
         /// Normalizes the coordinates of the line so equalty is easier to check
         /// </summary>
