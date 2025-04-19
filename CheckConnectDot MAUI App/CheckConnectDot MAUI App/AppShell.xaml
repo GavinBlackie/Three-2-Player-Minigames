@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CheckConnectDot_MAUI_App.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CheckConnectDot_MAUI_App"
+    Shell.FlyoutBehavior="Flyout"
+    Title="CheckConnectDot_MAUI_App">
+
+    <TabBar>
+        <!--
+        Create a tab bar of the three game pages: 
+        (Credit to Perplexity AI for showing an example!)
+        https://www.perplexity.ai/search/in-maui-how-do-i-make-a-tab-ba-NIH1F89wTFuCTO6lpFKPBw
+        -->
+        <ShellContent Title="Checkers"
+            ContentTemplate="{DataTemplate local:CheckersPage}"
+        />
+        <ShellContent Title="Connect 4"
+                      ContentTemplate="{DataTemplate local:ConnectFourPage}"
+        />
+        <ShellContent Title="Dots and Boxes"
+            ContentTemplate="{DataTemplate local:DotsBoxesPage}"
+        />
+        
+    </TabBar>
+
+</Shell>

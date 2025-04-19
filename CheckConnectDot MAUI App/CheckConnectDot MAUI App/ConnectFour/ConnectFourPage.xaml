@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CheckConnectDot_MAUI_App.ConnectFourPage"
+             Title="Connect 4">
+    <VerticalStackLayout>
+        <Label 
+            Text="Connect 4"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="24"
+            FontAttributes="Bold" 
+            Margin="0, 10"/>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+            <Button x:Name="_btnSave" Text="Save Scores" Clicked="OnSave"/>
+            <Button x:Name="_btnForfeit" Text="Forfeit" Clicked="OnForfeit"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0, 20, 0,0">
+            <Label x:Name="_lbl1Wins" Text="Player 1 Wins: 0" FontSize="20"/>
+            <Label x:Name="_lbl2Wins" Text="Player 2 Wins: 0" FontSize="20"/>
+        </HorizontalStackLayout>
+
+        <Label 
+            x:Name="TurnLabel"
+            Text="Player 1's Turn!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="25"
+            Margin="0,10" />
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" >
+
+            <!-- Player 1 Disks Left -->
+            <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+                <Label Text="Player 1 Disks:" HorizontalOptions="Center" FontSize="35"/>
+                <Frame BackgroundColor="Gray" BorderColor="Black" CornerRadius="20" Padding="10" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
+                        <Image Source="red_disk.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+                        <Label x:Name="diskAMT1" FontSize="25" HorizontalOptions="Center">21</Label>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+            
+        <!-- Connect 4 Board (7x6 Grid) -->
+        <Grid HorizontalOptions="Center" VerticalOptions="Center" Margin="0,20">
+            <!-- 7 columns -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="90" />
+            </Grid.ColumnDefinitions>
+            <!-- 6 rows -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90" />
+                <RowDefinition Height="90" />
+                <RowDefinition Height="90" />
+                <RowDefinition Height="90" />
+                <RowDefinition Height="90" />
+                <RowDefinition Height="90" />
+            </Grid.RowDefinitions>
+
+            <!-- Row 0 -->
+            <Image x:Name="Cell_0_0" Source="empty_space.png" Grid.Column="0" Grid.Row="0" />
+            <Image x:Name="Cell_1_0" Source="empty_space.png" Grid.Column="1" Grid.Row="0" />
+            <Image x:Name="Cell_2_0" Source="empty_space.png" Grid.Column="2" Grid.Row="0" />
+            <Image x:Name="Cell_3_0" Source="empty_space.png" Grid.Column="3" Grid.Row="0" />
+            <Image x:Name="Cell_4_0" Source="empty_space.png" Grid.Column="4" Grid.Row="0" />
+            <Image x:Name="Cell_5_0" Source="empty_space.png" Grid.Column="5" Grid.Row="0" />
+            <Image x:Name="Cell_6_0" Source="empty_space.png" Grid.Column="6" Grid.Row="0" />
+
+            <!-- Row 1 -->
+            <Image x:Name="Cell_0_1" Source="empty_space.png" Grid.Column="0" Grid.Row="1" />
+            <Image x:Name="Cell_1_1" Source="empty_space.png" Grid.Column="1" Grid.Row="1" />
+            <Image x:Name="Cell_2_1" Source="empty_space.png" Grid.Column="2" Grid.Row="1" />
+            <Image x:Name="Cell_3_1" Source="empty_space.png" Grid.Column="3" Grid.Row="1" />
+            <Image x:Name="Cell_4_1" Source="empty_space.png" Grid.Column="4" Grid.Row="1" />
+            <Image x:Name="Cell_5_1" Source="empty_space.png" Grid.Column="5" Grid.Row="1" />
+            <Image x:Name="Cell_6_1" Source="empty_space.png" Grid.Column="6" Grid.Row="1" />
+
+            <!-- Row 2 -->
+            <Image x:Name="Cell_0_2" Source="empty_space.png" Grid.Column="0" Grid.Row="2" />
+            <Image x:Name="Cell_1_2" Source="empty_space.png" Grid.Column="1" Grid.Row="2" />
+            <Image x:Name="Cell_2_2" Source="empty_space.png" Grid.Column="2" Grid.Row="2" />
+            <Image x:Name="Cell_3_2" Source="empty_space.png" Grid.Column="3" Grid.Row="2" />
+            <Image x:Name="Cell_4_2" Source="empty_space.png" Grid.Column="4" Grid.Row="2" />
+            <Image x:Name="Cell_5_2" Source="empty_space.png" Grid.Column="5" Grid.Row="2" />
+            <Image x:Name="Cell_6_2" Source="empty_space.png" Grid.Column="6" Grid.Row="2" />
+
+            <!-- Row 3 -->
+            <Image x:Name="Cell_0_3" Source="empty_space.png" Grid.Column="0" Grid.Row="3" />
+            <Image x:Name="Cell_1_3" Source="empty_space.png" Grid.Column="1" Grid.Row="3" />
+            <Image x:Name="Cell_2_3" Source="empty_space.png" Grid.Column="2" Grid.Row="3" />
+            <Image x:Name="Cell_3_3" Source="empty_space.png" Grid.Column="3" Grid.Row="3" />
+            <Image x:Name="Cell_4_3" Source="empty_space.png" Grid.Column="4" Grid.Row="3" />
+            <Image x:Name="Cell_5_3" Source="empty_space.png" Grid.Column="5" Grid.Row="3" />
+            <Image x:Name="Cell_6_3" Source="empty_space.png" Grid.Column="6" Grid.Row="3" />
+
+            <!-- Row 4 -->
+            <Image x:Name="Cell_0_4" Source="empty_space.png" Grid.Column="0" Grid.Row="4" />
+            <Image x:Name="Cell_1_4" Source="empty_space.png" Grid.Column="1" Grid.Row="4" />
+            <Image x:Name="Cell_2_4" Source="empty_space.png" Grid.Column="2" Grid.Row="4" />
+            <Image x:Name="Cell_3_4" Source="empty_space.png" Grid.Column="3" Grid.Row="4" />
+            <Image x:Name="Cell_4_4" Source="empty_space.png" Grid.Column="4" Grid.Row="4" />
+            <Image x:Name="Cell_5_4" Source="empty_space.png" Grid.Column="5" Grid.Row="4" />
+            <Image x:Name="Cell_6_4" Source="empty_space.png" Grid.Column="6" Grid.Row="4" />
+
+            <!-- Row 5 -->
+            <Image x:Name="Cell_0_5" Source="empty_space.png" Grid.Column="0" Grid.Row="5" />
+            <Image x:Name="Cell_1_5" Source="empty_space.png" Grid.Column="1" Grid.Row="5" />
+            <Image x:Name="Cell_2_5" Source="empty_space.png" Grid.Column="2" Grid.Row="5" />
+            <Image x:Name="Cell_3_5" Source="empty_space.png" Grid.Column="3" Grid.Row="5" />
+            <Image x:Name="Cell_4_5" Source="empty_space.png" Grid.Column="4" Grid.Row="5" />
+            <Image x:Name="Cell_5_5" Source="empty_space.png" Grid.Column="5" Grid.Row="5" />
+            <Image x:Name="Cell_6_5" Source="empty_space.png" Grid.Column="6" Grid.Row="5" />
+        </Grid>
+            
+            <!-- Player 2 Disks Left -->
+            <VerticalStackLayout VerticalOptions="Center" Spacing="10">
+                <Label Text="Player 2 Disks:" HorizontalOptions="Center" FontSize="35"/>
+                <Frame BackgroundColor="Gray" BorderColor="Black" CornerRadius="20" Padding="10" WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
+                        <Image Source="blue_disk.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center"/>
+                        <Label x:Name="diskAMT2" FontSize="25" HorizontalOptions="Center">21</Label>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+        </HorizontalStackLayout>
+
+        <!-- Column Buttons -->
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0,10">
+            <Button x:Name="Col1" Text="Col 1" WidthRequest="70" />
+            <Button x:Name="Col2" Text="Col 2" WidthRequest="70" />
+            <Button x:Name="Col3" Text="Col 3" WidthRequest="70" />
+            <Button x:Name="Col4" Text="Col 4" WidthRequest="70" />
+            <Button x:Name="Col5" Text="Col 5" WidthRequest="70" />
+            <Button x:Name="Col6" Text="Col 6" WidthRequest="70" />
+            <Button x:Name="Col7" Text="Col 7" WidthRequest="70" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
