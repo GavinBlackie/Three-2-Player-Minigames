@@ -1,3 +1,4 @@
+
 using CheckConnectDot_MAUI_App.DotsBoxes;
 using System;
 using System.Linq;
@@ -17,10 +18,46 @@ public partial class DotsBoxesPage : ContentPage
     /// </summary>
     private DotsBoxesGame _dotsBoxesGame;
 
-	public DotsBoxesPage(DotsBoxesGame dotsBoxesGame)
-	{
-		_dotsBoxesGame = dotsBoxesGame; // Contain the given singleton of a dotsBoxesGame 
-        
+    /// <summary>
+    /// A tuple that holds two ints that represent the first dot
+    /// </summary>
+    private Tuple<int, int>? _firstDot;
+
+    /// <summary>
+    /// A tuple that holds two ints that represent the second dot
+    /// </summary>
+    private Tuple<int, int>? _secondDot;
+
+    /// <summary>
+    /// A Dictionary for the lines between the boxes and their string names
+    /// </summary>
+    private Dictionary<string, BoxView> _lineViews;
+
+    /// <summary>
+    /// A List of created lines stored as strings
+    /// </summary>
+    private List<string> _createdLines;
+
+    /// <summary>
+    /// A Dictionary to map a list of 4 lines to a square on the grid
+    /// </summary>
+    private Dictionary<Image, List<string>> _boxToLinesMap;
+
+    #endregion
+
+    #region Constructors
+    /// <summary>
+    /// Constructor a DotsBoxesPage
+    /// </summary>
+    /// <param name="dotsBoxesGame">Handles most of the game logic</param>
+
+    public DotsBoxesPage(DotsBoxesGame dotsBoxesGame)
+    {
+        _dotsBoxesGame = dotsBoxesGame;
+        _lineViews = new Dictionary<string, BoxView>();
+        _createdLines = new List<string>();
+        _boxToLinesMap = new Dictionary<Image, List<string>>();
+
         InitializeComponent();
 
         _boxToLinesMap.Add(_img1_1, new List<string> { "_line_0_1", "_line_2_1", "_line_1_0", "_line_1_2" });
@@ -254,8 +291,8 @@ public partial class DotsBoxesPage : ContentPage
 
         //Sets the line colors to gray
         foreach (var lineView in _lineViews.Values)
-        { 
-    
+        {
+
             if (lineView != null)
             {
                 lineView.BackgroundColor = Colors.Gray;
@@ -275,7 +312,7 @@ public partial class DotsBoxesPage : ContentPage
     /// </summary>
     private void UpdatePlayerDisplay()
     {
-         // Updates boxes captured by the players
+        // Updates boxes captured by the players
         _lblPl1Boxes.Text = _dotsBoxesGame.BlueBoxes.Count().ToString();
         _lblPl2Boxes.Text = _dotsBoxesGame.RedBoxes.Count().ToString();
 
@@ -422,7 +459,7 @@ public partial class DotsBoxesPage : ContentPage
         // Chooses a color based on which players turn it is
         Color color;
 
-        if (box.Team == DotsandBoxesGameState.BluePlayerTurn) 
+        if (box.Team == DotsandBoxesGameState.BluePlayerTurn)
         {
             color = Colors.Blue;
         }
@@ -445,7 +482,7 @@ public partial class DotsBoxesPage : ContentPage
             VerticalOptions = LayoutOptions.Fill
         };
     }
-    
+
     /// <summary>
     /// Private method that generatees the boxes based on their position in the grid, and add them to a list
     /// </summary>
