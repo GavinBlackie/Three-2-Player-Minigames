@@ -44,7 +44,6 @@ public partial class DotsBoxesPage : ContentPage
 
     #endregion
 
-
     #region Constructors
     /// <summary>
     /// Constructor a DotsBoxesPage
